@@ -1,0 +1,22 @@
+# Ignore Python cache and compiled bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore all Markdown files
+*.md
+
+# Ignore documentation files
+docs/
+
+# Databases and dataset folders
+database.sqlite
+engineered_dataset/
+final_dataset/
+preprocessed_dataset/
+splitted_dataset/
+logistic_regression/
+random_forest/
+xgboost/
+decision_tree/
