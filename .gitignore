@@ -9,14 +9,3 @@ __pycache__/
 
 # Ignore documentation files
 docs/
-
-# Databases and dataset folders
-database.sqlite
-engineered_dataset/
-final_dataset/
-preprocessed_dataset/
-splitted_dataset/
-logistic_regression/
-random_forest/
-xgboost/
-decision_tree/
