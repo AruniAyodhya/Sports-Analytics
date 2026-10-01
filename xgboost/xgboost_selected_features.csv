@@ -1,0 +1,51 @@
+Feature
+home_win_rate
+home_draw_rate
+home_loss_rate
+home_goals_for_per_match
+home_goals_against_per_match
+home_home_win_rate
+home_home_draw_rate
+home_points_last3
+home_points_last5
+home_points_last10
+home_goals_for_last5
+home_goals_for_last10
+home_goals_against_last5
+home_goals_against_last10
+home_elo_before
+away_win_rate
+away_loss_rate
+away_goals_for_per_match
+away_goals_against_per_match
+away_away_win_rate
+away_away_draw_rate
+away_away_goals_for_per_match
+away_away_goals_against_per_match
+away_points_last3
+away_points_last10
+away_goals_for_last3
+away_goals_for_last10
+away_elo_before
+win_rate_difference
+draw_rate_difference
+goals_for_difference
+goals_against_difference
+venue_win_rate_difference
+venue_goals_for_difference
+venue_goals_against_difference
+points_last3_difference
+points_last5_difference
+goals_for_last5_difference
+goals_against_last5_difference
+points_last10_difference
+goals_for_last10_difference
+goals_against_last10_difference
+rest_days_difference
+elo_difference
+league_name_France Ligue 1
+league_name_Italy Serie A
+league_name_Poland Ekstraklasa
+league_name_Portugal Liga ZON Sagres
+league_name_Spain LIGA BBVA
+league_name_Switzerland Super League

@@ -1,0 +1,28 @@
+Feature,Coefficient_Importance
+elo_difference,0.37975259482496637
+goals_for_difference,0.2751924366963314
+goals_against_difference,0.08132669904851245
+venue_goals_for_difference,0.0738187262049176
+home_elo_before,0.07306102040195993
+goals_against_last10_difference,0.056608408700803664
+away_away_goals_for_per_match,0.05616533321061626
+goals_for_last10_difference,0.05116322375537877
+away_away_win_rate,0.03103639716055144
+home_goals_for_last10,0.024080966481552196
+home_goals_against_last10,0.017888326176555457
+stage,0.007528283508980498
+away_goals_against_last5,0.007361579422541067
+away_goals_against_per_match,0.00584162738088924
+home_home_draw_rate,0.0036644640008969913
+away_away_goals_against_per_match,0.0022068146876816296
+away_goals_for_last5,0.00208306598553311
+home_points_last3,0.0014676536191530396
+home_goals_against_last3,0.0011417099822307198
+away_goals_against_last3,0.0002918057098155171
+away_away_draw_rate,0.0
+away_points_last3,0.0
+away_points_last10,0.0
+away_days_since_last_match,0.0
+league_name_France Ligue 1,0.0
+league_name_Scotland Premier League,0.0
+league_name_Spain LIGA BBVA,0.0

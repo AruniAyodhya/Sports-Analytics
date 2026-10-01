@@ -1,0 +1,51 @@
+Feature,Importance
+elo_difference,0.1433397
+goals_for_difference,0.129289
+venue_goals_for_difference,0.05085497
+win_rate_difference,0.04489629
+goals_against_difference,0.027523207
+venue_win_rate_difference,0.02238966
+goals_for_last10_difference,0.020626843
+away_win_rate,0.018750235
+home_points_last10,0.018625844
+away_loss_rate,0.018522369
+goals_against_last10_difference,0.018089054
+home_points_last5,0.01808753
+points_last10_difference,0.018072529
+home_goals_for_last10,0.017887106
+home_points_last3,0.017269326
+home_elo_before,0.016427016
+venue_goals_against_difference,0.01614239
+home_win_rate,0.015960922
+away_away_goals_for_per_match,0.015941588
+home_home_win_rate,0.0149840275
+home_goals_for_per_match,0.014940162
+home_loss_rate,0.014845142
+away_elo_before,0.013955987
+goals_against_last5_difference,0.013585686
+league_name_Spain LIGA BBVA,0.013575274
+home_goals_against_last10,0.013461473
+league_name_Poland Ekstraklasa,0.0133914845
+home_home_draw_rate,0.013365951
+league_name_France Ligue 1,0.013192161
+away_goals_for_per_match,0.013075354
+away_points_last3,0.012998689
+away_away_win_rate,0.012621183
+away_away_goals_against_per_match,0.012437559
+away_points_last10,0.012231018
+points_last5_difference,0.01219732
+points_last3_difference,0.012165074
+away_away_draw_rate,0.012007469
+away_goals_against_per_match,0.011757046
+goals_for_last5_difference,0.011701302
+draw_rate_difference,0.011549261
+home_goals_against_per_match,0.011473695
+away_goals_for_last10,0.011247304
+away_goals_for_last3,0.011231388
+home_draw_rate,0.011072387
+rest_days_difference,0.0110290535
+home_goals_against_last5,0.010795362
+home_goals_for_last5,0.010416671
+league_name_Italy Serie A,0.0
+league_name_Portugal Liga ZON Sagres,0.0
+league_name_Switzerland Super League,0.0

@@ -9,3 +9,8 @@ __pycache__/
 
 # Ignore documentation files
 docs/
+
+# Databases and dataset folders
+database.sqlite
+preprocessed_dataset/
+splitted_dataset/
