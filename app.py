@@ -7,9 +7,15 @@ Group: 2026-AI-09 | SLIIT Machine Learning Module IT3091
 from __future__ import annotations
 
 import random
+import sys
 from pathlib import Path
 import plotly.graph_objects as go
 import streamlit as st
+
+# Ensure project root is on sys.path across all execution environments
+_ROOT_DIR = Path(__file__).resolve().parent
+if str(_ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(_ROOT_DIR))
 
 from src.inference import SoccerInferenceEngine
 
@@ -97,9 +103,9 @@ with st.sidebar:
     st.markdown("##### ⚙️ Configuration")
     model_options = {
         "Random Forest (Tuned) [Active]": "random_forest",
-        "Logistic Regression [Reserved]": "logistic_regression",
-        "Decision Tree [Reserved]": "decision_tree",
-        "XGBoost [Reserved]": "xgboost",
+        "Logistic Regression (L1 Tuned) [Active]": "logistic_regression",
+        "Decision Tree (Tuned RFE) [Active]": "decision_tree",
+        "XGBoost Classifier (Tuned) [Active]": "xgboost",
     }
     selected_model_label = st.selectbox(
         "Active Model Pipeline",
@@ -108,6 +114,13 @@ with st.sidebar:
         help="Select the trained classification pipeline artifact.",
     )
     active_model_key = model_options[selected_model_label]
+
+    model_meta = {
+        "random_forest": {"name": "Tuned RF", "selected": "34 Features", "selector": "MDI SFM"},
+        "logistic_regression": {"name": "L1 Logistic", "selected": "18 Features", "selector": "L1 SFM"},
+        "decision_tree": {"name": "Tuned DT", "selected": "20 Features", "selector": "RFE Selected"},
+        "xgboost": {"name": "Tuned XGB", "selected": "50 Features", "selector": "Gain SFM"},
+    }.get(active_model_key, {"name": "Tuned RF", "selected": "34 Features", "selector": "SFM Selected"})
 
     st.markdown("##### 🧭 Navigation")
     nav_mode = st.radio(
@@ -123,7 +136,7 @@ with st.sidebar:
     st.markdown("<hr/>", unsafe_allow_html=True)
     st.markdown("##### 🔬 Pipeline Architecture")
     st.markdown(
-        """
+        f"""
         <div class="arch-grid">
             <div class="arch-tile">
                 <div class="arch-tile-label">Target Setup</div>
@@ -131,19 +144,19 @@ with st.sidebar:
             </div>
             <div class="arch-tile">
                 <div class="arch-tile-label">Stage 1 Drop</div>
-                <div class="arch-tile-value">38 Features</div>
+                <div class="arch-tile-value">18 Features</div>
             </div>
             <div class="arch-tile">
                 <div class="arch-tile-label">Pipeline Input</div>
-                <div class="arch-tile-value">76 Features</div>
+                <div class="arch-tile-value">68 Features</div>
             </div>
             <div class="arch-tile">
-                <div class="arch-tile-label">SFM Selected</div>
-                <div class="arch-tile-value">38 Features</div>
+                <div class="arch-tile-label">{model_meta['selector']}</div>
+                <div class="arch-tile-value">{model_meta['selected']}</div>
             </div>
             <div class="arch-tile">
                 <div class="arch-tile-label">Base Model</div>
-                <div class="arch-tile-value">Tuned RF</div>
+                <div class="arch-tile-value">{model_meta['name']}</div>
             </div>
             <div class="arch-tile">
                 <div class="arch-tile-label">Leakage Protocol</div>
@@ -678,16 +691,22 @@ with st.expander("📚 Research Methodology & Anti-Leakage Protocol (SLIIT Group
             - **Class 1**: `Draw`
             - **Class 2**: `Home Win`
         - **Primary Analytical Lens**: Pre-match outcome probability estimation for tactical planning and decision support.
-        - **Secondary Analytical Lens**: Rolling team form differentials and recent performance trajectories.
+        - **Secondary Analytical Lens**: Rolling team form differentials, historical Elo ratings, and venue-specific strength indicators.
 
         #### 2. Anti-Leakage Compliance
         - In-match XML live events (goals, cards, corners, fouls, possession timestamps) were strictly excluded.
-        - The model ingests only signals available **before kickoff**: historical head-to-head records, 5-match rolling points form, goal differentials, and consensus bookmaker odds.
+        - The models ingest only signals available **before kickoff**: historical head-to-head records, 3/5/10-match rolling points, goal differentials, rest days, and venue splits.
+        - Cold-start burn-in protocol: Matches where either team has fewer than 5 prior competitive matches were removed from model training.
 
-        #### 3. Feature Selection & Modeling Pipeline
-        - **Raw Feature Dimension**: 114 preprocessed features.
-        - **Stage 1 (Collinearity Reduction)**: 38 multicollinear columns with correlation $|r| > 0.85$ removed via `correlation_dropped_columns.joblib`.
-        - **Stage 2 (Feature Importance)**: `SelectFromModel` filters the 76 features down to the top 38 most informative attributes.
-        - **Classification Algorithm**: Hyperparameter-tuned `RandomForestClassifier` with entropy split criterion, restricted tree depth ($d=8$), and bootstrap sampling to mitigate overfitting on noisy sports outcomes.
+        #### 3. Feature Selection & Multi-Model Architecture
+        - **Feature-Engineered Space**: 93 model-ready features from `Final Preprocessing.ipynb` (unscaled for tree classifiers, standardized for Logistic Regression).
+        - **Stage 1 (Collinearity Reduction)**: 18 multicollinear features with correlation $|r| > 0.90$ removed across all pipelines.
+        - **Pipeline Ingestion**: 68 informative predictors fed into model-specific feature selection.
+        - **Supported Classifiers**:
+            - **Random Forest (Tuned)**: MDI `SelectFromModel` selecting 34 predictors with entropy splitting ($d=8$).
+            - **Logistic Regression (L1 Tuned)**: L1 Sparsity selection with Saga solver ($C=0.01$).
+            - **Decision Tree (Tuned RFE)**: Recursive Feature Elimination selecting the top 20 predictors ($d=4$).
+            - **XGBoost Classifier (Tuned)**: Gain-based selection selecting 50 predictors with regularized gradient boosting.
+        - **Calibrated Optimal Draw Thresholding**: Unified grid calibration ($t=0.360$) applied to mitigate empirical draw under-prediction.
         """
     )

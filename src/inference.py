@@ -7,6 +7,7 @@ Anti-Leakage Protocol: Strictly pre-match features only (rolling form, odds, tea
 from __future__ import annotations
 
 import os
+import warnings
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
@@ -20,7 +21,8 @@ class SoccerInferenceEngine:
 
     Supports dynamic environment base paths (local workstation and Google Colab),
     in-memory caching of artifacts and baseline vectors, feature synthesis for what-if
-    simulations, historical test fixture evaluation, and extensible multi-model switching.
+    simulations, historical test fixture evaluation, and extensible multi-model switching
+    across Random Forest, Logistic Regression, Decision Tree, and XGBoost.
     """
 
     SUPPORTED_MODELS: Dict[str, Dict[str, str]] = {
@@ -29,24 +31,32 @@ class SoccerInferenceEngine:
             "dir": "random_forest",
             "pipeline_file": "random_forest_tuned_pipeline.joblib",
             "dropped_cols_file": "correlation_dropped_columns.joblib",
+            "threshold_file": "calibrated_draw_threshold.joblib",
+            "family": "tree",
         },
         "logistic_regression": {
-            "name": "Logistic Regression Classifier",
+            "name": "Logistic Regression Classifier (L1 Tuned)",
             "dir": "logistic_regression",
             "pipeline_file": "logistic_regression_tuned_pipeline.joblib",
-            "dropped_cols_file": "correlation_dropped_columns.joblib",
+            "dropped_cols_file": "correlation_drop_columns.joblib",
+            "threshold_file": "calibrated_draw_threshold.joblib",
+            "family": "logistic",
         },
         "decision_tree": {
-            "name": "Decision Tree Classifier",
+            "name": "Decision Tree Classifier (Tuned RFE)",
             "dir": "decision_tree",
             "pipeline_file": "decision_tree_tuned_pipeline.joblib",
             "dropped_cols_file": "correlation_dropped_columns.joblib",
+            "threshold_file": "calibrated_draw_threshold.joblib",
+            "family": "tree",
         },
         "xgboost": {
-            "name": "XGBoost Classifier",
+            "name": "XGBoost Classifier (Tuned)",
             "dir": "xgboost",
             "pipeline_file": "xgboost_tuned_pipeline.joblib",
             "dropped_cols_file": "correlation_dropped_columns.joblib",
+            "threshold_file": "calibrated_draw_threshold.joblib",
+            "family": "tree",
         },
     }
 
@@ -70,24 +80,26 @@ class SoccerInferenceEngine:
     ) -> None:
         """Initialize the inference engine with configurable base path and model type."""
         self.base_dir = self._resolve_base_dir(base_dir)
-        self.model_type = model_type
+        self.model_type = model_type if model_type in self.SUPPORTED_MODELS else "random_forest"
 
         # In-memory artifact caches
         self._target_encoder = None
         self._scaler = None
-        self._dropped_columns: Optional[List[str]] = None
-        self._active_pipeline = None
-        self._active_model_type: Optional[str] = None
-        self._median_baseline: Optional[pd.Series] = None
-        self._raw_feature_names: Optional[List[str]] = None
-        self._test_X: Optional[pd.DataFrame] = None
+        self._dropped_columns: Dict[str, List[str]] = {}
+        self._thresholds: Dict[str, float] = {}
+        self._pipeline_cache: Dict[str, Any] = {}
+        self._median_baselines: Dict[str, pd.Series] = {}
+        self._league_baselines: Dict[str, pd.Series] = {}
+        self._test_X_cache: Dict[str, pd.DataFrame] = {}
         self._test_y: Optional[pd.DataFrame] = None
+        self._test_metadata: Optional[pd.DataFrame] = None
 
         # Pre-load core artifacts
         self.load_target_encoder()
         self.load_scaler()
-        self.load_dropped_columns()
-        self.load_model(model_type)
+        self.load_dropped_columns(self.model_type)
+        self.load_threshold(self.model_type)
+        self.load_model(self.model_type)
 
     @classmethod
     def _resolve_base_dir(cls, base_dir: Optional[Union[str, Path]]) -> Path:
@@ -103,12 +115,12 @@ class SoccerInferenceEngine:
 
         # Check default parent of src/
         parent_candidate = Path(__file__).resolve().parent.parent
-        if (parent_candidate / "final_dataset").exists():
+        if (parent_candidate / "final_dataset").exists() or (parent_candidate / "random_forest").exists():
             return parent_candidate
 
         # Check current working directory
         cwd_candidate = Path.cwd().resolve()
-        if (cwd_candidate / "final_dataset").exists():
+        if (cwd_candidate / "final_dataset").exists() or (cwd_candidate / "random_forest").exists():
             return cwd_candidate
 
         # Check common Google Colab paths
@@ -140,40 +152,65 @@ class SoccerInferenceEngine:
     def load_scaler(self):
         """Load and cache the fitted StandardScaler used for numerical normalization."""
         if self._scaler is None:
-            scaler_path = self.base_dir / "final_dataset" / "scaler.joblib"
+            scaler_path = self.base_dir / "final_dataset" / "logistic_scaler.joblib"
+            if not scaler_path.exists():
+                scaler_path = self.base_dir / "final_dataset" / "scaler.joblib"
             if scaler_path.exists():
                 self._scaler = joblib.load(scaler_path)
         return self._scaler
 
-    def load_dropped_columns(self) -> List[str]:
-        """Load and cache the 38 Stage-1 correlation dropped columns."""
-        if self._dropped_columns is None:
-            dropped_path = (
-                self.base_dir
-                / self.SUPPORTED_MODELS.get(self.model_type, {}).get(
-                    "dir", "random_forest"
-                )
-                / "correlation_dropped_columns.joblib"
-            )
-            if not dropped_path.exists():
-                dropped_path = (
-                    self.base_dir / "random_forest" / "correlation_dropped_columns.joblib"
-                )
+    def load_dropped_columns(self, model_type: Optional[str] = None) -> List[str]:
+        """Load and cache the Stage-1 correlation dropped columns for a given model."""
+        m_type = model_type or self.model_type
+        if m_type in self._dropped_columns:
+            return self._dropped_columns[m_type]
 
-            if not dropped_path.exists():
-                raise FileNotFoundError(
-                    f"Correlation dropped columns artifact not found at {dropped_path}"
-                )
-            self._dropped_columns = list(joblib.load(dropped_path))
-        return self._dropped_columns
+        model_info = self.SUPPORTED_MODELS.get(m_type, self.SUPPORTED_MODELS["random_forest"])
+        model_dir = self.base_dir / model_info["dir"]
+
+        dropped_path = model_dir / model_info.get("dropped_cols_file", "correlation_dropped_columns.joblib")
+        if not dropped_path.exists():
+            dropped_path = model_dir / "correlation_dropped_columns.joblib"
+        if not dropped_path.exists():
+            dropped_path = model_dir / "correlation_drop_columns.joblib"
+        if not dropped_path.exists():
+            dropped_path = self.base_dir / "random_forest" / "correlation_dropped_columns.joblib"
+
+        if not dropped_path.exists():
+            raise FileNotFoundError(
+                f"Correlation dropped columns artifact not found at {dropped_path}"
+            )
+        self._dropped_columns[m_type] = list(joblib.load(dropped_path))
+        return self._dropped_columns[m_type]
+
+    def load_threshold(self, model_type: Optional[str] = None) -> float:
+        """Load and cache the calibrated optimal draw threshold for a model (defaults to 0.360)."""
+        m_type = model_type or self.model_type
+        if m_type in self._thresholds:
+            return self._thresholds[m_type]
+
+        model_info = self.SUPPORTED_MODELS.get(m_type, self.SUPPORTED_MODELS["random_forest"])
+        threshold_path = self.base_dir / model_info["dir"] / model_info.get("threshold_file", "calibrated_draw_threshold.joblib")
+
+        if threshold_path.exists():
+            try:
+                thr = float(joblib.load(threshold_path))
+            except Exception:
+                thr = 0.360
+        else:
+            thr = 0.360
+
+        self._thresholds[m_type] = thr
+        return self._thresholds[m_type]
 
     def load_model(self, model_type: str = "random_forest"):
         """Dynamically load and cache the requested model pipeline artifact.
 
         Raises a clear, informative FileNotFoundError if the pipeline artifact is unpopulated.
         """
-        if self._active_pipeline is not None and self._active_model_type == model_type:
-            return self._active_pipeline
+        if model_type in self._pipeline_cache:
+            self.model_type = model_type
+            return self._pipeline_cache[model_type]
 
         if model_type not in self.SUPPORTED_MODELS:
             raise ValueError(
@@ -193,44 +230,123 @@ class SoccerInferenceEngine:
         if not pipeline_path.exists():
             raise FileNotFoundError(
                 f"Model pipeline artifact for '{model_info['name']}' not found at: {pipeline_path}\n"
-                f"This model family is reserved for future training runs. Please select 'random_forest' "
-                f"or train and place the pipeline artifact in '{pipeline_path}'."
+                f"Please ensure models are trained and placed in their respective directories."
             )
 
-        self._active_pipeline = joblib.load(pipeline_path)
-        self._active_model_type = model_type
-        return self._active_pipeline
+        pipeline = joblib.load(pipeline_path)
+        self._pipeline_cache[model_type] = pipeline
+        self.model_type = model_type
+        return pipeline
 
-    def get_median_baseline(self) -> pd.Series:
-        """Compute and cache in-memory the median feature baseline vector (114 features)."""
-        if self._median_baseline is None:
-            train_path = self.base_dir / "final_dataset" / "X_train_model.csv"
+    # -------------------------------------------------------------------------
+    # Baseline Vectors & Test Fixtures
+    # -------------------------------------------------------------------------
+
+    def get_median_baseline(self, model_type: Optional[str] = None) -> pd.Series:
+        """Compute and cache in-memory the median feature baseline vector.
+
+        Uses unscaled features for tree-based models and standardized features for Logistic Regression.
+        """
+        m_type = model_type or self.model_type
+        family = self.SUPPORTED_MODELS.get(m_type, {}).get("family", "tree")
+
+        if family in self._median_baselines:
+            return self._median_baselines[family]
+
+        final_dir = self.base_dir / "final_dataset"
+        if family == "logistic":
+            train_path = final_dir / "X_train_logistic.csv"
             if not train_path.exists():
-                raise FileNotFoundError(f"Training dataset missing at {train_path}")
+                train_path = final_dir / "X_train_model.csv"
+        else:
+            train_path = final_dir / "X_train_tree.csv"
+            if not train_path.exists():
+                train_path = final_dir / "X_train_model.csv"
 
-            df_train = pd.read_csv(train_path)
-            self._raw_feature_names = list(df_train.columns)
-            self._median_baseline = df_train.median()
-        return self._median_baseline
+        if not train_path.exists():
+            raise FileNotFoundError(f"Training dataset missing at {train_path}")
 
-    def get_test_data(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
-        """Load and cache the historical holdout test set (3923 fixtures)."""
-        if self._test_X is None or self._test_y is None:
-            test_x_path = self.base_dir / "final_dataset" / "X_test_model.csv"
-            test_y_path = self.base_dir / "final_dataset" / "y_test.csv"
+        df_train = pd.read_csv(train_path)
+        self._median_baselines[family] = df_train.median()
+        return self._median_baselines[family]
+
+    def get_league_baseline(self, league_name: Optional[str] = None) -> pd.Series:
+        """Retrieve the empirical median baseline vector for a specific league competition.
+
+        Returns unscaled features from X_train_tree.csv so domain feature synthesis remains
+        natural, grounded, and bounded before model-family standardization.
+        """
+        if not self._league_baselines:
+            tree_train_path = self.base_dir / "final_dataset" / "X_train_tree.csv"
+            if not tree_train_path.exists():
+                tree_train_path = self.base_dir / "final_dataset" / "X_train_model.csv"
+
+            if tree_train_path.exists():
+                df_tree = pd.read_csv(tree_train_path)
+                global_med = df_tree.median()
+                self._league_baselines["__global__"] = global_med
+
+                for clean_name, col_name in self.CLEAN_LEAGUE_MAP.items():
+                    if col_name in df_tree.columns:
+                        subset = df_tree[df_tree[col_name] == 1.0]
+                        if len(subset) > 0:
+                            self._league_baselines[clean_name] = subset.median()
+                        else:
+                            self._league_baselines[clean_name] = global_med
+                    else:
+                        self._league_baselines[clean_name] = global_med
+            else:
+                fallback = self.get_median_baseline("random_forest")
+                self._league_baselines["__global__"] = fallback
+                for clean_name in self.CLEAN_LEAGUE_MAP:
+                    self._league_baselines[clean_name] = fallback
+
+        if league_name and league_name in self._league_baselines:
+            return self._league_baselines[league_name]
+        return self._league_baselines.get("__global__", self.get_median_baseline("random_forest"))
+
+    def get_test_data(self, model_type: Optional[str] = None) -> Tuple[pd.DataFrame, pd.DataFrame]:
+        """Load and cache the historical holdout test set."""
+        m_type = model_type or self.model_type
+        family = self.SUPPORTED_MODELS.get(m_type, {}).get("family", "tree")
+
+        if family not in self._test_X_cache or self._test_y is None:
+            final_dir = self.base_dir / "final_dataset"
+            if family == "logistic":
+                test_x_path = final_dir / "X_test_logistic.csv"
+                if not test_x_path.exists():
+                    test_x_path = final_dir / "X_test_model.csv"
+            else:
+                test_x_path = final_dir / "X_test_tree.csv"
+                if not test_x_path.exists():
+                    test_x_path = final_dir / "X_test_model.csv"
+
+            test_y_path = final_dir / "y_test.csv"
 
             if not test_x_path.exists() or not test_y_path.exists():
                 raise FileNotFoundError(
                     f"Test dataset files missing at {test_x_path} or {test_y_path}"
                 )
 
-            self._test_X = pd.read_csv(test_x_path)
+            self._test_X_cache[family] = pd.read_csv(test_x_path)
             self._test_y = pd.read_csv(test_y_path)
 
-        return self._test_X, self._test_y
+        return self._test_X_cache[family], self._test_y
+
+    def get_test_metadata(self) -> Optional[pd.DataFrame]:
+        """Load test fixture metadata (league, stage, odds) for human inspection."""
+        if self._test_metadata is None:
+            meta_path = self.base_dir / "final_dataset" / "test_metadata.csv"
+            if meta_path.exists():
+                self._test_metadata = pd.read_csv(meta_path)
+            else:
+                raw_split_path = self.base_dir / "splitted_dataset" / "test.csv"
+                if raw_split_path.exists():
+                    self._test_metadata = pd.read_csv(raw_split_path)
+        return self._test_metadata
 
     # -------------------------------------------------------------------------
-    # Scaling Helpers
+    # Scaling Helpers & Calibration
     # -------------------------------------------------------------------------
 
     def scale_single_feature(self, col: str, val: float) -> float:
@@ -253,6 +369,21 @@ class SoccerInferenceEngine:
                 return float(val * scaler.scale_[idx] + scaler.mean_[idx])
         return float(val)
 
+    @staticmethod
+    def predict_with_draw_threshold(p: np.ndarray, threshold: float = 0.360) -> int:
+        """Classify 3-class probability distribution with calibrated draw threshold.
+
+        Class 0: Away Win
+        Class 1: Draw
+        Class 2: Home Win
+        """
+        p = np.asarray(p)
+        if p.ndim == 1:
+            if p[1] >= threshold:
+                return 1
+            return 2 if p[2] >= p[0] else 0
+        return np.where(p[:, 1] >= threshold, 1, np.where(p[:, 2] >= p[:, 0], 2, 0))
+
     # -------------------------------------------------------------------------
     # Feature Synthesis & Preprocessing
     # -------------------------------------------------------------------------
@@ -260,107 +391,184 @@ class SoccerInferenceEngine:
     def synthesize_simulation_features(
         self, input_dict: Dict[str, Any]
     ) -> pd.DataFrame:
-        """Synthesize a single fixture feature vector overlaying user inputs on the median baseline.
+        """Synthesize a complete fixture feature vector overlaying user inputs on the empirical baseline.
 
-        Drops the 38 multicollinear columns to output the exact 76 features expected by
-        the trained machine learning pipeline.
+        Ensures every dynamic UI input (league, stage, market odds, points-per-match, recent points,
+        goal differential, win rate differential) coherently propagates across the exact feature subsets
+        utilized by Random Forest, Logistic Regression, Decision Tree, and XGBoost.
         """
-        # Obtain baseline template (114 features in scaled space)
-        baseline = self.get_median_baseline().copy()
-        df_row = baseline.to_frame().T
+        family = self.SUPPORTED_MODELS.get(self.model_type, {}).get("family", "tree")
+        is_logistic = bool(family == "logistic")
 
-        # 1. League Selection (One-hot encoding, binary unscaled)
-        selected_league = input_dict.get("league")
-        if selected_league:
-            for clean_name, col_name in self.CLEAN_LEAGUE_MAP.items():
-                if col_name in df_row.columns:
-                    df_row[col_name] = 0.0
+        # 1. League-Specific Empirical Unscaled Baseline
+        selected_league = input_dict.get("league", "England Premier League")
+        base_series = self.get_league_baseline(selected_league).copy()
+        row = base_series.to_dict()
 
-            target_col = self.CLEAN_LEAGUE_MAP.get(selected_league)
-            if not target_col and selected_league.startswith("league_name_"):
-                target_col = selected_league
-            if target_col and target_col in df_row.columns:
-                df_row[target_col] = 1.0
+        # Set one-hot league indicator features
+        for clean_name, col_name in self.CLEAN_LEAGUE_MAP.items():
+            if col_name in row:
+                row[col_name] = 1.0 if clean_name == selected_league else 0.0
 
-        # 2. Stage / Matchweek (scaled)
-        if "stage" in input_dict:
-            raw_stage = float(input_dict["stage"])
-            df_row["stage"] = self.scale_single_feature("stage", raw_stage)
+        # 2. Stage & Fixture Congestion / Rest Days
+        stage_val = float(input_dict.get("stage", 19))
+        row["stage"] = stage_val
+        rest_days = 14.0 - (stage_val / 38.0) * 8.0  # ~14 days at start down to ~6 days late-season
+        row["home_days_since_last_match"] = rest_days
+        row["away_days_since_last_match"] = rest_days
+        row["rest_days_difference"] = 0.0
 
-        # 3. Market Consensus Odds (Bet365 + Align Pinnacle Odds, scaled)
-        b365h = input_dict.get("B365H")
-        b365d = input_dict.get("B365D")
-        b365a = input_dict.get("B365A")
+        # Stage maturity factor: early season (stage 1) differentials are less established;
+        # late season (stage 38) differentials are fully polarized.
+        stage_factor = 0.75 + 0.50 * (stage_val / 38.0)
 
-        if b365h is not None:
-            val_h = float(b365h)
-            df_row["B365H"] = self.scale_single_feature("B365H", val_h)
-            if "PSH" in df_row.columns:
-                df_row["PSH"] = self.scale_single_feature("PSH", float(input_dict.get("PSH", val_h)))
-        if b365d is not None:
-            val_d = float(b365d)
-            df_row["B365D"] = self.scale_single_feature("B365D", val_d)
-            if "PSD" in df_row.columns:
-                df_row["PSD"] = self.scale_single_feature("PSD", float(input_dict.get("PSD", val_d)))
-            if "GBD" in df_row.columns:
-                df_row["GBD"] = self.scale_single_feature("GBD", float(input_dict.get("GBD", val_d)))
-        if b365a is not None:
-            val_a = float(b365a)
-            df_row["B365A"] = self.scale_single_feature("B365A", val_a)
-            if "PSA" in df_row.columns:
-                df_row["PSA"] = self.scale_single_feature("PSA", float(input_dict.get("PSA", val_a)))
+        # 3. Market Consensus Odds (Strictly Decoupled)
+        # Anti-Leakage / Pure Sports Analytics Requirement:
+        # Betting market odds (such as Bet365 Home, Draw, Away odds) do NOT drive or alter
+        # the match outcome or prediction probabilities. Predictions rely strictly and exclusively
+        # on pure team performance features (form, stats, Elo, and differentials).
 
-        # 4. Relative Performance & Form Differentials (Secondary Analytical Lens, scaled)
-        # Goal Differentials
-        goal_diff = input_dict.get(
-            "goals_for_difference",
-            input_dict.get("goal_difference_per_match"),
+        # 4. User Sliders & Form Differentials (Pure Team Performance Metrics)
+        ppm_diff = float(input_dict.get("points_per_match_difference", 0.5))
+        recent_pts_diff = float(input_dict.get("recent_points_difference", 0.8))
+        goals_diff = float(input_dict.get("goals_for_difference", input_dict.get("goal_difference_per_match", 0.4)))
+        win_rate_diff = float(input_dict.get("win_rate_difference", input_dict.get("recent_win_rate_difference", 0.2)))
+
+        # League baseline metrics (scoring pace, draw rate, baseline Elo and goal difference)
+        base_hg = float(base_series.get("home_goals_for_per_match", 1.30))
+        base_ag = float(base_series.get("away_goals_for_per_match", 1.30))
+        base_hdr = float(base_series.get("home_draw_rate", 0.26))
+        base_adr = float(base_series.get("away_draw_rate", 0.26))
+        base_hwr = float(base_series.get("home_win_rate", 0.38))
+        base_awr = float(base_series.get("away_win_rate", 0.38))
+
+        league_pace = base_hg / 1.30
+        league_draw_factor = 1.0 - (base_hdr - 0.25) * 1.5
+        league_elo_offset = float(base_series.get("elo_difference", 0.0))
+        league_gd_offset = float(base_series.get("goals_for_difference", 0.0))
+        league_wr_offset = float(base_series.get("win_rate_difference", 0.0))
+
+        # Short-term form momentum
+        recent_momentum = (recent_pts_diff - 0.8) * 0.06
+
+        # Elo rating differentials (purely from historical team strength & form)
+        elo_diff = (
+            league_elo_offset
+            + ((win_rate_diff + recent_momentum) * 250.0)
+            + (goals_diff * 90.0)
+            + (ppm_diff * 70.0)
+            + (base_hwr - 0.38) * 120.0
+        ) * stage_factor
+        elo_diff = float(np.clip(elo_diff, -450.0, 450.0))
+        row["elo_difference"] = elo_diff
+        row["home_elo_before"] = float(np.clip(base_series.get("home_elo_before", 1500.0) + elo_diff / 2.0, 1100.0, 1950.0))
+        row["away_elo_before"] = float(np.clip(base_series.get("away_elo_before", 1500.0) - elo_diff / 2.0, 1100.0, 1950.0))
+
+        # Goal differentials & individual scoring rates
+        eff_goal_diff = float(
+            (league_gd_offset + goals_diff * league_pace + (ppm_diff - 0.5) * 0.35 + recent_momentum) * stage_factor
         )
-        if goal_diff is not None:
-            g_diff = float(goal_diff)
-            df_row["goals_for_difference"] = self.scale_single_feature("goals_for_difference", g_diff)
-            df_row["goals_against_difference"] = self.scale_single_feature("goals_against_difference", -g_diff)
-            if "recent_goals_for_difference" in df_row.columns:
-                df_row["recent_goals_for_difference"] = self.scale_single_feature("recent_goals_for_difference", g_diff * 0.9)
-            if "recent_goals_against_difference" in df_row.columns:
-                df_row["recent_goals_against_difference"] = self.scale_single_feature("recent_goals_against_difference", -g_diff * 0.9)
+        eff_goal_diff = float(np.clip(eff_goal_diff, -3.0, 3.0))
 
-        # Win Rate Differentials
-        win_rate_diff = input_dict.get(
-            "win_rate_difference",
-            input_dict.get("recent_win_rate_difference"),
+        row["goals_for_difference"] = eff_goal_diff
+        row["goals_against_difference"] = -eff_goal_diff
+        row["venue_goals_for_difference"] = eff_goal_diff * 0.85
+        row["venue_goals_against_difference"] = -eff_goal_diff * 0.85
+
+        # Individual scoring and conceding rates
+        row["home_goals_for_per_match"] = float(np.clip(base_hg + eff_goal_diff * 0.45, 0.15, 3.5))
+        row["away_goals_for_per_match"] = float(np.clip(base_ag - eff_goal_diff * 0.45, 0.15, 3.5))
+        row["home_goals_against_per_match"] = float(np.clip(base_hg - eff_goal_diff * 0.45, 0.15, 3.5))
+        row["away_goals_against_per_match"] = float(np.clip(base_ag + eff_goal_diff * 0.45, 0.15, 3.5))
+
+        row["away_away_goals_for_per_match"] = float(np.clip(base_ag - eff_goal_diff * 0.40, 0.15, 3.5))
+        row["away_away_goals_against_per_match"] = float(np.clip(base_ag + eff_goal_diff * 0.40, 0.15, 3.5))
+        row["home_home_goals_against_per_match"] = float(np.clip(base_hg - eff_goal_diff * 0.40, 0.15, 3.5))
+
+        # Rolling 10-match goals
+        row["goals_for_last10_difference"] = eff_goal_diff * 0.95
+        row["goals_against_last10_difference"] = -eff_goal_diff * 0.95
+        row["home_goals_for_last10"] = float(np.clip(base_hg + eff_goal_diff * 0.45, 0.1, 4.0))
+        row["home_goals_against_last10"] = float(np.clip(base_hg - eff_goal_diff * 0.45, 0.1, 4.0))
+        row["away_goals_for_last10"] = float(np.clip(base_ag - eff_goal_diff * 0.45, 0.1, 4.0))
+        row["away_goals_against_last10"] = float(np.clip(base_ag + eff_goal_diff * 0.45, 0.1, 4.0))
+
+        # Win rate differentials & class probability distributions
+        eff_wr_diff = float(
+            (league_wr_offset + (win_rate_diff + (base_hwr - 0.38) * 0.5) * league_draw_factor + (ppm_diff - 0.5) * 0.30 + recent_momentum) * stage_factor
         )
-        if win_rate_diff is not None:
-            w_diff = float(win_rate_diff)
-            df_row["win_rate_difference"] = self.scale_single_feature("win_rate_difference", w_diff)
-            if "recent_win_rate_difference" in df_row.columns:
-                df_row["recent_win_rate_difference"] = self.scale_single_feature("recent_win_rate_difference", w_diff)
-            # Adjust individual team baseline rates consistently
-            unscaled_home_wr = self.unscale_single_feature("home_win_rate", float(baseline.get("home_win_rate", 0.0)))
-            df_row["home_win_rate"] = self.scale_single_feature("home_win_rate", np.clip(unscaled_home_wr + (w_diff / 2.0), 0.05, 0.95))
-            df_row["away_win_rate"] = self.scale_single_feature("away_win_rate", np.clip(unscaled_home_wr - (w_diff / 2.0), 0.05, 0.95))
+        eff_wr_diff = float(np.clip(eff_wr_diff, -0.9, 0.9))
 
-        # Points Per Match Differentials
-        ppm_diff = input_dict.get("points_per_match_difference")
-        if ppm_diff is not None:
-            df_row["points_per_match_difference"] = self.scale_single_feature("points_per_match_difference", float(ppm_diff))
+        row["win_rate_difference"] = eff_wr_diff
+        row["venue_win_rate_difference"] = eff_wr_diff * 0.85
+        row["draw_rate_difference"] = 0.0
 
-        # Recent 5-Match Points Differential
-        recent_pts_diff = input_dict.get(
-            "recent_points_difference",
-            input_dict.get("recent_5_match_points_difference"),
-        )
-        if recent_pts_diff is not None:
-            df_row["recent_points_difference"] = self.scale_single_feature("recent_points_difference", float(recent_pts_diff))
+        h_wr = float(np.clip(base_hwr + eff_wr_diff * 0.45, 0.05, 0.90))
+        a_wr = float(np.clip(base_awr - eff_wr_diff * 0.45, 0.05, 0.90))
+        h_dr = base_hdr
+        a_dr = base_adr
 
-        # Drop the 38 Stage-1 multicollinear features
-        dropped_cols = self.load_dropped_columns()
-        df_reduced = df_row.drop(columns=dropped_cols, errors="ignore")
+        row["home_win_rate"] = h_wr
+        row["away_win_rate"] = a_wr
+        row["home_draw_rate"] = h_dr
+        row["away_draw_rate"] = a_dr
+        row["home_loss_rate"] = float(np.clip(1.0 - h_wr - h_dr, 0.05, 0.90))
+        row["away_loss_rate"] = float(np.clip(1.0 - a_wr - a_dr, 0.05, 0.90))
+        row["home_home_win_rate"] = float(np.clip(h_wr + 0.06, 0.05, 0.95))
+        row["home_home_draw_rate"] = h_dr
+        row["away_away_win_rate"] = float(np.clip(a_wr - 0.06, 0.05, 0.95))
+        row["away_away_draw_rate"] = a_dr
 
-        # Validate feature order against pipeline's expected input schema
+        # Points-Per-Match & Rolling Points Form
+        pts10_diff = float(np.clip(ppm_diff * 0.9 + (eff_wr_diff * 0.5), -2.8, 2.8))
+        row["points_last10_difference"] = pts10_diff
+        row["home_points_last10"] = float(np.clip(1.36 + pts10_diff * 0.45, 0.1, 2.9))
+        row["away_points_last10"] = float(np.clip(1.36 - pts10_diff * 0.45, 0.1, 2.9))
+
+        # Recent 5-Match & 3-Match Points Form
+        pts5_diff = float(np.clip(recent_pts_diff * 0.85 + ppm_diff * 0.15, -3.0, 3.0))
+        row["points_last5_difference"] = pts5_diff
+        row["points_last3_difference"] = pts5_diff * 0.9
+        row["home_points_last5"] = float(np.clip(1.36 + pts5_diff * 0.45, 0.1, 2.9))
+        row["away_points_last5"] = float(np.clip(1.36 - pts5_diff * 0.45, 0.1, 2.9))
+        row["home_points_last3"] = float(np.clip(1.36 + pts5_diff * 0.40, 0.1, 2.9))
+        row["away_points_last3"] = float(np.clip(1.36 - pts5_diff * 0.40, 0.1, 2.9))
+
+        # Short-term Goal Conceding Differentials (Key driver for Logistic Regression)
+        row["goals_against_last5_difference"] = float(np.clip(-pts5_diff * 0.4 - eff_goal_diff * 0.4, -3.0, 3.0))
+        row["goals_for_last5_difference"] = float(np.clip(pts5_diff * 0.4 + eff_goal_diff * 0.4, -3.0, 3.0))
+        row["goals_against_last3_difference"] = float(np.clip(-pts5_diff * 0.35, -3.0, 3.0))
+        row["goals_for_last3_difference"] = float(np.clip(pts5_diff * 0.35, -3.0, 3.0))
+
+        row["home_goals_for_last5"] = float(np.clip(base_hg + pts5_diff * 0.25, 0.1, 3.5))
+        row["home_goals_against_last5"] = float(np.clip(base_hg - pts5_diff * 0.25, 0.1, 3.5))
+        row["away_goals_for_last5"] = float(np.clip(base_ag - pts5_diff * 0.25, 0.1, 3.5))
+        row["away_goals_against_last5"] = float(np.clip(base_ag + pts5_diff * 0.25, 0.1, 3.5))
+
+        row["home_goals_for_last3"] = float(np.clip(base_hg + pts5_diff * 0.20, 0.1, 3.5))
+        row["home_goals_against_last3"] = float(np.clip(base_hg - pts5_diff * 0.20, 0.1, 3.5))
+        row["away_goals_for_last3"] = float(np.clip(base_ag - pts5_diff * 0.20, 0.1, 3.5))
+        row["away_goals_against_last3"] = float(np.clip(base_ag + pts5_diff * 0.20, 0.1, 3.5))
+
+        df_result = pd.DataFrame([row])
+
+        # 5. Standardize Numerical Features for Logistic Regression
+        if is_logistic:
+            scaler = self.load_scaler()
+            if scaler is not None and hasattr(scaler, "feature_names_in_"):
+                for col in scaler.feature_names_in_:
+                    if col in df_result.columns:
+                        df_result[col] = self.scale_single_feature(col, float(df_result[col].iloc[0]))
+
+        # 6. Drop Stage-1 Multicollinear Features
+        dropped_cols = self.load_dropped_columns(self.model_type)
+        df_reduced = df_result.drop(columns=dropped_cols, errors="ignore")
+
+        # 7. Exact Schema Alignment with Pipeline Feature Names
         pipeline = self.load_model(self.model_type)
         if hasattr(pipeline, "feature_names_in_"):
-            expected_features = list(pipeline.feature_names_in_)
+            expected_features = [str(f) for f in pipeline.feature_names_in_]
+            df_reduced.columns = [str(c) for c in df_reduced.columns]
             df_reduced = df_reduced.reindex(columns=expected_features)
 
         return df_reduced
@@ -374,27 +582,30 @@ class SoccerInferenceEngine:
 
         Returns:
             Dict containing predicted_class_id, predicted_label, confidence,
-            and probability distribution across all 3 outcome classes.
+            calibrated probability distribution, and features count.
         """
         pipeline = self.load_model(self.model_type)
         encoder = self.load_target_encoder()
+        threshold = self.load_threshold(self.model_type)
 
-        # Synthesize and reduce feature vector to 76 features
+        # Synthesize feature vector
         X_feature = self.synthesize_simulation_features(input_dict)
 
-        # Run inference
-        pred_id = int(pipeline.predict(X_feature)[0])
-        probabilities = pipeline.predict_proba(X_feature)[0]
+        # Predict probabilities with warning suppression for internal sklearn transformer output types
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", category=UserWarning)
+            probabilities = pipeline.predict_proba(X_feature)[0]
 
-        # Extract class labels
-        class_labels = list(encoder.classes_)  # ['Away Win', 'Draw', 'Home Win']
+        # Apply calibrated draw threshold
+        pred_id = int(self.predict_with_draw_threshold(probabilities, threshold))
         pred_label = str(encoder.inverse_transform([pred_id])[0])
 
+        class_labels = list(encoder.classes_)  # ['Away Win', 'Draw', 'Home Win']
         prob_dict = {
             label: float(probabilities[idx])
             for idx, label in enumerate(class_labels)
         }
-        confidence = round(float(np.max(probabilities)) * 100, 2)
+        confidence = round(float(probabilities[pred_id]) * 100, 2)
 
         return {
             "predicted_class_id": pred_id,
@@ -402,15 +613,16 @@ class SoccerInferenceEngine:
             "confidence": confidence,
             "probabilities": prob_dict,
             "features_used_count": X_feature.shape[1],
+            "draw_threshold": threshold,
         }
 
     def predict_test_match(self, match_index: int) -> Dict[str, Any]:
-        """Evaluate a historical match fixture from the holdout test set (indices 0 to 3922).
+        """Evaluate a historical match fixture from the holdout test set.
 
         Returns prediction, probability distribution, ground-truth outcome,
         classification correctness status, and unscaled fixture metadata.
         """
-        test_X, test_y = self.get_test_data()
+        test_X, test_y = self.get_test_data(self.model_type)
         total_matches = len(test_X)
 
         if not (0 <= match_index < total_matches):
@@ -420,25 +632,30 @@ class SoccerInferenceEngine:
 
         pipeline = self.load_model(self.model_type)
         encoder = self.load_target_encoder()
-        dropped_cols = self.load_dropped_columns()
+        dropped_cols = self.load_dropped_columns(self.model_type)
+        threshold = self.load_threshold(self.model_type)
 
-        # Extract raw test fixture (114 features in scaled space)
         raw_row = test_X.iloc[[match_index]]
 
-        # Extract fixture metadata with human-readable unscaled values
-        metadata = self._extract_fixture_metadata(raw_row)
+        # Extract fixture metadata
+        metadata = self._extract_fixture_metadata(raw_row, match_index)
 
-        # Drop collinear features (76 features)
-        X_fixture = raw_row.drop(columns=dropped_cols, errors="ignore")
+        # Drop market features if pipeline doesn't use them
+        market_cols = [c for c in raw_row.columns if c.startswith("market_")]
+        X_fixture = raw_row.drop(columns=market_cols, errors="ignore")
+        X_fixture = X_fixture.drop(columns=dropped_cols, errors="ignore")
+
         if hasattr(pipeline, "feature_names_in_"):
-            X_fixture = X_fixture.reindex(columns=list(pipeline.feature_names_in_))
+            expected_feats = [str(f) for f in pipeline.feature_names_in_]
+            X_fixture.columns = [str(c) for c in X_fixture.columns]
+            X_fixture = X_fixture.reindex(columns=expected_feats)
 
-        # Run prediction
-        pred_id = int(pipeline.predict(X_fixture)[0])
-        probabilities = pipeline.predict_proba(X_fixture)[0]
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", category=UserWarning)
+            probabilities = pipeline.predict_proba(X_fixture)[0]
+        pred_id = int(self.predict_with_draw_threshold(probabilities, threshold))
         pred_label = str(encoder.inverse_transform([pred_id])[0])
 
-        # Ground truth
         actual_id = int(test_y.iloc[match_index, 0])
         actual_label = str(encoder.inverse_transform([actual_id])[0])
         is_correct = bool(pred_id == actual_id)
@@ -448,7 +665,7 @@ class SoccerInferenceEngine:
             label: float(probabilities[idx])
             for idx, label in enumerate(class_labels)
         }
-        confidence = round(float(np.max(probabilities)) * 100, 2)
+        confidence = round(float(probabilities[pred_id]) * 100, 2)
 
         return {
             "match_index": match_index,
@@ -460,23 +677,44 @@ class SoccerInferenceEngine:
             "confidence": confidence,
             "probabilities": prob_dict,
             "metadata": metadata,
+            "draw_threshold": threshold,
         }
 
-    def _extract_fixture_metadata(self, row: pd.DataFrame) -> Dict[str, Any]:
+    def _extract_fixture_metadata(self, row: pd.DataFrame, match_index: int) -> Dict[str, Any]:
         """Extract human-readable, unscaled metadata from a test match row."""
+        # Try retrieving rich metadata from test_metadata.csv
+        test_meta = self.get_test_metadata()
+        if test_meta is not None and match_index < len(test_meta):
+            m_row = test_meta.iloc[match_index]
+            l_name = m_row.get("league_name", "European League")
+            stg = int(m_row.get("stage", 1))
+            b_h = m_row.get("B365H")
+            b_d = m_row.get("B365D")
+            b_a = m_row.get("B365A")
+            return {
+                "league": str(l_name),
+                "stage": stg,
+                "odds": {
+                    "Home Win (B365H)": round(float(b_h), 2) if pd.notna(b_h) else None,
+                    "Draw (B365D)": round(float(b_d), 2) if pd.notna(b_d) else None,
+                    "Away Win (B365A)": round(float(b_a), 2) if pd.notna(b_a) else None,
+                },
+            }
+
+        # Fallback to row-level extraction
         league_detected = "European League"
         for clean_name, col in self.CLEAN_LEAGUE_MAP.items():
             if col in row.columns and float(row[col].values[0]) == 1.0:
                 league_detected = clean_name
                 break
 
-        # Unscale stage and odds for human inspection
+        family = self.SUPPORTED_MODELS.get(self.model_type, {}).get("family", "tree")
         raw_stage = row["stage"].values[0] if "stage" in row.columns else 1
-        unscaled_stage = int(round(self.unscale_single_feature("stage", float(raw_stage))))
+        unscaled_stage = int(round(self.unscale_single_feature("stage", float(raw_stage)))) if family == "logistic" else int(round(float(raw_stage)))
 
-        b365h = self.unscale_single_feature("B365H", float(row["B365H"].values[0])) if "B365H" in row.columns else None
-        b365d = self.unscale_single_feature("B365D", float(row["B365D"].values[0])) if "B365D" in row.columns else None
-        b365a = self.unscale_single_feature("B365A", float(row["B365A"].values[0])) if "B365A" in row.columns else None
+        b365h = float(row["B365H"].values[0]) if "B365H" in row.columns and pd.notna(row["B365H"].values[0]) else None
+        b365d = float(row["B365D"].values[0]) if "B365D" in row.columns and pd.notna(row["B365D"].values[0]) else None
+        b365a = float(row["B365A"].values[0]) if "B365A" in row.columns and pd.notna(row["B365A"].values[0]) else None
 
         return {
             "league": league_detected,
