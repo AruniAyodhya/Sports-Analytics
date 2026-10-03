@@ -140,16 +140,16 @@ with st.sidebar:
         "xgboost": {"name": "Tuned XGB", "selected": "50 Features", "selector": "Gain SFM"},
     }.get(active_model_key, {"name": "Tuned RF", "selected": "34 Features", "selector": "SFM Selected"})
 
-    st.markdown("##### 🧭 Navigation")
     nav_mode = st.radio(
-        "Analysis Mode",
+        "",
         [
-            "Mode 1: Pre-Match Simulator",
-            "Mode 2: Historical Evaluator",
-            "Mode 3: Model Comparison",
+            "Pre-Match Simulator",
+            "Historical Evaluator",
+            "Model Comparison",
         ],
         index=0,
         label_visibility="collapsed",
+        key="sidebar_nav",
     )
 
     st.markdown("<hr/>", unsafe_allow_html=True)
@@ -739,7 +739,7 @@ def plot_generalization_gap_chart(
 # =============================================================================
 # MODE 1: PRE-MATCH PERFORMANCE SIMULATOR (LIVE REACTIVE DASHBOARD)
 # =============================================================================
-if nav_mode == "Mode 1: Pre-Match Simulator":
+if nav_mode == "Pre-Match Simulator":
     st.markdown(
         f"""
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
@@ -947,7 +947,7 @@ if nav_mode == "Mode 1: Pre-Match Simulator":
 # =============================================================================
 # MODE 2: HISTORICAL TEST MATCH EVALUATOR
 # =============================================================================
-elif nav_mode == "Mode 2: Historical Evaluator":
+elif nav_mode == "Historical Evaluator":
     st.markdown("#### 🔍 Historical Holdout Match Audit")
     st.markdown(
         f"<p style='color:{tp['subtext']}; font-size:0.9rem; margin-top:-8px; margin-bottom:18px;'>"
@@ -1075,7 +1075,7 @@ elif nav_mode == "Mode 2: Historical Evaluator":
 # =============================================================================
 # MODE 3: MULTI-MODEL BENCHMARK & COMPARISON DASHBOARD
 # =============================================================================
-elif nav_mode == "Mode 3: Model Comparison":
+elif nav_mode == "Model Comparison":
     comp_data = load_model_comparison_data()
     majority_acc = comp_data["majority_acc"]
     majority_f1 = comp_data["majority_f1"]
@@ -1091,51 +1091,64 @@ elif nav_mode == "Mode 3: Model Comparison":
     )
 
     # 4 Executive KPI Tiles
-    c1, c2, c3, c4 = st.columns(4, gap="medium")
-    with c1:
-        st.markdown(
-            f"""
-            <div class="kpi-tile" style="display: flex; flex-direction: column; height: 100%; justify-content: space-between;">
-                <div class="kpi-label">Selected Primary Model</div>
-                <div class="kpi-value" style="color: {tp['model_lr']};">Logistic Regression</div>
-                <div class="kpi-sub">Val Macro F1: <b>0.4599</b> (Optimal Benchmark)</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-    with c2:
-        st.markdown(
-            f"""
-            <div class="kpi-tile" style="display: flex; flex-direction: column; height: 100%; justify-content: space-between;">
-                <div class="kpi-label">Top Holdout Macro F1</div>
-                <div class="kpi-value" style="color: {tp['model_rf']};">Random Forest</div>
-                <div class="kpi-sub">Test F1: <b>0.4405</b> (Decay: -1.33%)</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-    with c3:
-        st.markdown(
-            f"""
-            <div class="kpi-tile" style="display: flex; flex-direction: column; height: 100%; justify-content: space-between;">
-                <div class="kpi-label">Top Holdout Accuracy</div>
-                <div class="kpi-value" style="color: {tp['model_xgb']};">XGBoost</div>
-                <div class="kpi-sub">Test Acc: <b>45.32%</b> (Decay: -1.14%)</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-    with c4:
-        st.markdown(
-            f"""
-            <div class="kpi-tile" style="display: flex; flex-direction: column; height: 100%; justify-content: space-between;">
-                <div class="kpi-label">Heuristic Majority Baseline</div>
-                <div class="kpi-value" style="color: {tp['model_dt']};">Home Win (44.21%)</div>
-                <div class="kpi-sub">Macro F1: <b>0.2047</b> (Beaten by +115%)</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+    with st.container(key="comp_metrics_row"):
+        c1, c2, c3, c4 = st.columns(4, gap="medium")
+        with c1:
+            st.markdown(
+                f"""
+                <div class="kpi-tile" style="display: flex; flex-direction: column; height: 100%; justify-content: space-between;">
+                    <div class="kpi-label">Selected Primary Model</div>
+                    <div class="kpi-value" style="color: {tp['model_lr']};">Logistic Regression</div>
+                    <div class="kpi-sub">
+                        <span class="kpi-sub-metric">Val Macro F1: <b>0.4599</b></span>
+                        <span class="kpi-sub-tag">(Optimal Benchmark)</span>
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+        with c2:
+            st.markdown(
+                f"""
+                <div class="kpi-tile" style="display: flex; flex-direction: column; height: 100%; justify-content: space-between;">
+                    <div class="kpi-label">Top Holdout Macro F1</div>
+                    <div class="kpi-value" style="color: {tp['model_rf']};">Random Forest</div>
+                    <div class="kpi-sub">
+                        <span class="kpi-sub-metric">Test F1: <b>0.4405</b></span>
+                        <span class="kpi-sub-tag">(Decay: -1.33%)</span>
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+        with c3:
+            st.markdown(
+                f"""
+                <div class="kpi-tile" style="display: flex; flex-direction: column; height: 100%; justify-content: space-between;">
+                    <div class="kpi-label">Top Holdout Accuracy</div>
+                    <div class="kpi-value" style="color: {tp['model_xgb']};">XGBoost</div>
+                    <div class="kpi-sub">
+                        <span class="kpi-sub-metric">Test Acc: <b>45.32%</b></span>
+                        <span class="kpi-sub-tag">(Decay: -1.14%)</span>
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+        with c4:
+            st.markdown(
+                f"""
+                <div class="kpi-tile" style="display: flex; flex-direction: column; height: 100%; justify-content: space-between;">
+                    <div class="kpi-label">Heuristic Majority Baseline</div>
+                    <div class="kpi-value" style="color: {tp['model_dt']};">Home Win (44.21%)</div>
+                    <div class="kpi-sub">
+                        <span class="kpi-sub-metric">Macro F1: <b>0.2047</b></span>
+                        <span class="kpi-sub-tag">(Beaten by +115%)</span>
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
 
     st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
 
@@ -1441,36 +1454,3 @@ elif nav_mode == "Mode 3: Model Comparison":
             unsafe_allow_html=True,
         )
 
-
-# =============================================================================
-# METHODOLOGY & ANTI-LEAKAGE EXPANDER
-# =============================================================================
-st.markdown("<hr/>", unsafe_allow_html=True)
-with st.expander("📚 Research Methodology & Anti-Leakage Protocol (SLIIT Group 2026-AI-09)"):
-    st.markdown(
-        """
-        #### 1. Problem Formulation & Multi-Class Target
-        - **Objective**: Supervised 3-class prediction of match outcomes:
-            - **Class 0**: `Away Win`
-            - **Class 1**: `Draw`
-            - **Class 2**: `Home Win`
-        - **Primary Analytical Lens**: Pre-match outcome probability estimation for tactical planning and decision support.
-        - **Secondary Analytical Lens**: Rolling team form differentials, historical Elo ratings, and venue-specific strength indicators.
-
-        #### 2. Anti-Leakage Compliance
-        - In-match XML live events (goals, cards, corners, fouls, possession timestamps) were strictly excluded.
-        - The models ingest only signals available **before kickoff**: historical head-to-head records, 3/5/10-match rolling points, goal differentials, rest days, and venue splits.
-        - Cold-start burn-in protocol: Matches where either team has fewer than 5 prior competitive matches were removed from model training.
-
-        #### 3. Feature Selection & Multi-Model Architecture
-        - **Feature-Engineered Space**: 93 model-ready features from `Final Preprocessing.ipynb` (unscaled for tree classifiers, standardized for Logistic Regression).
-        - **Stage 1 (Collinearity Reduction)**: 18 multicollinear features with correlation $|r| > 0.90$ removed across all pipelines.
-        - **Pipeline Ingestion**: 68 informative predictors fed into model-specific feature selection.
-        - **Supported Classifiers**:
-            - **Random Forest (Tuned)**: MDI `SelectFromModel` selecting 34 predictors with entropy splitting ($d=8$).
-            - **Logistic Regression (L1 Tuned)**: L1 Sparsity selection with Saga solver ($C=0.01$).
-            - **Decision Tree (Tuned RFE)**: Recursive Feature Elimination selecting the top 20 predictors ($d=4$).
-            - **XGBoost Classifier (Tuned)**: Gain-based selection selecting 50 predictors with regularized gradient boosting.
-        - **Calibrated Optimal Draw Thresholding**: Unified grid calibration ($t=0.360$) applied to mitigate empirical draw under-prediction.
-        """
-    )
