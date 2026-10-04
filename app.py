@@ -434,8 +434,10 @@ def load_model_comparison_data() -> dict[str, Any]:
         },
     }
 
-    # Dynamically overlay directly from CSV files in final_comparison/
-    p_comp = base_path / "final_comparison"
+    # Dynamically overlay directly from CSV files in artifacts/final_comparison/
+    p_comp = base_path / "artifacts" / "final_comparison"
+    if not p_comp.exists():
+        p_comp = base_path / "final_comparison"
     try:
         p_b = p_comp / "comparison_baseline_validation.csv"
         p_v = p_comp / "comparison_validation.csv"
@@ -1416,7 +1418,7 @@ elif nav_mode == "Model Comparison":
         st.markdown(
             f"<p style='color:{tp['subtext']}; font-size:0.85rem; margin-top:-6px; margin-bottom:14px;'>"
             "Full lifecycle performance matrix displaying all six primary classification metrics across Baseline Validation, Tuned Validation, and Final Holdout Testing "
-            "directly extracted from <code>notebooks/Model Comparison.ipynb</code> and <code>final_comparison/</code> artifacts."
+            "directly extracted from <code>notebooks/Model Comparison.ipynb</code> and <code>artifacts/final_comparison/</code> artifacts."
             "</p>",
             unsafe_allow_html=True,
         )

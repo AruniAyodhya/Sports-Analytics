@@ -80,6 +80,7 @@ class SoccerInferenceEngine:
     ) -> None:
         """Initialize the inference engine with configurable base path and model type."""
         self.base_dir = self._resolve_base_dir(base_dir)
+        self.artifacts_dir = (self.base_dir / "artifacts") if (self.base_dir / "artifacts").exists() else self.base_dir
         self.model_type = model_type if model_type in self.SUPPORTED_MODELS else "random_forest"
 
         # In-memory artifact caches
@@ -115,12 +116,20 @@ class SoccerInferenceEngine:
 
         # Check default parent of src/
         parent_candidate = Path(__file__).resolve().parent.parent
-        if (parent_candidate / "final_dataset").exists() or (parent_candidate / "random_forest").exists():
+        if (
+            (parent_candidate / "artifacts").exists()
+            or (parent_candidate / "final_dataset").exists()
+            or (parent_candidate / "random_forest").exists()
+        ):
             return parent_candidate
 
         # Check current working directory
         cwd_candidate = Path.cwd().resolve()
-        if (cwd_candidate / "final_dataset").exists() or (cwd_candidate / "random_forest").exists():
+        if (
+            (cwd_candidate / "artifacts").exists()
+            or (cwd_candidate / "final_dataset").exists()
+            or (cwd_candidate / "random_forest").exists()
+        ):
             return cwd_candidate
 
         # Check common Google Colab paths
@@ -129,7 +138,7 @@ class SoccerInferenceEngine:
             return colab_candidate
 
         colab_candidate_cwd = Path("/content")
-        if (colab_candidate_cwd / "final_dataset").exists():
+        if (colab_candidate_cwd / "artifacts").exists() or (colab_candidate_cwd / "final_dataset").exists():
             return colab_candidate_cwd
 
         return parent_candidate
@@ -141,7 +150,9 @@ class SoccerInferenceEngine:
     def load_target_encoder(self):
         """Load and cache the fitted target LabelEncoder."""
         if self._target_encoder is None:
-            target_enc_path = self.base_dir / "final_dataset" / "target_encoder.joblib"
+            target_enc_path = self.artifacts_dir / "final_dataset" / "target_encoder.joblib"
+            if not target_enc_path.exists():
+                target_enc_path = self.base_dir / "final_dataset" / "target_encoder.joblib"
             if not target_enc_path.exists():
                 raise FileNotFoundError(
                     f"Target encoder artifact missing at {target_enc_path}"
@@ -152,7 +163,11 @@ class SoccerInferenceEngine:
     def load_scaler(self):
         """Load and cache the fitted StandardScaler used for numerical normalization."""
         if self._scaler is None:
-            scaler_path = self.base_dir / "final_dataset" / "logistic_scaler.joblib"
+            scaler_path = self.artifacts_dir / "final_dataset" / "logistic_scaler.joblib"
+            if not scaler_path.exists():
+                scaler_path = self.artifacts_dir / "final_dataset" / "scaler.joblib"
+            if not scaler_path.exists():
+                scaler_path = self.base_dir / "final_dataset" / "logistic_scaler.joblib"
             if not scaler_path.exists():
                 scaler_path = self.base_dir / "final_dataset" / "scaler.joblib"
             if scaler_path.exists():
@@ -166,13 +181,17 @@ class SoccerInferenceEngine:
             return self._dropped_columns[m_type]
 
         model_info = self.SUPPORTED_MODELS.get(m_type, self.SUPPORTED_MODELS["random_forest"])
-        model_dir = self.base_dir / model_info["dir"]
+        model_dir = self.artifacts_dir / model_info["dir"]
+        if not model_dir.exists():
+            model_dir = self.base_dir / model_info["dir"]
 
         dropped_path = model_dir / model_info.get("dropped_cols_file", "correlation_dropped_columns.joblib")
         if not dropped_path.exists():
             dropped_path = model_dir / "correlation_dropped_columns.joblib"
         if not dropped_path.exists():
             dropped_path = model_dir / "correlation_drop_columns.joblib"
+        if not dropped_path.exists():
+            dropped_path = self.artifacts_dir / "random_forest" / "correlation_dropped_columns.joblib"
         if not dropped_path.exists():
             dropped_path = self.base_dir / "random_forest" / "correlation_dropped_columns.joblib"
 
@@ -190,7 +209,10 @@ class SoccerInferenceEngine:
             return self._thresholds[m_type]
 
         model_info = self.SUPPORTED_MODELS.get(m_type, self.SUPPORTED_MODELS["random_forest"])
-        threshold_path = self.base_dir / model_info["dir"] / model_info.get("threshold_file", "calibrated_draw_threshold.joblib")
+        model_dir = self.artifacts_dir / model_info["dir"]
+        if not model_dir.exists():
+            model_dir = self.base_dir / model_info["dir"]
+        threshold_path = model_dir / model_info.get("threshold_file", "calibrated_draw_threshold.joblib")
 
         if threshold_path.exists():
             try:
@@ -218,7 +240,9 @@ class SoccerInferenceEngine:
             )
 
         model_info = self.SUPPORTED_MODELS[model_type]
-        model_dir = self.base_dir / model_info["dir"]
+        model_dir = self.artifacts_dir / model_info["dir"]
+        if not model_dir.exists():
+            model_dir = self.base_dir / model_info["dir"]
         pipeline_path = model_dir / model_info["pipeline_file"]
 
         # Fallback: search for any .joblib file containing 'pipeline' in the model directory
@@ -253,7 +277,10 @@ class SoccerInferenceEngine:
         if family in self._median_baselines:
             return self._median_baselines[family]
 
-        final_dir = self.base_dir / "final_dataset"
+        final_dir = self.artifacts_dir / "final_dataset"
+        if not final_dir.exists():
+            final_dir = self.base_dir / "final_dataset"
+
         if family == "logistic":
             train_path = final_dir / "X_train_logistic.csv"
             if not train_path.exists():
@@ -277,9 +304,13 @@ class SoccerInferenceEngine:
         natural, grounded, and bounded before model-family standardization.
         """
         if not self._league_baselines:
-            tree_train_path = self.base_dir / "final_dataset" / "X_train_tree.csv"
+            final_dir = self.artifacts_dir / "final_dataset"
+            if not final_dir.exists():
+                final_dir = self.base_dir / "final_dataset"
+
+            tree_train_path = final_dir / "X_train_tree.csv"
             if not tree_train_path.exists():
-                tree_train_path = self.base_dir / "final_dataset" / "X_train_model.csv"
+                tree_train_path = final_dir / "X_train_model.csv"
 
             if tree_train_path.exists():
                 df_tree = pd.read_csv(tree_train_path)
@@ -311,7 +342,10 @@ class SoccerInferenceEngine:
         family = self.SUPPORTED_MODELS.get(m_type, {}).get("family", "tree")
 
         if family not in self._test_X_cache or self._test_y is None:
-            final_dir = self.base_dir / "final_dataset"
+            final_dir = self.artifacts_dir / "final_dataset"
+            if not final_dir.exists():
+                final_dir = self.base_dir / "final_dataset"
+
             if family == "logistic":
                 test_x_path = final_dir / "X_test_logistic.csv"
                 if not test_x_path.exists():
@@ -336,11 +370,15 @@ class SoccerInferenceEngine:
     def get_test_metadata(self) -> Optional[pd.DataFrame]:
         """Load test fixture metadata (league, stage, odds) for human inspection."""
         if self._test_metadata is None:
-            meta_path = self.base_dir / "final_dataset" / "test_metadata.csv"
+            meta_path = self.artifacts_dir / "final_dataset" / "test_metadata.csv"
+            if not meta_path.exists():
+                meta_path = self.base_dir / "final_dataset" / "test_metadata.csv"
             if meta_path.exists():
                 self._test_metadata = pd.read_csv(meta_path)
             else:
-                raw_split_path = self.base_dir / "splitted_dataset" / "test.csv"
+                raw_split_path = self.artifacts_dir / "splitted_dataset" / "test.csv"
+                if not raw_split_path.exists():
+                    raw_split_path = self.base_dir / "splitted_dataset" / "test.csv"
                 if raw_split_path.exists():
                     self._test_metadata = pd.read_csv(raw_split_path)
         return self._test_metadata
