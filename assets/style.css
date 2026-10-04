@@ -562,36 +562,57 @@ body,
 }
 
 /* -----------------------------------------------------------------------------
-   Metric KPI Box (Mode 2) — Flexbox Equal Height & Symmetrical Alignment
+   Metric KPI Box (Mode 2 & Mode 3) — Flexbox Equal Height & Symmetrical Alignment
    ----------------------------------------------------------------------------- */
 div[data-testid="stHorizontalBlock"]:has(.kpi-tile),
-div.stHorizontalBlock:has(.kpi-tile) {
+div.stHorizontalBlock:has(.kpi-tile),
+.st-key-comp_metrics_row div[data-testid="stHorizontalBlock"],
+.st-key-comp_metrics_row div.stHorizontalBlock {
+    display: flex !important;
     align-items: stretch !important;
 }
 
 div[data-testid="stColumn"]:has(.kpi-tile),
-div.stColumn:has(.kpi-tile) {
+div.stColumn:has(.kpi-tile),
+.st-key-comp_metrics_row div[data-testid="stColumn"],
+.st-key-comp_metrics_row div.stColumn {
     display: flex !important;
     flex-direction: column !important;
+    flex: 1 1 0% !important;
     height: 100% !important;
     min-height: 100% !important;
 }
 
-div[data-testid="stColumn"]:has(.kpi-tile)>div,
+div[data-testid="stColumn"]:has(.kpi-tile) > div,
+div[data-testid="stColumn"]:has(.kpi-tile) [data-testid="stVerticalBlockBorderWrapper"],
 div[data-testid="stColumn"]:has(.kpi-tile) [data-testid="stVerticalBlock"],
 div[data-testid="stColumn"]:has(.kpi-tile) .stVerticalBlock,
 div[data-testid="stColumn"]:has(.kpi-tile) [data-testid="stElementContainer"],
 div[data-testid="stColumn"]:has(.kpi-tile) .stElementContainer,
-div[data-testid="stColumn"]:has(.kpi-tile) [data-testid="stElementContainer"]>div,
+div[data-testid="stColumn"]:has(.kpi-tile) [data-testid="stElementContainer"] > div,
 div[data-testid="stColumn"]:has(.kpi-tile) [data-testid="stMarkdownContainer"],
 div[data-testid="stColumn"]:has(.kpi-tile) .stMarkdownContainer,
+div[data-testid="stColumn"]:has(.kpi-tile) [data-testid="stMarkdown"],
 div[data-testid="stColumn"]:has(.kpi-tile) .stMarkdown,
+div[data-testid="stColumn"]:has(.kpi-tile) div:has(> .kpi-tile),
 div:has(> .kpi-tile),
-div:has(> * > .kpi-tile) {
+div:has(> * > .kpi-tile),
+.st-key-comp_metrics_row [data-testid="stColumn"] > div,
+.st-key-comp_metrics_row [data-testid="stColumn"] [data-testid="stVerticalBlockBorderWrapper"],
+.st-key-comp_metrics_row [data-testid="stColumn"] [data-testid="stVerticalBlock"],
+.st-key-comp_metrics_row [data-testid="stColumn"] .stVerticalBlock,
+.st-key-comp_metrics_row [data-testid="stColumn"] [data-testid="stElementContainer"],
+.st-key-comp_metrics_row [data-testid="stColumn"] .stElementContainer,
+.st-key-comp_metrics_row [data-testid="stColumn"] [data-testid="stMarkdownContainer"],
+.st-key-comp_metrics_row [data-testid="stColumn"] .stMarkdownContainer,
+.st-key-comp_metrics_row [data-testid="stColumn"] [data-testid="stMarkdown"],
+.st-key-comp_metrics_row [data-testid="stColumn"] .stMarkdown,
+.st-key-comp_metrics_row [data-testid="stColumn"] div:has(> .kpi-tile) {
     display: flex !important;
     flex-direction: column !important;
     flex: 1 1 100% !important;
     height: 100% !important;
+    min-height: 100% !important;
     width: 100% !important;
 }
 
@@ -602,8 +623,8 @@ div:has(> * > .kpi-tile) {
     align-items: center !important;
     flex: 1 1 100% !important;
     height: 100% !important;
-    min-height: 144px !important;
-    padding: 20px 22px !important;
+    min-height: 185px !important;
+    padding: 22px 18px !important;
     box-sizing: border-box !important;
     text-align: center;
     background: linear-gradient(180deg, rgba(31, 41, 55, 0.75) 0%, rgba(17, 24, 39, 0.92) 100%) !important;
@@ -627,25 +648,28 @@ div:has(> * > .kpi-tile) {
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--text-muted);
-    min-height: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    min-height: 20px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
     width: 100%;
-    margin: 0 0 4px 0;
+    margin: 0 0 4px 0 !important;
 }
 
 .kpi-value {
-    font-size: 1.45rem;
-    font-weight: 850;
+    font-size: 1.35rem;
+    font-weight: 800;
     letter-spacing: -0.01em;
     color: #ffffff;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+    text-align: center !important;
+    line-height: 1.25 !important;
     flex: 1 1 auto !important;
-    min-height: 48px !important;
-    margin: 4px 0 !important;
+    min-height: 52px !important;
+    margin: 6px 0 !important;
     width: 100%;
 }
 
@@ -656,12 +680,34 @@ div:has(> * > .kpi-tile) {
 .kpi-sub {
     font-size: 0.78rem;
     color: var(--text-secondary);
-    min-height: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    min-height: 40px;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    line-height: 1.35 !important;
     width: 100%;
-    margin: 4px 0 0 0;
+    margin: 4px 0 0 0 !important;
+}
+
+.kpi-sub-metric {
+    display: inline-block;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+.kpi-sub-metric b {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.kpi-sub-tag {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+    display: inline-block;
+    white-space: nowrap;
 }
 
 /* Status Badges */
@@ -879,6 +925,238 @@ div[data-testid="stRadio"] label:has(input:checked) > div:first-child > div {
 /* Subtle green hover state for unselected radio circles */
 div[data-testid="stRadio"] label:hover > div:first-child {
     border-color: rgba(16, 185, 129, 0.6) !important;
+}
+
+/* =============================================================================
+   Sidebar Navigation — Modern Stadium Pill / Card Tabs
+   ============================================================================= */
+
+/* Sidebar Navigation Element Container — Full Width Stretch matching Selectbox */
+[data-testid="stSidebar"] [data-testid="stElementContainer"]:has([data-testid="stRadio"]),
+[data-testid="stSidebar"] [data-testid="stElementContainer"]:has(.stRadio),
+[data-testid="stSidebar"] div.stElementContainer:has([data-testid="stRadio"]),
+[data-testid="stSidebar"] div.stElementContainer:has(.stRadio),
+[data-testid="stSidebar"] div.element-container:has([data-testid="stRadio"]),
+[data-testid="stSidebar"] div.element-container:has(.stRadio),
+.st-key-sidebar_nav,
+[data-testid="stSidebar"] .st-key-sidebar_nav,
+[data-testid="stSidebar"] div.stElementContainer:has(.st-key-sidebar_nav) {
+    display: block !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    align-self: stretch !important;
+    flex: 1 1 100% !important;
+}
+
+/* Radio group flex layout - Full Width Stretch */
+[data-testid="stSidebar"] [data-testid="stRadio"],
+[data-testid="stSidebar"] .stRadio,
+.st-key-sidebar_nav [data-testid="stRadio"],
+.st-key-sidebar_nav .stRadio,
+[data-testid="stSidebar"] [data-testid="stRadio"] > div,
+.st-key-sidebar_nav [data-testid="stRadio"] > div,
+[data-testid="stSidebar"] [data-testid="stRadio"] div[data-testid="stRadioGroup"],
+.st-key-sidebar_nav [data-testid="stRadio"] div[data-testid="stRadioGroup"],
+[data-testid="stSidebar"] [data-testid="stRadio"] div[data-baseweb="radio-group"],
+.st-key-sidebar_nav [data-testid="stRadio"] div[data-baseweb="radio-group"],
+[data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"],
+.st-key-sidebar_nav [data-testid="stRadio"] div[role="radiogroup"] {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    align-items: stretch !important;
+    align-content: stretch !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    gap: 8px !important;
+}
+
+/* Hide widget label (Analysis Mode) if present in sidebar navigation */
+[data-testid="stSidebar"] [data-testid="stRadio"] [data-testid="stWidgetLabel"],
+[data-testid="stSidebar"] [data-testid="stRadio"] label[data-testid="stWidgetLabel"],
+.st-key-sidebar_nav [data-testid="stRadio"] [data-testid="stWidgetLabel"],
+.st-key-sidebar_nav [data-testid="stRadio"] label[data-testid="stWidgetLabel"] {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    outline: none !important;
+    pointer-events: none !important;
+}
+
+/* Individual navigation option card / pill - Exact width match with Selectbox */
+[data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"],
+[data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label,
+[data-testid="stSidebar"] [data-testid="stRadio"] div[data-testid="stRadioGroup"] > label,
+.st-key-sidebar_nav [data-testid="stRadio"] label[data-baseweb="radio"],
+.st-key-sidebar_nav [data-testid="stRadio"] div[role="radiogroup"] > label,
+.st-key-sidebar_nav [data-testid="stRadio"] div[data-testid="stRadioGroup"] > label {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    align-self: stretch !important;
+    flex: 1 1 100% !important;
+    position: relative !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 11px 16px !important;
+    border-radius: var(--radius-sm) !important;
+    cursor: pointer !important;
+    background: rgba(255, 255, 255, 0.025) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+    transform: none !important;
+    transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+/* Left accent indicator bar (hidden when idle, active on hover/checked) */
+[data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"]::before,
+[data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label::before,
+.st-key-sidebar_nav [data-testid="stRadio"] label::before {
+    content: '' !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 18% !important;
+    bottom: 18% !important;
+    width: 3.5px !important;
+    border-radius: 0 4px 4px 0 !important;
+    background: transparent !important;
+    transition: all 0.22s ease !important;
+}
+
+/* Completely hide default radio button circles (dots) in sidebar navigation */
+[data-testid="stSidebar"] [data-testid="stRadio"] label > div:first-child,
+.st-key-sidebar_nav [data-testid="stRadio"] label > div:first-child,
+[data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child,
+.st-key-sidebar_nav [data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child,
+[data-testid="stSidebar"] [data-testid="stRadio"] input[type="radio"],
+.st-key-sidebar_nav [data-testid="stRadio"] input[type="radio"] {
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    outline: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Navigation label text container & paragraph */
+[data-testid="stSidebar"] [data-testid="stRadio"] [data-testid="stMarkdownContainer"],
+.st-key-sidebar_nav [data-testid="stRadio"] [data-testid="stMarkdownContainer"] {
+    width: 100% !important;
+    flex-grow: 1 !important;
+    transition: transform 0.2s ease !important;
+}
+
+[data-testid="stSidebar"] [data-testid="stRadio"] [data-testid="stMarkdownContainer"] p,
+[data-testid="stSidebar"] [data-testid="stRadio"] label span,
+[data-testid="stSidebar"] [data-testid="stRadio"] label p,
+.st-key-sidebar_nav [data-testid="stRadio"] [data-testid="stMarkdownContainer"] p,
+.st-key-sidebar_nav [data-testid="stRadio"] label span,
+.st-key-sidebar_nav [data-testid="stRadio"] label p {
+    font-size: 0.88rem !important;
+    font-weight: 500 !important;
+    color: #94a3b8 !important;
+    letter-spacing: -0.01em !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.35 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    text-align: left !important;
+    transition: color 0.2s ease, font-weight 0.2s ease !important;
+}
+
+/* ── Hover Effects (Unselected) ── */
+[data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"]:hover,
+[data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label:hover,
+.st-key-sidebar_nav [data-testid="stRadio"] label:hover {
+    background: rgba(255, 255, 255, 0.055) !important;
+    border-color: rgba(16, 185, 129, 0.35) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3), 0 0 10px rgba(16, 185, 129, 0.08) !important;
+    transform: none !important;
+}
+
+[data-testid="stSidebar"] [data-testid="stRadio"] label:hover::before,
+.st-key-sidebar_nav [data-testid="stRadio"] label:hover::before {
+    background: rgba(16, 185, 129, 0.45) !important;
+}
+
+[data-testid="stSidebar"] [data-testid="stRadio"] label:hover [data-testid="stMarkdownContainer"],
+.st-key-sidebar_nav [data-testid="stRadio"] label:hover [data-testid="stMarkdownContainer"] {
+    transform: translateX(3px) !important;
+}
+
+[data-testid="stSidebar"] [data-testid="stRadio"] label:hover [data-testid="stMarkdownContainer"] p,
+[data-testid="stSidebar"] [data-testid="stRadio"] label:hover span,
+[data-testid="stSidebar"] [data-testid="stRadio"] label:hover p,
+.st-key-sidebar_nav [data-testid="stRadio"] label:hover [data-testid="stMarkdownContainer"] p,
+.st-key-sidebar_nav [data-testid="stRadio"] label:hover span,
+.st-key-sidebar_nav [data-testid="stRadio"] label:hover p {
+    color: #f1f5f9 !important;
+}
+
+/* ── Active / Selected Navigation Item (Turf Green Glow #10B981) ── */
+[data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked),
+.st-key-sidebar_nav [data-testid="stRadio"] label:has(input:checked) {
+    background: linear-gradient(90deg, rgba(16, 185, 129, 0.16) 0%, rgba(16, 185, 129, 0.04) 100%) !important;
+    border: 1px solid rgba(16, 185, 129, 0.55) !important;
+    box-shadow: 0 0 18px -2px rgba(16, 185, 129, 0.28), inset 0 0 14px rgba(16, 185, 129, 0.06), 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+    transform: none !important;
+}
+
+/* Left accent glow bar for selected item */
+[data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked)::before,
+.st-key-sidebar_nav [data-testid="stRadio"] label:has(input:checked)::before {
+    background: #10b981 !important;
+    box-shadow: 0 0 10px #10b981, 0 0 4px rgba(16, 185, 129, 0.8) !important;
+}
+
+[data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) [data-testid="stMarkdownContainer"],
+.st-key-sidebar_nav [data-testid="stRadio"] label:has(input:checked) [data-testid="stMarkdownContainer"] {
+    transform: translateX(3px) !important;
+}
+
+/* Active label crisp white text */
+[data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) [data-testid="stMarkdownContainer"] p,
+[data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) span,
+[data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) p,
+.st-key-sidebar_nav [data-testid="stRadio"] label:has(input:checked) [data-testid="stMarkdownContainer"] p,
+.st-key-sidebar_nav [data-testid="stRadio"] label:has(input:checked) span,
+.st-key-sidebar_nav [data-testid="stRadio"] label:has(input:checked) p {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    text-shadow: 0 0 12px rgba(16, 185, 129, 0.35) !important;
+}
+
+/* Sidebar divider line polish */
+[data-testid="stSidebar"] hr {
+    margin: 18px 0 !important;
+    border: none !important;
+    height: 1px !important;
+    background: rgba(255, 255, 255, 0.08) !important;
 }
 
 /* Slider Track & Thumb Polish — Turf Green Accent (#10B981) */
@@ -1236,6 +1514,18 @@ hr {
     color: #475569 !important;
 }
 
+.stApp:has(#light-theme-flag) .kpi-sub-metric {
+    color: #475569 !important;
+}
+
+.stApp:has(#light-theme-flag) .kpi-sub-metric b {
+    color: #0f172a !important;
+}
+
+.stApp:has(#light-theme-flag) .kpi-sub-tag {
+    color: #64748b !important;
+}
+
 /* ── Status badges ── */
 .stApp:has(#light-theme-flag) .status-pill-ok {
     background: rgba(16, 185, 129, 0.08) !important;
@@ -1310,7 +1600,7 @@ hr {
 }
 
 /* ── Number input stepper buttons in Light Mode ── */
-.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] button,
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] [data-baseweb="input"] button,
 .stApp:has(#light-theme-flag) div[data-baseweb="input"] button,
 .stApp:has(#light-theme-flag) div[data-baseweb="base-input"] button,
 .stApp:has(#light-theme-flag) [data-testid="stNumberInputStepDown"],
@@ -1321,19 +1611,82 @@ hr {
     border-color: rgba(15, 23, 42, 0.12) !important;
 }
 
-.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] button svg,
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] [data-baseweb="input"] button svg,
 .stApp:has(#light-theme-flag) [data-testid="stNumberInputStepDown"] svg,
 .stApp:has(#light-theme-flag) [data-testid="stNumberInputStepUp"] svg,
-.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] button * {
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] [data-baseweb="input"] button * {
     fill: #1e293b !important;
     stroke: #1e293b !important;
     color: #1e293b !important;
 }
 
-.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] button:hover,
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] [data-baseweb="input"] button:hover,
 .stApp:has(#light-theme-flag) div[data-baseweb="input"] button:hover,
-.stApp:has(#light-theme-flag) div[data-baseweb="base-input"] button:hover {
+.stApp:has(#light-theme-flag) div[data-baseweb="base-input"] button:hover,
+.stApp:has(#light-theme-flag) [data-testid="stNumberInputStepDown"]:hover,
+.stApp:has(#light-theme-flag) [data-testid="stNumberInputStepUp"]:hover {
     background-color: #e2e8f0 !important;
+    color: #0284c7 !important;
+}
+
+/* ── Tooltip / Help Question Mark Icon in Light Mode ── */
+.stApp:has(#light-theme-flag) [data-testid="stTooltipIcon"],
+.stApp:has(#light-theme-flag) .stTooltipIcon,
+.stApp:has(#light-theme-flag) [data-testid="stTooltipHoverTarget"] {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.stApp:has(#light-theme-flag) [data-testid="stTooltipIcon"] button,
+.stApp:has(#light-theme-flag) .stTooltipIcon button,
+.stApp:has(#light-theme-flag) [data-testid="stTooltipHoverTarget"] button,
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] [data-testid="stTooltipIcon"] button,
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] .stTooltipIcon button,
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] label button {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: #64748b !important;
+    cursor: help !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.stApp:has(#light-theme-flag) [data-testid="stTooltipIcon"] svg,
+.stApp:has(#light-theme-flag) .stTooltipIcon svg,
+.stApp:has(#light-theme-flag) [data-testid="stTooltipHoverTarget"] svg,
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] [data-testid="stTooltipIcon"] svg,
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] .stTooltipIcon svg,
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] label button svg {
+    fill: none !important;
+    stroke: #64748b !important;
+    color: #64748b !important;
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+.stApp:has(#light-theme-flag) [data-testid="stTooltipIcon"] svg *,
+.stApp:has(#light-theme-flag) .stTooltipIcon svg *,
+.stApp:has(#light-theme-flag) [data-testid="stTooltipHoverTarget"] svg *,
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] [data-testid="stTooltipIcon"] svg *,
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] .stTooltipIcon svg *,
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] label button svg * {
+    fill: none !important;
+    stroke: #64748b !important;
+}
+
+.stApp:has(#light-theme-flag) [data-testid="stTooltipIcon"] button:hover svg,
+.stApp:has(#light-theme-flag) .stTooltipIcon button:hover svg,
+.stApp:has(#light-theme-flag) [data-testid="stTooltipHoverTarget"] button:hover svg,
+.stApp:has(#light-theme-flag) [data-testid="stTooltipIcon"] button:hover svg *,
+.stApp:has(#light-theme-flag) .stTooltipIcon button:hover svg *,
+.stApp:has(#light-theme-flag) [data-testid="stTooltipHoverTarget"] button:hover svg * {
+    stroke: #0284c7 !important;
     color: #0284c7 !important;
 }
 
@@ -1395,4 +1748,81 @@ hr {
 .stApp:has(#light-theme-flag) [data-testid="stSliderThumbValue"] * {
     color: #059669 !important;
     font-weight: 700 !important;
+}
+
+
+/* ── Sidebar Navigation — Light Mode (Daylight Turf) ── */
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"],
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label,
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] div[data-testid="stRadioGroup"] > label,
+.stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] label[data-baseweb="radio"],
+.stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] div[role="radiogroup"] > label,
+.stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] div[data-testid="stRadioGroup"] > label {
+    background: rgba(255, 255, 255, 0.85) !important;
+    border-color: rgba(15, 23, 42, 0.09) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    transform: none !important;
+}
+
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] [data-testid="stMarkdownContainer"] p,
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] label span,
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] label p,
+.stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] [data-testid="stMarkdownContainer"] p,
+.stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] label span,
+.stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] label p {
+    color: #475569 !important;
+    font-weight: 500 !important;
+}
+
+/* Light mode hover */
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"]:hover,
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label:hover,
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] div[data-testid="stRadioGroup"] > label:hover,
+.stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] label[data-baseweb="radio"]:hover,
+.stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] div[role="radiogroup"] > label:hover,
+.stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] div[data-testid="stRadioGroup"] > label:hover {
+    background: #ffffff !important;
+    border-color: rgba(16, 185, 129, 0.45) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06), 0 0 8px rgba(16, 185, 129, 0.1) !important;
+    transform: none !important;
+}
+
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] label:hover [data-testid="stMarkdownContainer"] p,
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] label:hover span,
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] label:hover p,
+.stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] label:hover [data-testid="stMarkdownContainer"] p,
+.stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] label:hover span,
+.stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] label:hover p {
+    color: #0f172a !important;
+}
+
+/* Light mode selected */
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked),
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked),
+.stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] label:has(input:checked) {
+    background: linear-gradient(90deg, rgba(16, 185, 129, 0.15) 0%, rgba(255, 255, 255, 0.95) 100%) !important;
+    border-color: rgba(16, 185, 129, 0.6) !important;
+    box-shadow: 0 3px 12px rgba(16, 185, 129, 0.16), inset 0 0 8px rgba(16, 185, 129, 0.05) !important;
+    transform: none !important;
+}
+
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked)::before,
+.stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] label:has(input:checked)::before {
+    background: #059669 !important;
+    box-shadow: 0 0 6px rgba(5, 150, 105, 0.5) !important;
+}
+
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) [data-testid="stMarkdownContainer"] p,
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) span,
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) p,
+.stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] label:has(input:checked) [data-testid="stMarkdownContainer"] p,
+.stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] label:has(input:checked) span,
+.stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] label:has(input:checked) p {
+    color: #065f46 !important;
+    font-weight: 700 !important;
+    text-shadow: none !important;
+}
+
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] hr {
+    background: rgba(15, 23, 42, 0.08) !important;
 }
