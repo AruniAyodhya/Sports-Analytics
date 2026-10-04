@@ -14,3 +14,5 @@ docs/
 database.sqlite
 preprocessed_dataset/
 splitted_dataset/
+artifacts/preprocessed_dataset/
+artifacts/splitted_dataset/
