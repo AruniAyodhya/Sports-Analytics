@@ -1,0 +1,5 @@
+,Accuracy,Macro Precision,Macro Recall,Macro F1,Weighted F1,ROC-AUC
+Random Forest,0.5440,0.5620,0.5840,0.5728,0.5510,0.7679
+Logistic Regression,0.5207,0.5100,0.4720,0.4850,0.5298,0.6720
+Decision Tree,0.5193,0.4620,0.4350,0.4416,0.5142,0.6510
+XGBoost,0.5299,0.5050,0.4710,0.4812,0.5310,0.6895
