@@ -7,10 +7,10 @@ home_points_last10
 home_goals_for_last10
 home_elo_before
 away_win_rate
+away_loss_rate
 away_goals_for_per_match
 away_away_win_rate
 away_away_draw_rate
-away_away_goals_against_per_match
 away_points_last10
 win_rate_difference
 goals_for_difference

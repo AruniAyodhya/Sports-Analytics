@@ -1,19 +1,27 @@
 Feature
 stage
-home_goals_for_per_match
+home_home_draw_rate
+home_points_last3
 home_goals_for_last10
+home_goals_against_last3
 home_goals_against_last10
+home_days_since_last_match
 home_elo_before
-away_goals_for_per_match
 away_goals_against_per_match
 away_away_win_rate
 away_away_goals_for_per_match
 away_away_goals_against_per_match
-away_days_since_last_match
+away_points_last3
+away_points_last10
+away_goals_for_last5
+away_goals_against_last3
+away_goals_against_last5
 goals_for_difference
 goals_against_difference
 venue_goals_for_difference
-goals_against_last5_difference
 goals_for_last10_difference
 goals_against_last10_difference
 elo_difference
+league_name_France Ligue 1
+league_name_Scotland Premier League
+league_name_Spain LIGA BBVA
