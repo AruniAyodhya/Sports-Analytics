@@ -16,7 +16,7 @@ if str(_ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(_ROOT_DIR))
 
 from src.inference import SoccerInferenceEngine
-from src.theme import load_custom_css, get_theme_palette
+from src.theme import load_custom_css, get_theme_palette, render_theme_toggle, toggle_theme
 from views import render_simulator, render_evaluator, render_comparison
 
 
@@ -150,11 +150,6 @@ if active_theme == "light":
     )
 
 
-def toggle_theme() -> None:
-    """Toggle between Modern Stadium Dark and Clean Turf Light modes."""
-    st.session_state.theme = "light" if st.session_state.get("theme", "dark") == "dark" else "dark"
-
-
 # Initialize engine with graceful error handling
 engine = None
 model_error = None
@@ -170,7 +165,7 @@ except Exception as exc:
 # HEADER SECTION & TACTICAL COMMAND CENTER
 # =============================================================================
 with st.container(key="header_card"):
-    head_left, head_right = st.columns([0.74, 0.26], vertical_alignment="center")
+    head_left, head_right = st.columns([0.78, 0.22], vertical_alignment="center")
     with head_left:
         st.markdown(
             """
@@ -198,37 +193,7 @@ with st.container(key="header_card"):
             unsafe_allow_html=True,
         )
     with head_right:
-        floodlight_status = "STADIUM NIGHT • ACTIVE" if is_dark else "DAYLIGHT TURF • ACTIVE"
-        floodlight_pill_cls = "pill-night" if is_dark else "pill-day"
-        btn_label = "☀️ DAYLIGHT TURF" if is_dark else "🌙 STADIUM NIGHT"
-        btn_help = (
-            "Switch to Clean Turf Daylight Mode"
-            if is_dark
-            else "Switch to Stadium Night Floodlight Mode"
-        )
-
-        st.markdown(
-            f"""
-            <div class="floodlight-console">
-                <div class="console-header">
-                    <span class="console-icon">🏟️</span>
-                    <span class="console-title">FLOODLIGHT SYSTEM</span>
-                    <span class="console-beacon {'beacon-on' if is_dark else 'beacon-turf'}"></span>
-                </div>
-                <div class="console-status-row">
-                    <span class="console-state-badge {floodlight_pill_cls}">{floodlight_status}</span>
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-        st.button(
-            btn_label,
-            key="theme_toggle_btn",
-            help=btn_help,
-            on_click=toggle_theme,
-            use_container_width=True,
-        )
+        render_theme_toggle()
 
 if model_error:
     st.error(f"⚠️ **Artifact Notice**: {model_error}")

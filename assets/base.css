@@ -130,7 +130,8 @@ body,
     color: #0f172a !important;
 }
 
-.stApp:has(#light-theme-flag) .stMarkdown p {
+.stApp:has(#light-theme-flag) .stMarkdown p,
+.stApp:has(#light-theme-flag) [data-testid="stMarkdownContainer"] p {
     color: #334155 !important;
 }
 

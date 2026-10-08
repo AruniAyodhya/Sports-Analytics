@@ -1,43 +1,59 @@
 /* -----------------------------------------------------------------------------
    Buttons
    ----------------------------------------------------------------------------- */
-/* Floodlight Action Rocker Button */
+/* Minimalist Interactive Pill Theme Toggle Switch */
 .st-key-theme_toggle_btn {
-    display: flex;
-    justify-content: flex-end;
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.st-key-theme_toggle_btn .stButton {
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 .st-key-theme_toggle_btn button {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%) !important;
-    border: 1px solid rgba(16, 185, 129, 0.4) !important;
-    border-radius: 10px !important;
-    padding: 10px 18px !important;
-    font-size: 0.82rem !important;
-    font-weight: 750 !important;
-    letter-spacing: 0.06em !important;
-    color: #f1f5f9 !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
-    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    position: relative !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 8px !important;
-    text-transform: uppercase !important;
+    width: 88px !important;
+    min-width: 88px !important;
+    max-width: 88px !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    max-height: 38px !important;
+    border-radius: 9999px !important;
+    padding: 0 !important;
+    margin: 0 !important;
     cursor: pointer !important;
-    white-space: nowrap !important;
+    overflow: hidden !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    user-select: none !important;
 }
 
 .st-key-theme_toggle_btn button:hover {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.08) 100%) !important;
-    border-color: #10b981 !important;
-    color: #10b981 !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35) !important;
+    transform: translateY(-1px) scale(1.02) !important;
 }
 
 .st-key-theme_toggle_btn button:active {
-    transform: translateY(0) !important;
+    transform: translateY(0) scale(0.98) !important;
 }
+
+.st-key-theme_toggle_btn button:focus,
+.st-key-theme_toggle_btn button:focus-visible {
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.45) !important;
+}
+
 
 /* Primary buttons */
 button[kind="primary"] {
@@ -235,21 +251,6 @@ hr {
 /* =============================================================================
    Clean Turf Light Mode — Component Overrides
    ============================================================================= */
-.stApp:has(#light-theme-flag) .st-key-theme_toggle_btn button {
-    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
-    border: 1px solid rgba(16, 185, 129, 0.45) !important;
-    color: #0f172a !important;
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.12), inset 0 1px 0 #ffffff !important;
-}
-
-.stApp:has(#light-theme-flag) .st-key-theme_toggle_btn button:hover {
-    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%) !important;
-    border-color: #059669 !important;
-    color: #047857 !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 6px 18px rgba(16, 185, 129, 0.25) !important;
-}
-
 .stApp:has(#light-theme-flag) div[data-baseweb="input"],
 .stApp:has(#light-theme-flag) div[data-baseweb="base-input"],
 .stApp:has(#light-theme-flag) div[data-baseweb="select"],
@@ -392,4 +393,236 @@ hr {
 .stApp:has(#light-theme-flag) [data-testid="stSliderThumbValue"] * {
     color: #059669 !important;
     font-weight: 700 !important;
+}
+
+/* =============================================================================
+   Clean Turf Light Mode — Tabs, Radios & Checkbox Options
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   1. Streamlit Tabs (st.tabs) in Light Mode
+   ----------------------------------------------------------------------------- */
+/* Unselected Tabs: switch from invisible white to dark readable gray (#374151) */
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[data-baseweb="tab"][aria-selected="false"],
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[aria-selected="false"],
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[data-baseweb="tab"]:not([aria-selected="true"]),
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button:not([aria-selected="true"]) {
+    color: #374151 !important;
+    -webkit-text-fill-color: #374151 !important;
+    background: transparent !important;
+    border: none !important;
+    font-weight: 500 !important;
+    opacity: 0.9 !important;
+    transition: color 0.2s ease, opacity 0.2s ease !important;
+}
+
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[data-baseweb="tab"][aria-selected="false"] *,
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[aria-selected="false"] *,
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[data-baseweb="tab"]:not([aria-selected="true"]) *,
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button:not([aria-selected="true"]) * {
+    color: #374151 !important;
+    -webkit-text-fill-color: #374151 !important;
+}
+
+/* Unselected Tabs Hover: deeper charcoal for feedback */
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[data-baseweb="tab"][aria-selected="false"]:hover,
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[aria-selected="false"]:hover,
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[data-baseweb="tab"]:not([aria-selected="true"]):hover,
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button:not([aria-selected="true"]):hover {
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
+    opacity: 1 !important;
+}
+
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[data-baseweb="tab"][aria-selected="false"]:hover *,
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[aria-selected="false"]:hover *,
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[data-baseweb="tab"]:not([aria-selected="true"]):hover *,
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button:not([aria-selected="true"]):hover * {
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
+}
+
+/* Selected Tab: retains distinct red accent color (#ef4444 / #ff4b4b) */
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[data-baseweb="tab"][aria-selected="true"],
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[aria-selected="true"],
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[role="tab"][aria-selected="true"] {
+    color: #ef4444 !important;
+    -webkit-text-fill-color: #ef4444 !important;
+    font-weight: 700 !important;
+    opacity: 1 !important;
+}
+
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[data-baseweb="tab"][aria-selected="true"] *,
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[aria-selected="true"] *,
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[role="tab"][aria-selected="true"] * {
+    color: #ef4444 !important;
+    -webkit-text-fill-color: #ef4444 !important;
+}
+
+/* Active Tab Highlight Underline Bar */
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] [data-baseweb="tab-highlight"],
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] div[data-baseweb="tab-highlight"] {
+    background-color: #ef4444 !important;
+    height: 3px !important;
+    border-radius: 2px !important;
+}
+
+/* Tab List Baseline Border Divider */
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] [data-baseweb="tab-border"],
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] div[data-baseweb="tab-border"] {
+    background-color: rgba(15, 23, 42, 0.12) !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   2. Radio Buttons (st.radio) in Light Mode (Non-Sidebar)
+   ----------------------------------------------------------------------------- */
+/* Radio Widget Title / Label */
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) [data-testid="stWidgetLabel"] p,
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) [data-testid="stWidgetLabel"] label,
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) [data-testid="stWidgetLabel"] span {
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
+    font-weight: 600 !important;
+}
+
+/* Unselected Radio Option Text: switch from white to readable dark gray (#374151) */
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:not(:has(input:checked)),
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:not(:has(input:checked)) p,
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:not(:has(input:checked)) span,
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:not(:has(input:checked)) [data-testid="stMarkdownContainer"] p,
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:not(:has(input:checked)) div {
+    color: #374151 !important;
+    -webkit-text-fill-color: #374151 !important;
+    font-weight: 500 !important;
+}
+
+/* Unselected Radio Option Hover */
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:not(:has(input:checked)):hover,
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:not(:has(input:checked)):hover p,
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:not(:has(input:checked)):hover span,
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:not(:has(input:checked)):hover [data-testid="stMarkdownContainer"] p {
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
+}
+
+/* Unselected Radio Indicator Circle */
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:not(:has(input:checked)) > div:first-child {
+    border: 2px solid rgba(15, 23, 42, 0.35) !important;
+    background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Selected Radio Option: retains distinct turf green accent (#10b981 / #047857) */
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:has(input:checked) > div:first-child {
+    background-color: #10b981 !important;
+    border-color: #10b981 !important;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.45) !important;
+}
+
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:has(input:checked) > div:first-child > div {
+    background-color: #ffffff !important;
+}
+
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:has(input:checked),
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:has(input:checked) p,
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:has(input:checked) span,
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:has(input:checked) [data-testid="stMarkdownContainer"] p,
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:has(input:checked) div {
+    color: #047857 !important;
+    -webkit-text-fill-color: #047857 !important;
+    font-weight: 600 !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   3. Checkbox (st.checkbox) in Light Mode
+   ----------------------------------------------------------------------------- */
+/* Unchecked Checkbox Option Text: switch from white to readable dark gray (#374151) */
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:not(:has(input:checked)),
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:not(:has(input:checked)) p,
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:not(:has(input:checked)) span,
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:not(:has(input:checked)) [data-testid="stMarkdownContainer"] p,
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:not(:has(input:checked)) [data-testid="stWidgetLabel"] p,
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:not(:has(input:checked)) div {
+    color: #374151 !important;
+    -webkit-text-fill-color: #374151 !important;
+    font-weight: 500 !important;
+}
+
+/* Unchecked Checkbox Hover */
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:not(:has(input:checked)):hover,
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:not(:has(input:checked)):hover p,
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:not(:has(input:checked)):hover span,
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:not(:has(input:checked)):hover [data-testid="stMarkdownContainer"] p {
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
+}
+
+/* Unchecked Checkbox Square */
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:not(:has(input:checked)) > div:first-child {
+    border: 2px solid rgba(15, 23, 42, 0.35) !important;
+    background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Checked Checkbox: retains distinct turf green accent (#10b981 / #047857) */
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:has(input:checked) > div:first-child {
+    background-color: #10b981 !important;
+    border-color: #10b981 !important;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.45) !important;
+}
+
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:has(input:checked) > div:first-child svg {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+}
+
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:has(input:checked),
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:has(input:checked) p,
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:has(input:checked) span,
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:has(input:checked) [data-testid="stMarkdownContainer"] p,
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:has(input:checked) [data-testid="stWidgetLabel"] p,
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:has(input:checked) div {
+    color: #047857 !important;
+    -webkit-text-fill-color: #047857 !important;
+    font-weight: 600 !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   4. Selectbox Dropdown Menu (BaseWeb Popover) in Light Mode
+   ----------------------------------------------------------------------------- */
+.stApp:has(#light-theme-flag) ul[data-baseweb="menu"],
+.stApp:has(#light-theme-flag) div[data-baseweb="popover"] > div,
+body:has(#light-theme-flag) ul[data-baseweb="menu"],
+body:has(#light-theme-flag) div[data-baseweb="popover"] > div {
+    background-color: #ffffff !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
+}
+
+.stApp:has(#light-theme-flag) li[role="option"],
+.stApp:has(#light-theme-flag) li[role="option"] *,
+body:has(#light-theme-flag) li[role="option"],
+body:has(#light-theme-flag) li[role="option"] * {
+    color: #374151 !important;
+    -webkit-text-fill-color: #374151 !important;
+}
+
+.stApp:has(#light-theme-flag) li[role="option"]:hover,
+.stApp:has(#light-theme-flag) li[role="option"]:hover *,
+body:has(#light-theme-flag) li[role="option"]:hover,
+body:has(#light-theme-flag) li[role="option"]:hover * {
+    background-color: #f0fdf4 !important;
+    color: #047857 !important;
+    -webkit-text-fill-color: #047857 !important;
+}
+
+.stApp:has(#light-theme-flag) li[role="option"][aria-selected="true"],
+.stApp:has(#light-theme-flag) li[role="option"][aria-selected="true"] *,
+body:has(#light-theme-flag) li[role="option"][aria-selected="true"],
+body:has(#light-theme-flag) li[role="option"][aria-selected="true"] * {
+    background-color: #ecfdf5 !important;
+    color: #059669 !important;
+    -webkit-text-fill-color: #059669 !important;
+    font-weight: 600 !important;
 }
