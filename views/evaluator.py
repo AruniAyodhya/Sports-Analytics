@@ -15,7 +15,7 @@ from .charts import plot_probabilities
 
 def render_evaluator(engine: SoccerInferenceEngine, active_theme: str = "dark") -> None:
     """Render Mode 2: Historical Test Match Evaluator."""
-    st.markdown("#### 🔍 Historical Holdout Match Audit")
+    st.markdown("#### Historical Holdout Match Audit")
     st.markdown(
         """
         <p class="page-subtitle">
@@ -93,11 +93,12 @@ def render_evaluator(engine: SoccerInferenceEngine, active_theme: str = "dark") 
 
     with m1:
         val_cls = "kpi-val-home" if pred_label == "Home Win" else ("kpi-val-draw" if pred_label == "Draw" else "kpi-val-away")
+        outcome_color = "#10b981" if pred_label == "Home Win" else ("#f59e0b" if pred_label == "Draw" else "#f43f5e")
         st.markdown(
             f"""
             <div class="kpi-tile kpi-tile-stretched">
                 <div class="kpi-label">Predicted Outcome</div>
-                <div class="kpi-value {val_cls}">{pred_label}</div>
+                <div class="kpi-value {val_cls}" style="color: {outcome_color};">{pred_label}</div>
                 <div class="kpi-sub">Confidence: <b>{confidence:.1f}%</b></div>
             </div>
             """,

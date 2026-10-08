@@ -16,7 +16,7 @@ if str(_ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(_ROOT_DIR))
 
 from src.inference import SoccerInferenceEngine
-from src.theme import load_custom_css, get_theme_palette
+from src.theme import load_custom_css, get_theme_palette, render_theme_toggle, toggle_theme
 from views import render_simulator, render_evaluator, render_comparison
 
 
@@ -24,8 +24,8 @@ from views import render_simulator, render_evaluator, render_comparison
 # PAGE SETUP & CSS LOADING
 # =============================================================================
 st.set_page_config(
-    page_title="Soccer Outcome Predictor | Decision Support",
-    page_icon="⚽",
+    page_title="SoccerOutcome AI",
+    page_icon="assets/favicon.png",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -50,19 +50,20 @@ with st.sidebar:
     st.markdown(
         """
         <div class="sidebar-brand">
-            <h2 class="sidebar-brand-title">⚽ SoccerOutcome AI</h2>
+            <h2 class="sidebar-brand-title">⚽︎ SoccerOutcome AI</h2>
             <p class="sidebar-brand-sub">European League Match Decision Support</p>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-    st.markdown("##### ⚙️ Configuration")
+    st.markdown("##### Configuration")
     model_options = {
-        "Random Forest (Tuned) [Active]": "random_forest",
-        "Logistic Regression (L1 Tuned) [Active]": "logistic_regression",
-        "Decision Tree (Tuned RFE) [Active]": "decision_tree",
-        "XGBoost Classifier (Tuned) [Active]": "xgboost",
+        "Logistic Regression (L1 Tuned)": "logistic_regression",
+        "Random Forest (Tuned)": "random_forest",
+        "XGBoost Classifier (Tuned)": "xgboost",
+        "Decision Tree (Tuned RFE)": "decision_tree",
+        
     }
     selected_model_label = st.selectbox(
         "Active Model Pipeline",
@@ -92,7 +93,7 @@ with st.sidebar:
     )
 
     st.markdown("<hr/>", unsafe_allow_html=True)
-    st.markdown("##### 🔬 Pipeline Architecture")
+    st.markdown("##### Pipeline Architecture")
     st.markdown(
         f"""
         <div class="arch-grid">
@@ -142,17 +143,17 @@ active_theme = st.session_state.get("theme", "dark")
 tp = get_theme_palette(active_theme)
 is_dark = active_theme == "dark"
 
+# Fixed theme flag container: renders identically in both modes to prevent any DOM height/layout shift
+theme_flag_html = (
+    f'<div id="theme-flag" class="{active_theme}-mode" aria-hidden="true" '
+    f'style="display:none;position:fixed;top:0;left:0;width:0;height:0;margin:0;padding:0;overflow:hidden;pointer-events:none;"></div>'
+)
 if active_theme == "light":
-    st.markdown(
+    theme_flag_html += (
         '<div id="light-theme-flag" aria-hidden="true" '
-        'style="display:none;position:absolute;pointer-events:none;"></div>',
-        unsafe_allow_html=True,
+        'style="display:none;position:fixed;top:0;left:0;width:0;height:0;margin:0;padding:0;overflow:hidden;pointer-events:none;"></div>'
     )
-
-
-def toggle_theme() -> None:
-    """Toggle between Modern Stadium Dark and Clean Turf Light modes."""
-    st.session_state.theme = "light" if st.session_state.get("theme", "dark") == "dark" else "dark"
+st.markdown(theme_flag_html, unsafe_allow_html=True)
 
 
 # Initialize engine with graceful error handling
@@ -170,7 +171,7 @@ except Exception as exc:
 # HEADER SECTION & TACTICAL COMMAND CENTER
 # =============================================================================
 with st.container(key="header_card"):
-    head_left, head_right = st.columns([0.74, 0.26], vertical_alignment="center")
+    head_left, head_right = st.columns([0.78, 0.22], vertical_alignment="top")
     with head_left:
         st.markdown(
             """
@@ -198,37 +199,7 @@ with st.container(key="header_card"):
             unsafe_allow_html=True,
         )
     with head_right:
-        floodlight_status = "STADIUM NIGHT • ACTIVE" if is_dark else "DAYLIGHT TURF • ACTIVE"
-        floodlight_pill_cls = "pill-night" if is_dark else "pill-day"
-        btn_label = "☀️ DAYLIGHT TURF" if is_dark else "🌙 STADIUM NIGHT"
-        btn_help = (
-            "Switch to Clean Turf Daylight Mode"
-            if is_dark
-            else "Switch to Stadium Night Floodlight Mode"
-        )
-
-        st.markdown(
-            f"""
-            <div class="floodlight-console">
-                <div class="console-header">
-                    <span class="console-icon">🏟️</span>
-                    <span class="console-title">FLOODLIGHT SYSTEM</span>
-                    <span class="console-beacon {'beacon-on' if is_dark else 'beacon-turf'}"></span>
-                </div>
-                <div class="console-status-row">
-                    <span class="console-state-badge {floodlight_pill_cls}">{floodlight_status}</span>
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-        st.button(
-            btn_label,
-            key="theme_toggle_btn",
-            help=btn_help,
-            on_click=toggle_theme,
-            use_container_width=True,
-        )
+        render_theme_toggle()
 
 if model_error:
     st.error(f"⚠️ **Artifact Notice**: {model_error}")

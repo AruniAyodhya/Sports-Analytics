@@ -158,8 +158,8 @@
 [data-testid="stSidebar"] .stRadio,
 .st-key-sidebar_nav [data-testid="stRadio"],
 .st-key-sidebar_nav .stRadio,
-[data-testid="stSidebar"] [data-testid="stRadio"] > div,
-.st-key-sidebar_nav [data-testid="stRadio"] > div,
+[data-testid="stSidebar"] [data-testid="stRadio"]>div,
+.st-key-sidebar_nav [data-testid="stRadio"]>div,
 [data-testid="stSidebar"] [data-testid="stRadio"] div[data-testid="stRadioGroup"],
 .st-key-sidebar_nav [data-testid="stRadio"] div[data-testid="stRadioGroup"],
 [data-testid="stSidebar"] [data-testid="stRadio"] div[data-baseweb="radio-group"],
@@ -199,11 +199,11 @@
 
 /* Individual navigation option card / pill */
 [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"],
-[data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label,
-[data-testid="stSidebar"] [data-testid="stRadio"] div[data-testid="stRadioGroup"] > label,
+[data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"]>label,
+[data-testid="stSidebar"] [data-testid="stRadio"] div[data-testid="stRadioGroup"]>label,
 .st-key-sidebar_nav [data-testid="stRadio"] label[data-baseweb="radio"],
-.st-key-sidebar_nav [data-testid="stRadio"] div[role="radiogroup"] > label,
-.st-key-sidebar_nav [data-testid="stRadio"] div[data-testid="stRadioGroup"] > label {
+.st-key-sidebar_nav [data-testid="stRadio"] div[role="radiogroup"]>label,
+.st-key-sidebar_nav [data-testid="stRadio"] div[data-testid="stRadioGroup"]>label {
     display: flex !important;
     align-items: center !important;
     justify-content: flex-start !important;
@@ -230,7 +230,7 @@
 
 /* Left accent indicator bar */
 [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"]::before,
-[data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label::before,
+[data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"]>label::before,
 .st-key-sidebar_nav [data-testid="stRadio"] label::before {
     content: '' !important;
     position: absolute !important;
@@ -244,10 +244,10 @@
 }
 
 /* Hide default radio button circles (dots) */
-[data-testid="stSidebar"] [data-testid="stRadio"] label > div:first-child,
-.st-key-sidebar_nav [data-testid="stRadio"] label > div:first-child,
-[data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child,
-.st-key-sidebar_nav [data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child,
+[data-testid="stSidebar"] [data-testid="stRadio"] label>div:first-child,
+.st-key-sidebar_nav [data-testid="stRadio"] label>div:first-child,
+[data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"]>div:first-child,
+.st-key-sidebar_nav [data-testid="stRadio"] label[data-baseweb="radio"]>div:first-child,
 [data-testid="stSidebar"] [data-testid="stRadio"] input[type="radio"],
 .st-key-sidebar_nav [data-testid="stRadio"] input[type="radio"] {
     display: none !important;
@@ -294,7 +294,7 @@
 
 /* Hover effects (unselected) */
 [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"]:hover,
-[data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label:hover,
+[data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"]>label:hover,
 .st-key-sidebar_nav [data-testid="stRadio"] label:hover {
     background: rgba(255, 255, 255, 0.055) !important;
     border-color: rgba(16, 185, 129, 0.35) !important;
@@ -428,13 +428,21 @@
     background: rgba(15, 23, 42, 0.08) !important;
 }
 
+/* Light mode sidebar selectbox */
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] div[data-baseweb="select"],
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] div[data-baseweb="select"]>div {
+    background-color: #ffffff !important;
+    border-color: rgba(16, 185, 129, 0.45) !important;
+    color: #1e293b !important;
+}
+
 /* Light mode sidebar navigation pills */
 .stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"],
-.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label,
-.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] div[data-testid="stRadioGroup"] > label,
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"]>label,
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] div[data-testid="stRadioGroup"]>label,
 .stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] label[data-baseweb="radio"],
-.stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] div[role="radiogroup"] > label,
-.stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] div[data-testid="stRadioGroup"] > label {
+.stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] div[role="radiogroup"]>label,
+.stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] div[data-testid="stRadioGroup"]>label {
     background: rgba(255, 255, 255, 0.85) !important;
     border-color: rgba(15, 23, 42, 0.09) !important;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
@@ -452,11 +460,11 @@
 }
 
 .stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"]:hover,
-.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label:hover,
-.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] div[data-testid="stRadioGroup"] > label:hover,
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"]>label:hover,
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] div[data-testid="stRadioGroup"]>label:hover,
 .stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] label[data-baseweb="radio"]:hover,
-.stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] div[role="radiogroup"] > label:hover,
-.stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] div[data-testid="stRadioGroup"] > label:hover {
+.stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] div[role="radiogroup"]>label:hover,
+.stApp:has(#light-theme-flag) .st-key-sidebar_nav [data-testid="stRadio"] div[data-testid="stRadioGroup"]>label:hover {
     background: #ffffff !important;
     border-color: rgba(16, 185, 129, 0.45) !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06), 0 0 8px rgba(16, 185, 129, 0.1) !important;

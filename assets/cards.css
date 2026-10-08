@@ -48,9 +48,32 @@
 }
 
 .st-key-header_card [data-testid="stHorizontalBlock"] {
-    align-items: center;
+    align-items: flex-start !important;
     position: relative;
     z-index: 1;
+}
+
+.st-key-header_card [data-testid="stColumn"]:has(.st-key-theme_toggle_btn) {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: flex-end !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    gap: 0 !important;
+}
+
+.st-key-header_card [data-testid="stColumn"]:has(.st-key-theme_toggle_btn)>div:first-child:not(:has(button)) {
+    display: none !important;
+    position: absolute !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
 }
 
 /* Match Official Pass Badge */
@@ -81,6 +104,7 @@
 }
 
 @keyframes beacon-pulse {
+
     0%,
     100% {
         transform: scale(1);
@@ -397,13 +421,13 @@ div.stColumn:has(.kpi-tile),
     min-height: 100% !important;
 }
 
-div[data-testid="stColumn"]:has(.kpi-tile) > div,
+div[data-testid="stColumn"]:has(.kpi-tile)>div,
 div[data-testid="stColumn"]:has(.kpi-tile) [data-testid="stVerticalBlockBorderWrapper"],
 div[data-testid="stColumn"]:has(.kpi-tile) [data-testid="stVerticalBlock"],
 div[data-testid="stColumn"]:has(.kpi-tile) .stVerticalBlock,
 div[data-testid="stColumn"]:has(.kpi-tile) [data-testid="stElementContainer"],
 div[data-testid="stColumn"]:has(.kpi-tile) .stElementContainer,
-div[data-testid="stColumn"]:has(.kpi-tile) [data-testid="stElementContainer"] > div,
+div[data-testid="stColumn"]:has(.kpi-tile) [data-testid="stElementContainer"]>div,
 div[data-testid="stColumn"]:has(.kpi-tile) [data-testid="stMarkdownContainer"],
 div[data-testid="stColumn"]:has(.kpi-tile) .stMarkdownContainer,
 div[data-testid="stColumn"]:has(.kpi-tile) [data-testid="stMarkdown"],
@@ -411,7 +435,7 @@ div[data-testid="stColumn"]:has(.kpi-tile) .stMarkdown,
 div[data-testid="stColumn"]:has(.kpi-tile) div:has(> .kpi-tile),
 div:has(> .kpi-tile),
 div:has(> * > .kpi-tile),
-.st-key-comp_metrics_row [data-testid="stColumn"] > div,
+.st-key-comp_metrics_row [data-testid="stColumn"]>div,
 .st-key-comp_metrics_row [data-testid="stColumn"] [data-testid="stVerticalBlockBorderWrapper"],
 .st-key-comp_metrics_row [data-testid="stColumn"] [data-testid="stVerticalBlock"],
 .st-key-comp_metrics_row [data-testid="stColumn"] .stVerticalBlock,
@@ -869,8 +893,20 @@ div:has(> * > .kpi-tile),
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
-.stApp:has(#light-theme-flag) .kpi-value {
+.stApp:has(#light-theme-flag) .kpi-value:not(.kpi-val-home):not(.kpi-val-draw):not(.kpi-val-away):not(.kpi-val-lr):not(.kpi-val-rf):not(.kpi-val-xgb):not(.kpi-val-dt):not([style*="color"]) {
     color: #0f172a !important;
+}
+
+.stApp:has(#light-theme-flag) .kpi-val-home {
+    color: #10b981 !important;
+}
+
+.stApp:has(#light-theme-flag) .kpi-val-draw {
+    color: #f59e0b !important;
+}
+
+.stApp:has(#light-theme-flag) .kpi-val-away {
+    color: #f43f5e !important;
 }
 
 .stApp:has(#light-theme-flag) .kpi-label {

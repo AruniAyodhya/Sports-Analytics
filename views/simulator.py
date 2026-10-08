@@ -18,7 +18,7 @@ def render_simulator(engine: SoccerInferenceEngine, active_theme: str = "dark") 
         """
         <div class="simulator-header-row">
             <div>
-                <h4 class="simulator-title">🎯 Live Pre-Match Simulator</h4>
+                <h4 class="simulator-title">Live Pre-Match Simulator</h4>
                 <p class="simulator-subtitle">
                     Dynamic fixture scenario modeling • Instantly re-evaluates probabilities on widget interaction.
                 </p>
@@ -38,7 +38,7 @@ def render_simulator(engine: SoccerInferenceEngine, active_theme: str = "dark") 
         st.markdown(
             """
             <div class="card-title">
-                <span class="card-title-icon">🏟️</span> Match & League Context
+                Match & League Context
             </div>
             """,
             unsafe_allow_html=True,
@@ -58,14 +58,14 @@ def render_simulator(engine: SoccerInferenceEngine, active_theme: str = "dark") 
             step=1,
             help="Week of the domestic season (1 to 38).",
         )
-        st.caption("ℹ️ League encoded via one-hot representation; stage is standardized.")
+        st.caption("🕮 League encoded via one-hot representation; stage is standardized.")
 
     # Column 2: Relative Performance Metrics (Secondary Analytical Lens)
     with col2:
         st.markdown(
             """
             <div class="card-title">
-                <span class="card-title-icon">📈</span> Relative Form & Strength Differentials
+                Relative Form & Strength Differentials
             </div>
             """,
             unsafe_allow_html=True,
@@ -108,7 +108,7 @@ def render_simulator(engine: SoccerInferenceEngine, active_theme: str = "dark") 
         st.markdown(
             """
             <div class="card-title">
-                <span class="card-title-icon">💰</span> Market Consensus Odds
+                Market Consensus Odds
             </div>
             """,
             unsafe_allow_html=True,
@@ -192,7 +192,7 @@ def render_simulator(engine: SoccerInferenceEngine, active_theme: str = "dark") 
         "Away Win": "outcome-away-min",
     }.get(pred_label, "outcome-home-min")
 
-    icon = {"Home Win": "🏠", "Draw": "🤝", "Away Win": "✈️"}.get(pred_label, "⚽")
+    icon = {"Home Win": "🏠︎", "Draw": "🤝", "Away Win": "✈︎"}.get(pred_label, "⚽")
 
     st.markdown("<hr/>", unsafe_allow_html=True)
     res_col1, res_col2 = st.columns([1, 1.45], gap="large")

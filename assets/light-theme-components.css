@@ -1,0 +1,981 @@
+/* =============================================================================
+   Clean Turf Light Mode — Component Overrides
+   ============================================================================= */
+.stApp:has(#light-theme-flag) div[data-baseweb="input"],
+.stApp:has(#light-theme-flag) div[data-baseweb="base-input"],
+.stApp:has(#light-theme-flag) div[data-baseweb="select"],
+.stApp:has(#light-theme-flag) div[data-baseweb="select"]>div {
+    background-color: rgba(255, 255, 255, 0.75) !important;
+    border-color: rgba(15, 23, 42, 0.12) !important;
+    color: #1e293b !important;
+}
+
+.stApp:has(#light-theme-flag) div[data-baseweb="input"] input,
+.stApp:has(#light-theme-flag) div[data-baseweb="base-input"] input {
+    color: #1e293b !important;
+    background-color: transparent !important;
+}
+
+.stApp:has(#light-theme-flag) div[data-baseweb="select"] span,
+.stApp:has(#light-theme-flag) div[data-baseweb="select"] div,
+.stApp:has(#light-theme-flag) div[data-baseweb="select"] p {
+    color: #1e293b !important;
+    -webkit-text-fill-color: #1e293b !important;
+}
+
+.stApp:has(#light-theme-flag) div[data-baseweb="select"] svg {
+    fill: #475569 !important;
+    color: #475569 !important;
+}
+
+/* Number input stepper buttons in Light Mode */
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] [data-baseweb="input"] button,
+.stApp:has(#light-theme-flag) div[data-baseweb="input"] button,
+.stApp:has(#light-theme-flag) div[data-baseweb="base-input"] button,
+.stApp:has(#light-theme-flag) [data-testid="stNumberInputStepDown"],
+.stApp:has(#light-theme-flag) [data-testid="stNumberInputStepUp"],
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] [data-baseweb="input"]>div:last-child {
+    background-color: #f1f5f9 !important;
+    color: #1e293b !important;
+    border-color: rgba(15, 23, 42, 0.12) !important;
+}
+
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] [data-baseweb="input"] button svg,
+.stApp:has(#light-theme-flag) [data-testid="stNumberInputStepDown"] svg,
+.stApp:has(#light-theme-flag) [data-testid="stNumberInputStepUp"] svg,
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] [data-baseweb="input"] button * {
+    fill: #1e293b !important;
+    stroke: #1e293b !important;
+    color: #1e293b !important;
+}
+
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] [data-baseweb="input"] button:hover,
+.stApp:has(#light-theme-flag) div[data-baseweb="input"] button:hover,
+.stApp:has(#light-theme-flag) div[data-baseweb="base-input"] button:hover,
+.stApp:has(#light-theme-flag) [data-testid="stNumberInputStepDown"]:hover,
+.stApp:has(#light-theme-flag) [data-testid="stNumberInputStepUp"]:hover {
+    background-color: #e2e8f0 !important;
+    color: #0284c7 !important;
+}
+
+/* Tooltip / Help Question Mark Icon in Light Mode (scoped to stTooltipIcon / stWidgetLabel) */
+.stApp:has(#light-theme-flag) [data-testid="stTooltipIcon"],
+.stApp:has(#light-theme-flag) .stTooltipIcon,
+.stApp:has(#light-theme-flag) [data-testid="stTooltipIcon"] [data-testid="stTooltipHoverTarget"],
+.stApp:has(#light-theme-flag) [data-testid="stWidgetLabel"] [data-testid="stTooltipHoverTarget"],
+.stApp:has(#light-theme-flag) [data-testid="stTooltipHoverTarget"]:not(:has(button)):not(:has(.stButton)) {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.stApp:has(#light-theme-flag) [data-testid="stTooltipIcon"] button,
+.stApp:has(#light-theme-flag) .stTooltipIcon button,
+.stApp:has(#light-theme-flag) [data-testid="stTooltipIcon"] [data-testid="stTooltipHoverTarget"] button,
+.stApp:has(#light-theme-flag) [data-testid="stWidgetLabel"] [data-testid="stTooltipHoverTarget"] button,
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] [data-testid="stTooltipIcon"] button,
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] .stTooltipIcon button,
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] label button {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: #64748b !important;
+    cursor: help !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.stApp:has(#light-theme-flag) [data-testid="stTooltipIcon"] svg,
+.stApp:has(#light-theme-flag) .stTooltipIcon svg,
+.stApp:has(#light-theme-flag) [data-testid="stTooltipIcon"] [data-testid="stTooltipHoverTarget"] svg,
+.stApp:has(#light-theme-flag) [data-testid="stWidgetLabel"] [data-testid="stTooltipHoverTarget"] svg,
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] [data-testid="stTooltipIcon"] svg,
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] .stTooltipIcon svg,
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] label button svg {
+    fill: none !important;
+    stroke: #64748b !important;
+    color: #64748b !important;
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+.stApp:has(#light-theme-flag) [data-testid="stTooltipIcon"] svg *,
+.stApp:has(#light-theme-flag) .stTooltipIcon svg *,
+.stApp:has(#light-theme-flag) [data-testid="stTooltipHoverTarget"] svg *,
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] [data-testid="stTooltipIcon"] svg *,
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] .stTooltipIcon svg *,
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] label button svg * {
+    fill: none !important;
+    stroke: #64748b !important;
+}
+
+.stApp:has(#light-theme-flag) [data-testid="stTooltipIcon"] button:hover svg,
+.stApp:has(#light-theme-flag) .stTooltipIcon button:hover svg,
+.stApp:has(#light-theme-flag) [data-testid="stTooltipHoverTarget"] button:hover svg,
+.stApp:has(#light-theme-flag) [data-testid="stTooltipIcon"] button:hover svg *,
+.stApp:has(#light-theme-flag) .stTooltipIcon button:hover svg *,
+.stApp:has(#light-theme-flag) [data-testid="stTooltipHoverTarget"] button:hover svg * {
+    stroke: #0284c7 !important;
+    color: #0284c7 !important;
+}
+
+.stApp:has(#light-theme-flag) button[kind="secondary"] {
+    background: rgba(241, 245, 249, 0.6) !important;
+    border-color: rgba(15, 23, 42, 0.1) !important;
+    color: #1e293b !important;
+}
+
+.stApp:has(#light-theme-flag) button[kind="secondary"]:hover {
+    background: rgba(226, 232, 240, 0.8) !important;
+    border-color: rgba(15, 23, 42, 0.18) !important;
+}
+
+.stApp:has(#light-theme-flag) hr {
+    background: rgba(15, 23, 42, 0.08) !important;
+}
+
+.stApp:has(#light-theme-flag) [data-testid="stExpander"] {
+    border-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+.stApp:has(#light-theme-flag) [data-testid="stExpander"] summary {
+    color: #1e293b !important;
+}
+
+/* Slider tick numbers & thumb values for light mode */
+.stApp:has(#light-theme-flag) [data-testid="stSliderTickBar"],
+.stApp:has(#light-theme-flag) [data-testid="stSliderTickBar"] * {
+    color: #334155 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    font-weight: 600 !important;
+}
+
+.stApp:has(#light-theme-flag) [data-testid="stSliderThumbValue"],
+.stApp:has(#light-theme-flag) [data-testid="stSliderThumbValue"] * {
+    color: #059669 !important;
+    font-weight: 700 !important;
+}
+
+/* =============================================================================
+   Clean Turf Light Mode — Tabs, Radios & Checkbox Options
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   1. Streamlit Tabs (st.tabs) in Light Mode
+   ----------------------------------------------------------------------------- */
+/* Unselected Tabs: switch from invisible white to dark readable gray (#374151) */
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[data-baseweb="tab"][aria-selected="false"],
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[aria-selected="false"],
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[data-baseweb="tab"]:not([aria-selected="true"]),
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button:not([aria-selected="true"]) {
+    color: #374151 !important;
+    -webkit-text-fill-color: #374151 !important;
+    background: transparent !important;
+    border: none !important;
+    font-weight: 500 !important;
+    opacity: 0.9 !important;
+    transition: color 0.2s ease, opacity 0.2s ease !important;
+}
+
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[data-baseweb="tab"][aria-selected="false"] *,
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[aria-selected="false"] *,
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[data-baseweb="tab"]:not([aria-selected="true"]) *,
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button:not([aria-selected="true"]) * {
+    color: #374151 !important;
+    -webkit-text-fill-color: #374151 !important;
+}
+
+/* Unselected Tabs Hover: deeper charcoal for feedback */
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[data-baseweb="tab"][aria-selected="false"]:hover,
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[aria-selected="false"]:hover,
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[data-baseweb="tab"]:not([aria-selected="true"]):hover,
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button:not([aria-selected="true"]):hover {
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
+    opacity: 1 !important;
+}
+
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[data-baseweb="tab"][aria-selected="false"]:hover *,
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[aria-selected="false"]:hover *,
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[data-baseweb="tab"]:not([aria-selected="true"]):hover *,
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button:not([aria-selected="true"]):hover * {
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
+}
+
+/* Selected Tab: retains distinct red accent color (#ef4444 / #ff4b4b) */
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[data-baseweb="tab"][aria-selected="true"],
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[aria-selected="true"],
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[role="tab"][aria-selected="true"] {
+    color: #ef4444 !important;
+    -webkit-text-fill-color: #ef4444 !important;
+    font-weight: 700 !important;
+    opacity: 1 !important;
+}
+
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[data-baseweb="tab"][aria-selected="true"] *,
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[aria-selected="true"] *,
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] button[role="tab"][aria-selected="true"] * {
+    color: #ef4444 !important;
+    -webkit-text-fill-color: #ef4444 !important;
+}
+
+/* Active Tab Highlight Underline Bar */
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] [data-baseweb="tab-highlight"],
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] div[data-baseweb="tab-highlight"] {
+    background-color: #ef4444 !important;
+    height: 3px !important;
+    border-radius: 2px !important;
+}
+
+/* Tab List Baseline Border Divider */
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] [data-baseweb="tab-border"],
+.stApp:has(#light-theme-flag) [data-testid="stTabs"] div[data-baseweb="tab-border"] {
+    background-color: rgba(15, 23, 42, 0.12) !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   2. Radio Buttons (st.radio) in Light Mode (Non-Sidebar)
+   ----------------------------------------------------------------------------- */
+/* Radio Widget Title / Label */
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) [data-testid="stWidgetLabel"] p,
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) [data-testid="stWidgetLabel"] label,
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) [data-testid="stWidgetLabel"] span {
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
+    font-weight: 600 !important;
+}
+
+/* Unselected Radio Option Text: switch from white to readable dark gray (#374151) */
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:not(:has(input:checked)),
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:not(:has(input:checked)) p,
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:not(:has(input:checked)) span,
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:not(:has(input:checked)) [data-testid="stMarkdownContainer"] p,
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:not(:has(input:checked)) div {
+    color: #374151 !important;
+    -webkit-text-fill-color: #374151 !important;
+    font-weight: 500 !important;
+}
+
+/* Unselected Radio Option Hover */
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:not(:has(input:checked)):hover,
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:not(:has(input:checked)):hover p,
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:not(:has(input:checked)):hover span,
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:not(:has(input:checked)):hover [data-testid="stMarkdownContainer"] p {
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
+}
+
+/* Unselected Radio Indicator Circle */
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:not(:has(input:checked))>div:first-child {
+    border: 2px solid rgba(15, 23, 42, 0.35) !important;
+    background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Selected Radio Option: retains distinct turf green accent (#10b981 / #047857) */
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:has(input:checked)>div:first-child {
+    background-color: #10b981 !important;
+    border-color: #10b981 !important;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.45) !important;
+}
+
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:has(input:checked)>div:first-child>div {
+    background-color: #ffffff !important;
+}
+
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:has(input:checked),
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:has(input:checked) p,
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:has(input:checked) span,
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:has(input:checked) [data-testid="stMarkdownContainer"] p,
+.stApp:has(#light-theme-flag) div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:has(input:checked) div {
+    color: #047857 !important;
+    -webkit-text-fill-color: #047857 !important;
+    font-weight: 600 !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   3. Checkbox (st.checkbox) in Light Mode
+   ----------------------------------------------------------------------------- */
+/* Unchecked Checkbox Option Text: switch from white to readable dark gray (#374151) */
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:not(:has(input:checked)),
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:not(:has(input:checked)) p,
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:not(:has(input:checked)) span,
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:not(:has(input:checked)) [data-testid="stMarkdownContainer"] p,
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:not(:has(input:checked)) [data-testid="stWidgetLabel"] p,
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:not(:has(input:checked)) div {
+    color: #374151 !important;
+    -webkit-text-fill-color: #374151 !important;
+    font-weight: 500 !important;
+}
+
+/* Unchecked Checkbox Hover */
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:not(:has(input:checked)):hover,
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:not(:has(input:checked)):hover p,
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:not(:has(input:checked)):hover span,
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:not(:has(input:checked)):hover [data-testid="stMarkdownContainer"] p {
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
+}
+
+/* Unchecked Checkbox Square */
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:not(:has(input:checked))>div:first-child {
+    border: 2px solid rgba(15, 23, 42, 0.35) !important;
+    background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Checked Checkbox: retains distinct turf green accent (#10b981 / #047857) */
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:has(input:checked)>div:first-child {
+    background-color: #10b981 !important;
+    border-color: #10b981 !important;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.45) !important;
+}
+
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:has(input:checked)>div:first-child svg {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+}
+
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:has(input:checked),
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:has(input:checked) p,
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:has(input:checked) span,
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:has(input:checked) [data-testid="stMarkdownContainer"] p,
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:has(input:checked) [data-testid="stWidgetLabel"] p,
+.stApp:has(#light-theme-flag) div[data-testid="stCheckbox"] label:has(input:checked) div {
+    color: #047857 !important;
+    -webkit-text-fill-color: #047857 !important;
+    font-weight: 600 !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   4. Selectbox Dropdown Menu (BaseWeb Popover) in Light Mode
+   ----------------------------------------------------------------------------- */
+/* Outer Popover Floating Card Container */
+html:has(#light-theme-flag) div[data-baseweb="popover"],
+html:has(#light-theme-flag) [data-baseweb="popover"],
+body:has(#light-theme-flag) div[data-baseweb="popover"],
+body:has(#light-theme-flag) [data-baseweb="popover"],
+.stApp:has(#light-theme-flag) div[data-baseweb="popover"],
+.stApp:has(#light-theme-flag) [data-baseweb="popover"] {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
+    overflow: hidden !important;
+}
+
+/* Inner Popover Wrappers & Virtual Dropdown Containers */
+html:has(#light-theme-flag) [data-baseweb="popover"]>div,
+html:has(#light-theme-flag) [data-baseweb="popover"]>div>div,
+html:has(#light-theme-flag) [data-baseweb="popover"] ul,
+html:has(#light-theme-flag) [data-baseweb="popover"] [data-baseweb="menu"],
+html:has(#light-theme-flag) [data-baseweb="menu"],
+html:has(#light-theme-flag) ul[data-baseweb="menu"],
+html:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdown"],
+html:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdown"]>div,
+html:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdownEmpty"],
+html:has(#light-theme-flag) [role="listbox"],
+html:has(#light-theme-flag) [role="listbox"]>div,
+body:has(#light-theme-flag) [data-baseweb="popover"]>div,
+body:has(#light-theme-flag) [data-baseweb="popover"]>div>div,
+body:has(#light-theme-flag) [data-baseweb="popover"] ul,
+body:has(#light-theme-flag) [data-baseweb="popover"] [data-baseweb="menu"],
+body:has(#light-theme-flag) [data-baseweb="menu"],
+body:has(#light-theme-flag) ul[data-baseweb="menu"],
+body:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdown"],
+body:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdown"]>div,
+body:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdownEmpty"],
+body:has(#light-theme-flag) [role="listbox"],
+body:has(#light-theme-flag) [role="listbox"]>div,
+.stApp:has(#light-theme-flag) [data-baseweb="popover"]>div,
+.stApp:has(#light-theme-flag) [data-baseweb="menu"],
+.stApp:has(#light-theme-flag) ul[data-baseweb="menu"],
+.stApp:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdown"],
+.stApp:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdown"]>div,
+.stApp:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdownEmpty"],
+.stApp:has(#light-theme-flag) [role="listbox"] {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    color: #1e293b !important;
+    border-color: rgba(15, 23, 42, 0.08) !important;
+    box-shadow: none !important;
+}
+
+/* Unselected Option Items: Clean white background with dark, highly readable text */
+html:has(#light-theme-flag) li[role="option"],
+html:has(#light-theme-flag) [role="option"],
+html:has(#light-theme-flag) [data-baseweb="menu"] li,
+html:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdown"] li,
+body:has(#light-theme-flag) li[role="option"],
+body:has(#light-theme-flag) [role="option"],
+body:has(#light-theme-flag) [data-baseweb="menu"] li,
+body:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdown"] li,
+.stApp:has(#light-theme-flag) li[role="option"],
+.stApp:has(#light-theme-flag) [role="option"],
+.stApp:has(#light-theme-flag) [data-baseweb="menu"] li,
+.stApp:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdown"] li {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    color: #1e293b !important;
+    -webkit-text-fill-color: #1e293b !important;
+    font-weight: 500 !important;
+    transition: background-color 0.15s ease, color 0.15s ease !important;
+}
+
+html:has(#light-theme-flag) li[role="option"] *,
+html:has(#light-theme-flag) [role="option"] *,
+html:has(#light-theme-flag) [data-baseweb="menu"] li *,
+html:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdown"] li *,
+body:has(#light-theme-flag) li[role="option"] *,
+body:has(#light-theme-flag) [role="option"] *,
+body:has(#light-theme-flag) [data-baseweb="menu"] li *,
+body:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdown"] li *,
+.stApp:has(#light-theme-flag) li[role="option"] *,
+.stApp:has(#light-theme-flag) [role="option"] *,
+.stApp:has(#light-theme-flag) [data-baseweb="menu"] li *,
+.stApp:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdown"] li * {
+    color: #1e293b !important;
+    -webkit-text-fill-color: #1e293b !important;
+}
+
+/* Hovered / Highlighted Option Items: Clean Turf Green Tint */
+html:has(#light-theme-flag) li[role="option"]:hover,
+html:has(#light-theme-flag) [role="option"]:hover,
+html:has(#light-theme-flag) li[role="option"][data-highlighted="true"],
+html:has(#light-theme-flag) [role="option"][data-highlighted="true"],
+html:has(#light-theme-flag) li[role="option"]:focus,
+body:has(#light-theme-flag) li[role="option"]:hover,
+body:has(#light-theme-flag) [role="option"]:hover,
+body:has(#light-theme-flag) li[role="option"][data-highlighted="true"],
+body:has(#light-theme-flag) [role="option"][data-highlighted="true"],
+body:has(#light-theme-flag) li[role="option"]:focus,
+.stApp:has(#light-theme-flag) li[role="option"]:hover,
+.stApp:has(#light-theme-flag) [role="option"]:hover,
+.stApp:has(#light-theme-flag) li[role="option"][data-highlighted="true"],
+.stApp:has(#light-theme-flag) [role="option"][data-highlighted="true"],
+.stApp:has(#light-theme-flag) li[role="option"]:focus {
+    background-color: #f0fdf4 !important;
+    background: #f0fdf4 !important;
+    color: #047857 !important;
+    -webkit-text-fill-color: #047857 !important;
+}
+
+html:has(#light-theme-flag) li[role="option"]:hover *,
+html:has(#light-theme-flag) [role="option"]:hover *,
+html:has(#light-theme-flag) li[role="option"][data-highlighted="true"] *,
+html:has(#light-theme-flag) [role="option"][data-highlighted="true"] *,
+body:has(#light-theme-flag) li[role="option"]:hover *,
+body:has(#light-theme-flag) [role="option"]:hover *,
+body:has(#light-theme-flag) li[role="option"][data-highlighted="true"] *,
+body:has(#light-theme-flag) [role="option"][data-highlighted="true"] *,
+.stApp:has(#light-theme-flag) li[role="option"]:hover *,
+.stApp:has(#light-theme-flag) [role="option"]:hover *,
+.stApp:has(#light-theme-flag) li[role="option"][data-highlighted="true"] *,
+.stApp:has(#light-theme-flag) [role="option"][data-highlighted="true"] * {
+    color: #047857 !important;
+    -webkit-text-fill-color: #047857 !important;
+}
+
+/* Selected Option Item: Distinct Turf Green Accent */
+html:has(#light-theme-flag) li[role="option"][aria-selected="true"],
+html:has(#light-theme-flag) [role="option"][aria-selected="true"],
+body:has(#light-theme-flag) li[role="option"][aria-selected="true"],
+body:has(#light-theme-flag) [role="option"][aria-selected="true"],
+.stApp:has(#light-theme-flag) li[role="option"][aria-selected="true"],
+.stApp:has(#light-theme-flag) [role="option"][aria-selected="true"] {
+    background-color: #ecfdf5 !important;
+    background: #ecfdf5 !important;
+    color: #059669 !important;
+    -webkit-text-fill-color: #059669 !important;
+    font-weight: 600 !important;
+}
+
+html:has(#light-theme-flag) li[role="option"][aria-selected="true"] *,
+html:has(#light-theme-flag) [role="option"][aria-selected="true"] *,
+body:has(#light-theme-flag) li[role="option"][aria-selected="true"] *,
+body:has(#light-theme-flag) [role="option"][aria-selected="true"] *,
+.stApp:has(#light-theme-flag) li[role="option"][aria-selected="true"] *,
+.stApp:has(#light-theme-flag) [role="option"][aria-selected="true"] * {
+    color: #059669 !important;
+    -webkit-text-fill-color: #059669 !important;
+    font-weight: 600 !important;
+}
+
+/* Selected Option Item when Hovered */
+html:has(#light-theme-flag) li[role="option"][aria-selected="true"]:hover,
+html:has(#light-theme-flag) [role="option"][aria-selected="true"]:hover,
+body:has(#light-theme-flag) li[role="option"][aria-selected="true"]:hover,
+body:has(#light-theme-flag) [role="option"][aria-selected="true"]:hover,
+.stApp:has(#light-theme-flag) li[role="option"][aria-selected="true"]:hover,
+.stApp:has(#light-theme-flag) [role="option"][aria-selected="true"]:hover {
+    background-color: #d1fae5 !important;
+    background: #d1fae5 !important;
+    color: #047857 !important;
+    -webkit-text-fill-color: #047857 !important;
+}
+
+html:has(#light-theme-flag) li[role="option"][aria-selected="true"]:hover *,
+html:has(#light-theme-flag) [role="option"][aria-selected="true"]:hover *,
+body:has(#light-theme-flag) li[role="option"][aria-selected="true"]:hover *,
+body:has(#light-theme-flag) [role="option"][aria-selected="true"]:hover *,
+.stApp:has(#light-theme-flag) li[role="option"][aria-selected="true"]:hover *,
+.stApp:has(#light-theme-flag) [role="option"][aria-selected="true"]:hover * {
+    color: #047857 !important;
+    -webkit-text-fill-color: #047857 !important;
+}
+
+/* Dropdown Menu Scrollbar in Light Mode */
+html:has(#light-theme-flag) [data-baseweb="popover"] ::-webkit-scrollbar,
+body:has(#light-theme-flag) [data-baseweb="popover"] ::-webkit-scrollbar,
+html:has(#light-theme-flag) [data-baseweb="menu"]::-webkit-scrollbar,
+body:has(#light-theme-flag) [data-baseweb="menu"]::-webkit-scrollbar {
+    width: 6px !important;
+    height: 6px !important;
+}
+
+html:has(#light-theme-flag) [data-baseweb="popover"] ::-webkit-scrollbar-track,
+body:has(#light-theme-flag) [data-baseweb="popover"] ::-webkit-scrollbar-track,
+html:has(#light-theme-flag) [data-baseweb="menu"]::-webkit-scrollbar-track,
+body:has(#light-theme-flag) [data-baseweb="menu"]::-webkit-scrollbar-track {
+    background: #f1f5f9 !important;
+}
+
+html:has(#light-theme-flag) [data-baseweb="popover"] ::-webkit-scrollbar-thumb,
+body:has(#light-theme-flag) [data-baseweb="popover"] ::-webkit-scrollbar-thumb,
+html:has(#light-theme-flag) [data-baseweb="menu"]::-webkit-scrollbar-thumb,
+body:has(#light-theme-flag) [data-baseweb="menu"]::-webkit-scrollbar-thumb {
+    background: #cbd5e1 !important;
+    border-radius: 9999px !important;
+}
+
+html:has(#light-theme-flag) [data-baseweb="popover"] ::-webkit-scrollbar-thumb:hover,
+body:has(#light-theme-flag) [data-baseweb="popover"] ::-webkit-scrollbar-thumb:hover,
+html:has(#light-theme-flag) [data-baseweb="menu"]::-webkit-scrollbar-thumb:hover,
+body:has(#light-theme-flag) [data-baseweb="menu"]::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8 !important;
+}
+
+
+/* =============================================================================
+   5. DataFrames (st.dataframe) in Light Mode ("Daylight Turf")
+   ============================================================================= */
+
+/* Streamlit DataFrames Container in Light Mode */
+html:has(#light-theme-flag) .stDataFrame,
+html:has(#light-theme-flag) [data-testid="stDataFrame"],
+body:has(#light-theme-flag) .stDataFrame,
+body:has(#light-theme-flag) [data-testid="stDataFrame"],
+.stApp:has(#light-theme-flag) .stDataFrame,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"],
+.stApp:has(.light-theme) .stDataFrame,
+.stApp:has(.light-theme) [data-testid="stDataFrame"],
+.light-theme .stDataFrame,
+.light-theme [data-testid="stDataFrame"] {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    border-radius: 8px !important;
+    border: 1px solid rgba(16, 185, 129, 0.3) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04) !important;
+    overflow: hidden !important;
+}
+
+html:has(#light-theme-flag) [data-testid="stDataFrameResizable"],
+body:has(#light-theme-flag) [data-testid="stDataFrameResizable"],
+.stApp:has(#light-theme-flag) [data-testid="stDataFrameResizable"],
+.stApp:has(.light-theme) [data-testid="stDataFrameResizable"],
+.light-theme [data-testid="stDataFrameResizable"] {
+    border: 1px solid rgba(16, 185, 129, 0.3) !important;
+    border-radius: 8px !important;
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+}
+
+/* Glide Data Editor Canvas in Light Mode: Canvas inversion filter for dark text on light background */
+html:has(#light-theme-flag) [data-testid="stDataFrame"] canvas,
+html:has(#light-theme-flag) .stDataFrame canvas,
+html:has(#light-theme-flag) [data-testid="stDataFrame"] [data-testid="data-grid-canvas"],
+html:has(#light-theme-flag) .stDataFrame [data-testid="data-grid-canvas"],
+body:has(#light-theme-flag) [data-testid="stDataFrame"] canvas,
+body:has(#light-theme-flag) .stDataFrame canvas,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] [data-testid="data-grid-canvas"],
+body:has(#light-theme-flag) .stDataFrame [data-testid="data-grid-canvas"],
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] canvas,
+.stApp:has(#light-theme-flag) .stDataFrame canvas,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] [data-testid="data-grid-canvas"],
+.stApp:has(#light-theme-flag) .stDataFrame [data-testid="data-grid-canvas"],
+.stApp:has(.light-theme) [data-testid="stDataFrame"] canvas,
+.stApp:has(.light-theme) .stDataFrame canvas,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] [data-testid="data-grid-canvas"],
+.stApp:has(.light-theme) .stDataFrame [data-testid="data-grid-canvas"],
+.light-theme [data-testid="stDataFrame"] canvas,
+.light-theme .stDataFrame canvas,
+.light-theme [data-testid="stDataFrame"] [data-testid="data-grid-canvas"],
+.light-theme .stDataFrame [data-testid="data-grid-canvas"] {
+    filter: invert(1) hue-rotate(180deg) brightness(1.05) contrast(0.95) !important;
+    border-radius: inherit !important;
+}
+
+/* Ensure no parent containers double-invert the canvas */
+html:has(#light-theme-flag) [data-testid="stDataFrame"] .stDataFrameGlideDataEditor,
+html:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-scroller,
+html:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-stack,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] .stDataFrameGlideDataEditor,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-scroller,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-stack,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] .stDataFrameGlideDataEditor,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-scroller,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-stack,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] .stDataFrameGlideDataEditor,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] .dvn-scroller,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] .dvn-stack,
+.light-theme [data-testid="stDataFrame"] .stDataFrameGlideDataEditor,
+.light-theme [data-testid="stDataFrame"] .dvn-scroller,
+.light-theme [data-testid="stDataFrame"] .dvn-stack {
+    filter: none !important;
+}
+
+/* Static Row Presentation: No hover animations or background overrides */
+html:has(#light-theme-flag) [data-testid="stDataFrame"] tr:hover,
+html:has(#light-theme-flag) [data-testid="stDataFrame"] tr:hover td,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] tr:hover,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] tr:hover td,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] tr:hover,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] tr:hover td,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] tr:hover,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] tr:hover td,
+.light-theme [data-testid="stDataFrame"] tr:hover,
+.light-theme [data-testid="stDataFrame"] tr:hover td {
+    transition: none !important;
+    animation: none !important;
+}
+
+/* Toolbar & Search Bar in Light Mode */
+html:has(#light-theme-flag) [data-testid="stDataFrame"] .gdg-search-bar,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] .gdg-search-bar,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] .gdg-search-bar,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] .gdg-search-bar,
+.light-theme [data-testid="stDataFrame"] .gdg-search-bar {
+    background-color: #ffffff !important;
+    border: 1px solid rgba(16, 185, 129, 0.3) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    border-radius: 6px !important;
+}
+
+html:has(#light-theme-flag) [data-testid="stDataFrame"] .gdg-search-bar input,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] .gdg-search-bar input,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] .gdg-search-bar input,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] .gdg-search-bar input,
+.light-theme [data-testid="stDataFrame"] .gdg-search-bar input {
+    color: #1e293b !important;
+    -webkit-text-fill-color: #1e293b !important;
+    background: transparent !important;
+}
+
+html:has(#light-theme-flag) [data-testid="stDataFrame"] [data-testid="stElementToolbar"],
+body:has(#light-theme-flag) [data-testid="stDataFrame"] [data-testid="stElementToolbar"],
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] [data-testid="stElementToolbar"],
+.stApp:has(.light-theme) [data-testid="stDataFrame"] [data-testid="stElementToolbar"],
+.light-theme [data-testid="stDataFrame"] [data-testid="stElementToolbar"] {
+    background-color: #ffffff !important;
+    border: 1px solid rgba(16, 185, 129, 0.3) !important;
+    border-radius: 6px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+}
+
+html:has(#light-theme-flag) [data-testid="stDataFrame"] [data-testid="stElementToolbarButton"],
+body:has(#light-theme-flag) [data-testid="stDataFrame"] [data-testid="stElementToolbarButton"],
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] [data-testid="stElementToolbarButton"],
+.stApp:has(.light-theme) [data-testid="stDataFrame"] [data-testid="stElementToolbarButton"],
+.light-theme [data-testid="stDataFrame"] [data-testid="stElementToolbarButton"] {
+    color: #475569 !important;
+}
+
+html:has(#light-theme-flag) [data-testid="stDataFrame"] [data-testid="stElementToolbarButton"]:hover,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] [data-testid="stElementToolbarButton"]:hover,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] [data-testid="stElementToolbarButton"]:hover,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] [data-testid="stElementToolbarButton"]:hover,
+.light-theme [data-testid="stDataFrame"] [data-testid="stElementToolbarButton"]:hover {
+    color: #059669 !important;
+    background-color: #e8f5e9 !important;
+}
+
+html:has(#light-theme-flag) [data-testid="stDataFrameColumnMenu"],
+html:has(#light-theme-flag) [data-testid="stDataFrameTooltipContent"],
+body:has(#light-theme-flag) [data-testid="stDataFrameColumnMenu"],
+body:has(#light-theme-flag) [data-testid="stDataFrameTooltipContent"],
+.stApp:has(#light-theme-flag) [data-testid="stDataFrameColumnMenu"],
+.stApp:has(#light-theme-flag) [data-testid="stDataFrameTooltipContent"],
+.stApp:has(.light-theme) [data-testid="stDataFrameColumnMenu"],
+.stApp:has(.light-theme) [data-testid="stDataFrameTooltipContent"],
+.light-theme [data-testid="stDataFrameColumnMenu"],
+.light-theme [data-testid="stDataFrameTooltipContent"] {
+    background-color: #ffffff !important;
+    color: #1e293b !important;
+    border: 1px solid rgba(16, 185, 129, 0.3) !important;
+    border-radius: 6px !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+}
+
+
+/* =============================================================================
+   6. Inline Code Elements (`code`) in Light Mode ("Daylight Turf")
+   ============================================================================= */
+html:has(#light-theme-flag) :not(pre)>code,
+html:has(#light-theme-flag) .stMarkdown :not(pre)>code,
+html:has(#light-theme-flag) [data-testid="stMarkdownContainer"] :not(pre)>code,
+html:has(#light-theme-flag) p code,
+html:has(#light-theme-flag) .section-desc code,
+body:has(#light-theme-flag) :not(pre)>code,
+body:has(#light-theme-flag) .stMarkdown :not(pre)>code,
+body:has(#light-theme-flag) [data-testid="stMarkdownContainer"] :not(pre)>code,
+body:has(#light-theme-flag) p code,
+body:has(#light-theme-flag) .section-desc code,
+.stApp:has(#light-theme-flag) :not(pre)>code,
+.stApp:has(#light-theme-flag) .stMarkdown :not(pre)>code,
+.stApp:has(#light-theme-flag) [data-testid="stMarkdownContainer"] :not(pre)>code,
+.stApp:has(#light-theme-flag) p code,
+.stApp:has(#light-theme-flag) .section-desc code,
+.stApp:has(.light-theme) :not(pre)>code,
+.stApp:has(.light-theme) .stMarkdown :not(pre)>code,
+.stApp:has(.light-theme) [data-testid="stMarkdownContainer"] :not(pre)>code,
+.stApp:has(.light-theme) p code,
+.stApp:has(.light-theme) .section-desc code,
+.light-theme :not(pre)>code,
+.light-theme .stMarkdown :not(pre)>code,
+.light-theme [data-testid="stMarkdownContainer"] :not(pre)>code,
+.light-theme p code,
+.light-theme .section-desc code {
+    background-color: rgba(16, 185, 129, 0.15) !important;
+    background: rgba(16, 185, 129, 0.15) !important;
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
+    border: 1px solid rgba(16, 185, 129, 0.25) !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    font-size: 0.85em !important;
+    font-weight: 600 !important;
+}
+
+
+/* =============================================================================
+   7. Prediction Metric Values & Dynamic Outcome Colors in Light Mode
+   ============================================================================= */
+
+/* Prediction metric values inherit dynamic inline outcome colors */
+html:has(#light-theme-flag) [data-testid="stMetricValue"],
+html:has(#light-theme-flag) [data-testid="stMetricValue"]>div,
+html:has(#light-theme-flag) [data-testid="stMetricValue"] *,
+body:has(#light-theme-flag) [data-testid="stMetricValue"],
+body:has(#light-theme-flag) [data-testid="stMetricValue"] *,
+.stApp:has(#light-theme-flag) [data-testid="stMetricValue"],
+.stApp:has(#light-theme-flag) [data-testid="stMetricValue"]>div,
+.stApp:has(#light-theme-flag) [data-testid="stMetricValue"] *,
+.stApp:has(.light-theme) [data-testid="stMetricValue"],
+.stApp:has(.light-theme) [data-testid="stMetricValue"] *,
+.light-theme [data-testid="stMetricValue"],
+.light-theme [data-testid="stMetricValue"] * {
+    color: inherit !important;
+    -webkit-text-fill-color: inherit !important;
+}
+
+/* Ensure inline color styles on prediction values / KPI tiles are preserved */
+html:has(#light-theme-flag) .kpi-value[style*="color"],
+html:has(#light-theme-flag) .kpi-value[style*="color"] *,
+body:has(#light-theme-flag) .kpi-value[style*="color"],
+body:has(#light-theme-flag) .kpi-value[style*="color"] *,
+.stApp:has(#light-theme-flag) .kpi-value[style*="color"],
+.stApp:has(#light-theme-flag) .kpi-value[style*="color"] *,
+.stApp:has(.light-theme) .kpi-value[style*="color"],
+.stApp:has(.light-theme) .kpi-value[style*="color"] *,
+.light-theme .kpi-value[style*="color"],
+.light-theme .kpi-value[style*="color"] * {
+    color: inherit !important;
+    -webkit-text-fill-color: inherit !important;
+}
+
+/* Outcome Prediction Accents (Home Win: #10b981, Draw: #f59e0b, Away Win: #f43f5e) */
+html:has(#light-theme-flag) .kpi-val-home,
+html:has(#light-theme-flag) .kpi-value.kpi-val-home,
+body:has(#light-theme-flag) .kpi-val-home,
+body:has(#light-theme-flag) .kpi-value.kpi-val-home,
+.stApp:has(#light-theme-flag) .kpi-val-home,
+.stApp:has(#light-theme-flag) .kpi-value.kpi-val-home,
+.stApp:has(.light-theme) .kpi-val-home,
+.stApp:has(.light-theme) .kpi-value.kpi-val-home,
+.light-theme .kpi-val-home,
+.light-theme .kpi-value.kpi-val-home,
+html:has(#light-theme-flag) .outcome-home-min .outcome-main,
+.stApp:has(#light-theme-flag) .outcome-home-min .outcome-main,
+.light-theme .outcome-home-min .outcome-main {
+    color: #10b981 !important;
+    -webkit-text-fill-color: #10b981 !important;
+}
+
+html:has(#light-theme-flag) .kpi-val-draw,
+html:has(#light-theme-flag) .kpi-value.kpi-val-draw,
+body:has(#light-theme-flag) .kpi-val-draw,
+body:has(#light-theme-flag) .kpi-value.kpi-val-draw,
+.stApp:has(#light-theme-flag) .kpi-val-draw,
+.stApp:has(#light-theme-flag) .kpi-value.kpi-val-draw,
+.stApp:has(.light-theme) .kpi-val-draw,
+.stApp:has(.light-theme) .kpi-value.kpi-val-draw,
+.light-theme .kpi-val-draw,
+.light-theme .kpi-value.kpi-val-draw,
+html:has(#light-theme-flag) .outcome-draw-min .outcome-main,
+.stApp:has(#light-theme-flag) .outcome-draw-min .outcome-main,
+.light-theme .outcome-draw-min .outcome-main {
+    color: #f59e0b !important;
+    -webkit-text-fill-color: #f59e0b !important;
+}
+
+html:has(#light-theme-flag) .kpi-val-away,
+html:has(#light-theme-flag) .kpi-value.kpi-val-away,
+body:has(#light-theme-flag) .kpi-val-away,
+body:has(#light-theme-flag) .kpi-value.kpi-val-away,
+.stApp:has(#light-theme-flag) .kpi-val-away,
+.stApp:has(#light-theme-flag) .kpi-value.kpi-val-away,
+.stApp:has(.light-theme) .kpi-val-away,
+.stApp:has(.light-theme) .kpi-value.kpi-val-away,
+.light-theme .kpi-val-away,
+.light-theme .kpi-value.kpi-val-away,
+html:has(#light-theme-flag) .outcome-away-min .outcome-main,
+.stApp:has(#light-theme-flag) .outcome-away-min .outcome-main,
+.light-theme .outcome-away-min .outcome-main {
+    color: #f43f5e !important;
+    -webkit-text-fill-color: #f43f5e !important;
+}
+
+
+/* =============================================================================
+   8. stButton Sizing, Padding & Full Width in Light Mode ("Random Fixture" & Buttons)
+   ============================================================================= */
+
+/* Ensure button wrappers and tooltip containers take up 100% width matching dark theme */
+html:has(#light-theme-flag) div[data-testid="stElementContainer"]:has(.stButton):not(:has(.st-key-theme_toggle_btn)),
+body:has(#light-theme-flag) div[data-testid="stElementContainer"]:has(.stButton):not(:has(.st-key-theme_toggle_btn)),
+.stApp:has(#light-theme-flag) div[data-testid="stElementContainer"]:has(.stButton):not(:has(.st-key-theme_toggle_btn)),
+.stApp:has(.light-theme) div[data-testid="stElementContainer"]:has(.stButton):not(:has(.st-key-theme_toggle_btn)),
+.light-theme div[data-testid="stElementContainer"]:has(.stButton):not(:has(.st-key-theme_toggle_btn)),
+html:has(#light-theme-flag) div[data-testid="stButton"]:not(.st-key-theme_toggle_btn *),
+html:has(#light-theme-flag) .stButton:not(.st-key-theme_toggle_btn *),
+body:has(#light-theme-flag) div[data-testid="stButton"]:not(.st-key-theme_toggle_btn *),
+body:has(#light-theme-flag) .stButton:not(.st-key-theme_toggle_btn *),
+.stApp:has(#light-theme-flag) div[data-testid="stButton"]:not(.st-key-theme_toggle_btn *),
+.stApp:has(#light-theme-flag) .stButton:not(.st-key-theme_toggle_btn *),
+.stApp:has(.light-theme) div[data-testid="stButton"]:not(.st-key-theme_toggle_btn *),
+.stApp:has(.light-theme) .stButton:not(.st-key-theme_toggle_btn *),
+.light-theme div[data-testid="stButton"]:not(.st-key-theme_toggle_btn *),
+.light-theme .stButton:not(.st-key-theme_toggle_btn *),
+html:has(#light-theme-flag) [data-testid="stTooltipHoverTarget"]:has(button:not(.st-key-theme_toggle_btn button)),
+body:has(#light-theme-flag) [data-testid="stTooltipHoverTarget"]:has(button:not(.st-key-theme_toggle_btn button)),
+.stApp:has(#light-theme-flag) [data-testid="stTooltipHoverTarget"]:has(button:not(.st-key-theme_toggle_btn button)),
+.stApp:has(.light-theme) [data-testid="stTooltipHoverTarget"]:has(button:not(.st-key-theme_toggle_btn button)),
+.light-theme [data-testid="stTooltipHoverTarget"]:has(button:not(.st-key-theme_toggle_btn button)) {
+    width: 100% !important;
+    min-width: 100% !important;
+    display: flex !important;
+    flex-grow: 1 !important;
+    box-sizing: border-box !important;
+}
+
+/* Ensure buttons take up full width and maintain proper height and padding */
+html:has(#light-theme-flag) div[data-testid="stButton"]:not(.st-key-theme_toggle_btn *) button,
+html:has(#light-theme-flag) .stButton:not(.st-key-theme_toggle_btn *) button,
+html:has(#light-theme-flag) button[kind="secondary"]:not(.st-key-theme_toggle_btn button),
+html:has(#light-theme-flag) button[data-testid="baseButton-secondary"]:not(.st-key-theme_toggle_btn button),
+html:has(#light-theme-flag) button[data-testid="stBaseButton-secondary"]:not(.st-key-theme_toggle_btn button),
+body:has(#light-theme-flag) div[data-testid="stButton"]:not(.st-key-theme_toggle_btn *) button,
+body:has(#light-theme-flag) .stButton:not(.st-key-theme_toggle_btn *) button,
+body:has(#light-theme-flag) button[kind="secondary"]:not(.st-key-theme_toggle_btn button),
+body:has(#light-theme-flag) button[data-testid="baseButton-secondary"]:not(.st-key-theme_toggle_btn button),
+body:has(#light-theme-flag) button[data-testid="stBaseButton-secondary"]:not(.st-key-theme_toggle_btn button),
+.stApp:has(#light-theme-flag) div[data-testid="stButton"]:not(.st-key-theme_toggle_btn *) button,
+.stApp:has(#light-theme-flag) .stButton:not(.st-key-theme_toggle_btn *) button,
+.stApp:has(#light-theme-flag) button[kind="secondary"]:not(.st-key-theme_toggle_btn button),
+.stApp:has(#light-theme-flag) button[data-testid="baseButton-secondary"]:not(.st-key-theme_toggle_btn button),
+.stApp:has(#light-theme-flag) button[data-testid="stBaseButton-secondary"]:not(.st-key-theme_toggle_btn button),
+.stApp:has(.light-theme) div[data-testid="stButton"]:not(.st-key-theme_toggle_btn *) button,
+.stApp:has(.light-theme) .stButton:not(.st-key-theme_toggle_btn *) button,
+.stApp:has(.light-theme) button[kind="secondary"]:not(.st-key-theme_toggle_btn button),
+.stApp:has(.light-theme) button[data-testid="baseButton-secondary"]:not(.st-key-theme_toggle_btn button),
+.stApp:has(.light-theme) button[data-testid="stBaseButton-secondary"]:not(.st-key-theme_toggle_btn button),
+.light-theme div[data-testid="stButton"]:not(.st-key-theme_toggle_btn *) button,
+.light-theme .stButton:not(.st-key-theme_toggle_btn *) button,
+.light-theme button[kind="secondary"]:not(.st-key-theme_toggle_btn button),
+.light-theme button[data-testid="baseButton-secondary"]:not(.st-key-theme_toggle_btn button),
+.light-theme button[data-testid="stBaseButton-secondary"]:not(.st-key-theme_toggle_btn button) {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    min-height: 42px !important;
+    height: 42px !important;
+    padding: 8px 20px !important;
+    font-size: 0.92rem !important;
+    font-weight: 600 !important;
+    line-height: 1.5 !important;
+    border-radius: var(--radius-sm, 8px) !important;
+    display: flex !important;
+    flex-grow: 1 !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+    background: rgba(241, 245, 249, 0.6) !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    color: #1e293b !important;
+    -webkit-text-fill-color: #1e293b !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+html:has(#light-theme-flag) div[data-testid="stButton"]:not(.st-key-theme_toggle_btn *) button:hover,
+html:has(#light-theme-flag) .stButton:not(.st-key-theme_toggle_btn *) button:hover,
+html:has(#light-theme-flag) button[kind="secondary"]:not(.st-key-theme_toggle_btn button):hover,
+html:has(#light-theme-flag) button[data-testid="baseButton-secondary"]:not(.st-key-theme_toggle_btn button):hover,
+html:has(#light-theme-flag) button[data-testid="stBaseButton-secondary"]:not(.st-key-theme_toggle_btn button):hover,
+body:has(#light-theme-flag) div[data-testid="stButton"]:not(.st-key-theme_toggle_btn *) button:hover,
+body:has(#light-theme-flag) .stButton:not(.st-key-theme_toggle_btn *) button:hover,
+body:has(#light-theme-flag) button[kind="secondary"]:not(.st-key-theme_toggle_btn button):hover,
+body:has(#light-theme-flag) button[data-testid="baseButton-secondary"]:not(.st-key-theme_toggle_btn button):hover,
+body:has(#light-theme-flag) button[data-testid="stBaseButton-secondary"]:not(.st-key-theme_toggle_btn button):hover,
+.stApp:has(#light-theme-flag) div[data-testid="stButton"]:not(.st-key-theme_toggle_btn *) button:hover,
+.stApp:has(#light-theme-flag) .stButton:not(.st-key-theme_toggle_btn *) button:hover,
+.stApp:has(#light-theme-flag) button[kind="secondary"]:not(.st-key-theme_toggle_btn button):hover,
+.stApp:has(#light-theme-flag) button[data-testid="baseButton-secondary"]:not(.st-key-theme_toggle_btn button):hover,
+.stApp:has(#light-theme-flag) button[data-testid="stBaseButton-secondary"]:not(.st-key-theme_toggle_btn button):hover,
+.stApp:has(.light-theme) div[data-testid="stButton"]:not(.st-key-theme_toggle_btn *) button:hover,
+.stApp:has(.light-theme) .stButton:not(.st-key-theme_toggle_btn *) button:hover,
+.stApp:has(.light-theme) button[kind="secondary"]:not(.st-key-theme_toggle_btn button):hover,
+.stApp:has(.light-theme) button[data-testid="baseButton-secondary"]:not(.st-key-theme_toggle_btn button):hover,
+.stApp:has(.light-theme) button[data-testid="stBaseButton-secondary"]:not(.st-key-theme_toggle_btn button):hover,
+.light-theme div[data-testid="stButton"]:not(.st-key-theme_toggle_btn *) button:hover,
+.light-theme .stButton:not(.st-key-theme_toggle_btn *) button:hover,
+.light-theme button[kind="secondary"]:not(.st-key-theme_toggle_btn button):hover,
+.light-theme button[data-testid="baseButton-secondary"]:not(.st-key-theme_toggle_btn button):hover,
+.light-theme button[data-testid="stBaseButton-secondary"]:not(.st-key-theme_toggle_btn button):hover {
+    background: rgba(226, 232, 240, 0.85) !important;
+    border-color: rgba(16, 185, 129, 0.4) !important;
+    color: #047857 !important;
+    -webkit-text-fill-color: #047857 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+}
+
+html:has(#light-theme-flag) div[data-testid="stButton"]:not(.st-key-theme_toggle_btn *) button p,
+.stApp:has(#light-theme-flag) div[data-testid="stButton"]:not(.st-key-theme_toggle_btn *) button p,
+.light-theme div[data-testid="stButton"]:not(.st-key-theme_toggle_btn *) button p {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 0.92rem !important;
+    font-weight: 600 !important;
+    line-height: 1.5 !important;
+    color: inherit !important;
+    -webkit-text-fill-color: inherit !important;
+}
