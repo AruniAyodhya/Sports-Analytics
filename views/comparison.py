@@ -274,7 +274,7 @@ def render_comparison(active_theme: str = "dark") -> None:
     majority_acc = comp_data["majority_acc"]
     majority_f1 = comp_data["majority_f1"]
 
-    st.markdown("#### 🏆 Multi-Model Benchmark & Lifecycle Evaluation")
+    st.markdown("#### Multi-Model Benchmark & Lifecycle Evaluation")
     st.markdown(
         """
         <p class="page-subtitle">
@@ -397,8 +397,8 @@ def render_comparison(active_theme: str = "dark") -> None:
         prog_mode = st.radio(
             "Evaluation Progression Dimension",
             [
-                "📊 Lifecycle Tuning Stages (Baseline Val → Tuned Val → Final Test)",
-                "🎯 Dataset Split Generalization (Training Split → Validation Split → Holdout Testing)",
+                "Lifecycle Tuning Stages (Baseline Val → Tuned Val → Final Test)",
+                "Dataset Split Generalization (Training Split → Validation Split → Holdout Testing)",
             ],
             index=0,
             horizontal=True,
@@ -406,7 +406,7 @@ def render_comparison(active_theme: str = "dark") -> None:
         )
     with ctrl_col2:
         show_data_labels = st.checkbox(
-            "🏷️ Overlay Direct Data Point Values",
+            "Overlay Direct Data Point Values",
             value=False,
             help="Overlay numerical values directly on chart data points using smart collision offsets. When unchecked, hover over any point for the high-precision inspector.",
         )
@@ -417,12 +417,12 @@ def render_comparison(active_theme: str = "dark") -> None:
 
     # Interactive Visual Tabs: Clean, Spacious, and Un-cramped
     tab_acc, tab_f1, tab_auc, tab_stack, tab_gap, tab_matrix = st.tabs([
-        "🎯 Accuracy Benchmark",
-        "⚖️ Macro F1-Score (Primary)",
-        "📈 ROC-AUC (Separation)",
-        "🔬 Multi-Metric Stack",
-        "📋 Generalization & Overfitting",
-        "📊 Complete Lifecycle Matrix",
+        "Accuracy Benchmark",
+        "Macro F1-Score (Primary)",
+        "ROC-AUC (Separation)",
+        "Multi-Metric Stack",
+        "Generalization & Overfitting",
+        "Complete Lifecycle Matrix",
     ])
 
     with tab_acc:
@@ -444,7 +444,7 @@ def render_comparison(active_theme: str = "dark") -> None:
             """
             <div class="analysis-callout">
                 <div class="analysis-callout-title">
-                    🎯 Accuracy Progression & Generalization Analysis
+                    Accuracy Progression & Generalization Analysis
                 </div>
                 <div class="analysis-callout-body">
                     • <b>Baseline Outperformance</b>: All 4 models comfortably surpass the 44.21% naive majority-class baseline on unseen holdout test data (3,923 matches).<br/>
@@ -475,7 +475,7 @@ def render_comparison(active_theme: str = "dark") -> None:
             """
             <div class="analysis-callout">
                 <div class="analysis-callout-title">
-                    ⚖️ Macro F1-Score & Minority Class Balance Analysis (Primary Evaluation Metric)
+                    Macro F1-Score & Minority Class Balance Analysis (Primary Evaluation Metric)
                 </div>
                 <div class="analysis-callout-body">
                     • <b>Massive Uplift Over Heuristics (+110% to +115%)</b>: While naive majority guessing achieves a dismal 0.2047 Macro F1 due to ignoring Away Wins and Draws, all four trained models achieve <b>0.4331 to 0.4405</b> on unseen holdout test data.<br/>
@@ -505,7 +505,7 @@ def render_comparison(active_theme: str = "dark") -> None:
             """
             <div class="analysis-callout">
                 <div class="analysis-callout-title">
-                    📈 Multiclass Discriminative Separation (ROC-AUC) Analysis
+                    Multiclass Discriminative Separation (ROC-AUC) Analysis
                 </div>
                 <div class="analysis-callout-body">
                     • <b>Continuous Rank Quality</b>: One-vs-Rest (OvR) multiclass ROC-AUC evaluates predicted continuous probabilities across all three match outcomes.<br/>
@@ -518,7 +518,7 @@ def render_comparison(active_theme: str = "dark") -> None:
         )
 
     with tab_stack:
-        st.markdown("##### 🔬 Multi-Metric Progression Stack (Full-Width Un-cramped View)")
+        st.markdown("##### Multi-Metric Progression Stack (Full-Width Un-cramped View)")
         st.markdown(
             """
             <p class="section-desc">
@@ -577,7 +577,7 @@ def render_comparison(active_theme: str = "dark") -> None:
         )
 
     with tab_gap:
-        st.markdown("##### 📋 Generalization Degradation & Overfitting Audit")
+        st.markdown("##### Generalization Degradation & Overfitting Audit")
         st.markdown(
             """
             <p class="section-desc">
@@ -661,7 +661,7 @@ def render_comparison(active_theme: str = "dark") -> None:
         )
 
     with tab_matrix:
-        st.markdown("##### 📊 Complete 6-Metric Lifecycle Evaluation Matrix")
+        st.markdown("##### Complete 6-Metric Lifecycle Evaluation Matrix")
         st.markdown(
             """
             <p class="section-desc">
@@ -675,7 +675,7 @@ def render_comparison(active_theme: str = "dark") -> None:
         matrix_df = comp_data.get("lifecycle_matrix_df", pd.DataFrame())
         matrix_filter = st.selectbox(
             "Filter Model Family",
-            ["All Models (Unified Matrix)", "Random Forest", "Logistic Regression", "Decision Tree", "XGBoost"],
+            ["All Models (Unified Matrix)", "Logistic Regression", "Random Forest", "XGBoost", "Decision Tree"],
             index=0,
             help="Filter matrix rows to inspect a specific classifier lifecycle.",
         )
@@ -691,7 +691,7 @@ def render_comparison(active_theme: str = "dark") -> None:
             """
             <div class="analysis-callout" style="margin-top: 10px;">
                 <div class="analysis-callout-title">
-                    📖 Lifecycle Evaluation Methodology & Definitions
+                    Lifecycle Evaluation Methodology & Definitions
                 </div>
                 <div class="analysis-callout-body-sm">
                     • <b>Baseline Validation</b>: Out-of-the-box model architecture with default hyperparameters evaluated on the validation fold.<br/>

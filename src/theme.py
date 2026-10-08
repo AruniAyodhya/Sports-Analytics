@@ -83,19 +83,43 @@ def load_custom_css() -> None:
             st.warning("Custom stylesheets not found in assets/. Falling back to default styles.")
 
 
-@st.cache_data(show_spinner=False)
 def load_toggle_icons() -> Dict[str, str]:
-    """Dynamically load and base64-encode PNG toggle icons from assets/toggle."""
+    """Dynamically load and base64-encode PNG toggle icons from assets/toggle without caching."""
     root_dir = Path(__file__).resolve().parent.parent
-    toggle_dir = root_dir / "assets" / "toggle"
-    if not toggle_dir.exists():
-        toggle_dir = Path("assets/toggle").resolve()
+    candidate_dirs = [
+        root_dir / "assets" / "toggle",
+        Path.cwd() / "assets" / "toggle",
+        root_dir / "static" / "toggle",
+        Path("assets/toggle").resolve(),
+    ]
+
+    toggle_dir = None
+    for cdir in candidate_dirs:
+        if cdir.exists() and any(cdir.glob("*.png")):
+            toggle_dir = cdir
+            break
+
+    if toggle_dir is None:
+        toggle_dir = root_dir / "assets" / "toggle"
 
     icons: Dict[str, str] = {}
     for name in ["day-mode-black", "day-mode-white", "night-mode-black", "night-mode-white"]:
-        p = toggle_dir / f"{name}.png"
-        if p.exists():
-            icons[name] = f"data:image/png;base64,{base64.b64encode(p.read_bytes()).decode('utf-8')}"
+        file_path = toggle_dir / f"{name}.png"
+        if not file_path.exists():
+            # Check secondary search paths
+            for alt_dir in candidate_dirs:
+                alt_p = alt_dir / f"{name}.png"
+                if alt_p.exists():
+                    file_path = alt_p
+                    break
+
+        if file_path.exists() and file_path.stat().st_size > 0:
+            raw_bytes = file_path.read_bytes()
+            encoded = base64.b64encode(raw_bytes).decode("utf-8")
+            icons[name] = f"data:image/png;base64,{encoded}"
+        else:
+            icons[name] = ""
+
     return icons
 
 
@@ -134,18 +158,26 @@ def render_theme_toggle() -> None:
         .st-key-theme_toggle_btn {{
             display: flex !important;
             justify-content: flex-end !important;
-            align-items: center !important;
+            align-items: flex-start !important;
             width: 100% !important;
+            height: 38px !important;
+            min-height: 38px !important;
+            max-height: 38px !important;
             margin: 0 !important;
             padding: 0 !important;
+            line-height: 1 !important;
         }}
         .st-key-theme_toggle_btn .stButton {{
             display: flex !important;
             justify-content: flex-end !important;
-            align-items: center !important;
+            align-items: flex-start !important;
             width: auto !important;
+            height: 38px !important;
+            min-height: 38px !important;
+            max-height: 38px !important;
             margin: 0 !important;
             padding: 0 !important;
+            line-height: 1 !important;
         }}
         .st-key-theme_toggle_btn button,
         .st-key-theme_toggle_btn button[kind="secondary"],
@@ -161,14 +193,16 @@ def render_theme_toggle() -> None:
             min-height: 38px !important;
             max-height: 38px !important;
             border-radius: 9999px !important;
+            box-sizing: border-box !important;
             background-color: #090e18 !important;
             border: 1.5px solid rgba(255, 255, 255, 0.14) !important;
             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.25) !important;
             padding: 0 !important;
             margin: 0 !important;
+            top: 0 !important;
             cursor: pointer !important;
             overflow: hidden !important;
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease !important;
             user-select: none !important;
         }}
         .st-key-theme_toggle_btn button:hover {{
@@ -194,10 +228,10 @@ def render_theme_toggle() -> None:
             width: 20px !important;
             height: 20px !important;
             background-image: url('{sun_inactive}') !important;
-            background-size: contain !important;
+            background-size: 20px 20px !important;
             background-repeat: no-repeat !important;
             background-position: center !important;
-            opacity: 0.6 !important;
+            opacity: 0.65 !important;
             pointer-events: none !important;
             z-index: 1 !important;
             transition: opacity 0.2s ease !important;
@@ -212,8 +246,10 @@ def render_theme_toggle() -> None:
             right: 3px !important;
             top: 3px !important;
             bottom: 3px !important;
+            height: 29px !important;
             width: 38px !important;
             border-radius: 9999px !important;
+            box-sizing: border-box !important;
             background-color: #1e293b !important;
             border: 1px solid rgba(255, 255, 255, 0.18) !important;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
@@ -230,8 +266,15 @@ def render_theme_toggle() -> None:
         .st-key-theme_toggle_btn button p,
         .st-key-theme_toggle_btn button span,
         .st-key-theme_toggle_btn button div,
-        .st-key-theme_toggle_btn button svg {{
+        .st-key-theme_toggle_btn button svg,
+        .st-key-theme_toggle_btn button img {{
             display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            width: 0 !important;
+            height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
         }}
         </style>
         """
@@ -241,18 +284,26 @@ def render_theme_toggle() -> None:
         .st-key-theme_toggle_btn {{
             display: flex !important;
             justify-content: flex-end !important;
-            align-items: center !important;
+            align-items: flex-start !important;
             width: 100% !important;
+            height: 38px !important;
+            min-height: 38px !important;
+            max-height: 38px !important;
             margin: 0 !important;
             padding: 0 !important;
+            line-height: 1 !important;
         }}
         .st-key-theme_toggle_btn .stButton {{
             display: flex !important;
             justify-content: flex-end !important;
-            align-items: center !important;
+            align-items: flex-start !important;
             width: auto !important;
+            height: 38px !important;
+            min-height: 38px !important;
+            max-height: 38px !important;
             margin: 0 !important;
             padding: 0 !important;
+            line-height: 1 !important;
         }}
         .st-key-theme_toggle_btn button,
         .st-key-theme_toggle_btn button[kind="secondary"],
@@ -268,14 +319,16 @@ def render_theme_toggle() -> None:
             min-height: 38px !important;
             max-height: 38px !important;
             border-radius: 9999px !important;
+            box-sizing: border-box !important;
             background-color: #e2e8f0 !important;
             border: 1.5px solid rgba(15, 23, 42, 0.14) !important;
             box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.08), 0 2px 8px rgba(15, 23, 42, 0.05) !important;
             padding: 0 !important;
             margin: 0 !important;
+            top: 0 !important;
             cursor: pointer !important;
             overflow: hidden !important;
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease !important;
             user-select: none !important;
         }}
         .st-key-theme_toggle_btn button:hover {{
@@ -301,10 +354,10 @@ def render_theme_toggle() -> None:
             width: 20px !important;
             height: 20px !important;
             background-image: url('{moon_inactive}') !important;
-            background-size: contain !important;
+            background-size: 20px 20px !important;
             background-repeat: no-repeat !important;
             background-position: center !important;
-            opacity: 0.5 !important;
+            opacity: 0.55 !important;
             pointer-events: none !important;
             z-index: 1 !important;
             transition: opacity 0.2s ease !important;
@@ -319,13 +372,15 @@ def render_theme_toggle() -> None:
             left: 3px !important;
             top: 3px !important;
             bottom: 3px !important;
+            height: 29px !important;
             width: 38px !important;
             border-radius: 9999px !important;
+            box-sizing: border-box !important;
             background-color: #ffffff !important;
             border: 1px solid rgba(15, 23, 42, 0.08) !important;
             box-shadow: 0 2px 8px rgba(15, 23, 42, 0.14), 0 1px 2px rgba(15, 23, 42, 0.08) !important;
             background-image: url('{sun_active}') !important;
-            background-size: 19px 19px !important;
+            background-size: 20px 20px !important;
             background-repeat: no-repeat !important;
             background-position: center !important;
             pointer-events: none !important;
@@ -337,8 +392,15 @@ def render_theme_toggle() -> None:
         .st-key-theme_toggle_btn button p,
         .st-key-theme_toggle_btn button span,
         .st-key-theme_toggle_btn button div,
-        .st-key-theme_toggle_btn button svg {{
+        .st-key-theme_toggle_btn button svg,
+        .st-key-theme_toggle_btn button img {{
             display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            width: 0 !important;
+            height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
         }}
         </style>
         """

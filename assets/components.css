@@ -5,8 +5,11 @@
 .st-key-theme_toggle_btn {
     display: flex !important;
     justify-content: flex-end !important;
-    align-items: center !important;
+    align-items: flex-start !important;
     width: 100% !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    max-height: 38px !important;
     margin: 0 !important;
     padding: 0 !important;
 }
@@ -14,8 +17,11 @@
 .st-key-theme_toggle_btn .stButton {
     display: flex !important;
     justify-content: flex-end !important;
-    align-items: center !important;
+    align-items: flex-start !important;
     width: auto !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    max-height: 38px !important;
     margin: 0 !important;
     padding: 0 !important;
 }
@@ -32,8 +38,10 @@
     min-height: 38px !important;
     max-height: 38px !important;
     border-radius: 9999px !important;
+    box-sizing: border-box !important;
     padding: 0 !important;
     margin: 0 !important;
+    top: 0 !important;
     cursor: pointer !important;
     overflow: hidden !important;
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
@@ -52,6 +60,13 @@
 .st-key-theme_toggle_btn button:focus-visible {
     outline: none !important;
     box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.45) !important;
+}
+
+.st-key-theme_toggle_btn button img {
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
 }
 
 
@@ -264,6 +279,18 @@ hr {
 .stApp:has(#light-theme-flag) div[data-baseweb="base-input"] input {
     color: #1e293b !important;
     background-color: transparent !important;
+}
+
+.stApp:has(#light-theme-flag) div[data-baseweb="select"] span,
+.stApp:has(#light-theme-flag) div[data-baseweb="select"] div,
+.stApp:has(#light-theme-flag) div[data-baseweb="select"] p {
+    color: #1e293b !important;
+    -webkit-text-fill-color: #1e293b !important;
+}
+
+.stApp:has(#light-theme-flag) div[data-baseweb="select"] svg {
+    fill: #475569 !important;
+    color: #475569 !important;
 }
 
 /* Number input stepper buttons in Light Mode */
@@ -591,38 +618,703 @@ hr {
 /* -----------------------------------------------------------------------------
    4. Selectbox Dropdown Menu (BaseWeb Popover) in Light Mode
    ----------------------------------------------------------------------------- */
-.stApp:has(#light-theme-flag) ul[data-baseweb="menu"],
-.stApp:has(#light-theme-flag) div[data-baseweb="popover"] > div,
-body:has(#light-theme-flag) ul[data-baseweb="menu"],
-body:has(#light-theme-flag) div[data-baseweb="popover"] > div {
+/* Outer Popover Floating Card Container */
+html:has(#light-theme-flag) div[data-baseweb="popover"],
+html:has(#light-theme-flag) [data-baseweb="popover"],
+body:has(#light-theme-flag) div[data-baseweb="popover"],
+body:has(#light-theme-flag) [data-baseweb="popover"],
+.stApp:has(#light-theme-flag) div[data-baseweb="popover"],
+.stApp:has(#light-theme-flag) [data-baseweb="popover"] {
     background-color: #ffffff !important;
+    background: #ffffff !important;
     border: 1px solid rgba(15, 23, 42, 0.12) !important;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
+    overflow: hidden !important;
 }
 
-.stApp:has(#light-theme-flag) li[role="option"],
-.stApp:has(#light-theme-flag) li[role="option"] *,
+/* Inner Popover Wrappers & Virtual Dropdown Containers */
+html:has(#light-theme-flag) [data-baseweb="popover"] > div,
+html:has(#light-theme-flag) [data-baseweb="popover"] > div > div,
+html:has(#light-theme-flag) [data-baseweb="popover"] ul,
+html:has(#light-theme-flag) [data-baseweb="popover"] [data-baseweb="menu"],
+html:has(#light-theme-flag) [data-baseweb="menu"],
+html:has(#light-theme-flag) ul[data-baseweb="menu"],
+html:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdown"],
+html:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdown"] > div,
+html:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdownEmpty"],
+html:has(#light-theme-flag) [role="listbox"],
+html:has(#light-theme-flag) [role="listbox"] > div,
+body:has(#light-theme-flag) [data-baseweb="popover"] > div,
+body:has(#light-theme-flag) [data-baseweb="popover"] > div > div,
+body:has(#light-theme-flag) [data-baseweb="popover"] ul,
+body:has(#light-theme-flag) [data-baseweb="popover"] [data-baseweb="menu"],
+body:has(#light-theme-flag) [data-baseweb="menu"],
+body:has(#light-theme-flag) ul[data-baseweb="menu"],
+body:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdown"],
+body:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdown"] > div,
+body:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdownEmpty"],
+body:has(#light-theme-flag) [role="listbox"],
+body:has(#light-theme-flag) [role="listbox"] > div,
+.stApp:has(#light-theme-flag) [data-baseweb="popover"] > div,
+.stApp:has(#light-theme-flag) [data-baseweb="menu"],
+.stApp:has(#light-theme-flag) ul[data-baseweb="menu"],
+.stApp:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdown"],
+.stApp:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdown"] > div,
+.stApp:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdownEmpty"],
+.stApp:has(#light-theme-flag) [role="listbox"] {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    color: #1e293b !important;
+    border-color: rgba(15, 23, 42, 0.08) !important;
+    box-shadow: none !important;
+}
+
+/* Unselected Option Items: Clean white background with dark, highly readable text */
+html:has(#light-theme-flag) li[role="option"],
+html:has(#light-theme-flag) [role="option"],
+html:has(#light-theme-flag) [data-baseweb="menu"] li,
+html:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdown"] li,
 body:has(#light-theme-flag) li[role="option"],
-body:has(#light-theme-flag) li[role="option"] * {
-    color: #374151 !important;
-    -webkit-text-fill-color: #374151 !important;
+body:has(#light-theme-flag) [role="option"],
+body:has(#light-theme-flag) [data-baseweb="menu"] li,
+body:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdown"] li,
+.stApp:has(#light-theme-flag) li[role="option"],
+.stApp:has(#light-theme-flag) [role="option"],
+.stApp:has(#light-theme-flag) [data-baseweb="menu"] li,
+.stApp:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdown"] li {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    color: #1e293b !important;
+    -webkit-text-fill-color: #1e293b !important;
+    font-weight: 500 !important;
+    transition: background-color 0.15s ease, color 0.15s ease !important;
 }
 
-.stApp:has(#light-theme-flag) li[role="option"]:hover,
-.stApp:has(#light-theme-flag) li[role="option"]:hover *,
+html:has(#light-theme-flag) li[role="option"] *,
+html:has(#light-theme-flag) [role="option"] *,
+html:has(#light-theme-flag) [data-baseweb="menu"] li *,
+html:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdown"] li *,
+body:has(#light-theme-flag) li[role="option"] *,
+body:has(#light-theme-flag) [role="option"] *,
+body:has(#light-theme-flag) [data-baseweb="menu"] li *,
+body:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdown"] li *,
+.stApp:has(#light-theme-flag) li[role="option"] *,
+.stApp:has(#light-theme-flag) [role="option"] *,
+.stApp:has(#light-theme-flag) [data-baseweb="menu"] li *,
+.stApp:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdown"] li * {
+    color: #1e293b !important;
+    -webkit-text-fill-color: #1e293b !important;
+}
+
+/* Hovered / Highlighted Option Items: Clean Turf Green Tint */
+html:has(#light-theme-flag) li[role="option"]:hover,
+html:has(#light-theme-flag) [role="option"]:hover,
+html:has(#light-theme-flag) li[role="option"][data-highlighted="true"],
+html:has(#light-theme-flag) [role="option"][data-highlighted="true"],
+html:has(#light-theme-flag) li[role="option"]:focus,
 body:has(#light-theme-flag) li[role="option"]:hover,
-body:has(#light-theme-flag) li[role="option"]:hover * {
+body:has(#light-theme-flag) [role="option"]:hover,
+body:has(#light-theme-flag) li[role="option"][data-highlighted="true"],
+body:has(#light-theme-flag) [role="option"][data-highlighted="true"],
+body:has(#light-theme-flag) li[role="option"]:focus,
+.stApp:has(#light-theme-flag) li[role="option"]:hover,
+.stApp:has(#light-theme-flag) [role="option"]:hover,
+.stApp:has(#light-theme-flag) li[role="option"][data-highlighted="true"],
+.stApp:has(#light-theme-flag) [role="option"][data-highlighted="true"],
+.stApp:has(#light-theme-flag) li[role="option"]:focus {
     background-color: #f0fdf4 !important;
+    background: #f0fdf4 !important;
     color: #047857 !important;
     -webkit-text-fill-color: #047857 !important;
 }
 
-.stApp:has(#light-theme-flag) li[role="option"][aria-selected="true"],
-.stApp:has(#light-theme-flag) li[role="option"][aria-selected="true"] *,
+html:has(#light-theme-flag) li[role="option"]:hover *,
+html:has(#light-theme-flag) [role="option"]:hover *,
+html:has(#light-theme-flag) li[role="option"][data-highlighted="true"] *,
+html:has(#light-theme-flag) [role="option"][data-highlighted="true"] *,
+body:has(#light-theme-flag) li[role="option"]:hover *,
+body:has(#light-theme-flag) [role="option"]:hover *,
+body:has(#light-theme-flag) li[role="option"][data-highlighted="true"] *,
+body:has(#light-theme-flag) [role="option"][data-highlighted="true"] *,
+.stApp:has(#light-theme-flag) li[role="option"]:hover *,
+.stApp:has(#light-theme-flag) [role="option"]:hover *,
+.stApp:has(#light-theme-flag) li[role="option"][data-highlighted="true"] *,
+.stApp:has(#light-theme-flag) [role="option"][data-highlighted="true"] * {
+    color: #047857 !important;
+    -webkit-text-fill-color: #047857 !important;
+}
+
+/* Selected Option Item: Distinct Turf Green Accent */
+html:has(#light-theme-flag) li[role="option"][aria-selected="true"],
+html:has(#light-theme-flag) [role="option"][aria-selected="true"],
 body:has(#light-theme-flag) li[role="option"][aria-selected="true"],
-body:has(#light-theme-flag) li[role="option"][aria-selected="true"] * {
+body:has(#light-theme-flag) [role="option"][aria-selected="true"],
+.stApp:has(#light-theme-flag) li[role="option"][aria-selected="true"],
+.stApp:has(#light-theme-flag) [role="option"][aria-selected="true"] {
     background-color: #ecfdf5 !important;
+    background: #ecfdf5 !important;
     color: #059669 !important;
     -webkit-text-fill-color: #059669 !important;
     font-weight: 600 !important;
 }
+
+html:has(#light-theme-flag) li[role="option"][aria-selected="true"] *,
+html:has(#light-theme-flag) [role="option"][aria-selected="true"] *,
+body:has(#light-theme-flag) li[role="option"][aria-selected="true"] *,
+body:has(#light-theme-flag) [role="option"][aria-selected="true"] *,
+.stApp:has(#light-theme-flag) li[role="option"][aria-selected="true"] *,
+.stApp:has(#light-theme-flag) [role="option"][aria-selected="true"] * {
+    color: #059669 !important;
+    -webkit-text-fill-color: #059669 !important;
+    font-weight: 600 !important;
+}
+
+/* Selected Option Item when Hovered */
+html:has(#light-theme-flag) li[role="option"][aria-selected="true"]:hover,
+html:has(#light-theme-flag) [role="option"][aria-selected="true"]:hover,
+body:has(#light-theme-flag) li[role="option"][aria-selected="true"]:hover,
+body:has(#light-theme-flag) [role="option"][aria-selected="true"]:hover,
+.stApp:has(#light-theme-flag) li[role="option"][aria-selected="true"]:hover,
+.stApp:has(#light-theme-flag) [role="option"][aria-selected="true"]:hover {
+    background-color: #d1fae5 !important;
+    background: #d1fae5 !important;
+    color: #047857 !important;
+    -webkit-text-fill-color: #047857 !important;
+}
+
+html:has(#light-theme-flag) li[role="option"][aria-selected="true"]:hover *,
+html:has(#light-theme-flag) [role="option"][aria-selected="true"]:hover *,
+body:has(#light-theme-flag) li[role="option"][aria-selected="true"]:hover *,
+body:has(#light-theme-flag) [role="option"][aria-selected="true"]:hover *,
+.stApp:has(#light-theme-flag) li[role="option"][aria-selected="true"]:hover *,
+.stApp:has(#light-theme-flag) [role="option"][aria-selected="true"]:hover * {
+    color: #047857 !important;
+    -webkit-text-fill-color: #047857 !important;
+}
+
+/* Dropdown Menu Scrollbar in Light Mode */
+html:has(#light-theme-flag) [data-baseweb="popover"] ::-webkit-scrollbar,
+body:has(#light-theme-flag) [data-baseweb="popover"] ::-webkit-scrollbar,
+html:has(#light-theme-flag) [data-baseweb="menu"]::-webkit-scrollbar,
+body:has(#light-theme-flag) [data-baseweb="menu"]::-webkit-scrollbar {
+    width: 6px !important;
+    height: 6px !important;
+}
+
+html:has(#light-theme-flag) [data-baseweb="popover"] ::-webkit-scrollbar-track,
+body:has(#light-theme-flag) [data-baseweb="popover"] ::-webkit-scrollbar-track,
+html:has(#light-theme-flag) [data-baseweb="menu"]::-webkit-scrollbar-track,
+body:has(#light-theme-flag) [data-baseweb="menu"]::-webkit-scrollbar-track {
+    background: #f1f5f9 !important;
+}
+
+html:has(#light-theme-flag) [data-baseweb="popover"] ::-webkit-scrollbar-thumb,
+body:has(#light-theme-flag) [data-baseweb="popover"] ::-webkit-scrollbar-thumb,
+html:has(#light-theme-flag) [data-baseweb="menu"]::-webkit-scrollbar-thumb,
+body:has(#light-theme-flag) [data-baseweb="menu"]::-webkit-scrollbar-thumb {
+    background: #cbd5e1 !important;
+    border-radius: 9999px !important;
+}
+
+html:has(#light-theme-flag) [data-baseweb="popover"] ::-webkit-scrollbar-thumb:hover,
+body:has(#light-theme-flag) [data-baseweb="popover"] ::-webkit-scrollbar-thumb:hover,
+html:has(#light-theme-flag) [data-baseweb="menu"]::-webkit-scrollbar-thumb:hover,
+body:has(#light-theme-flag) [data-baseweb="menu"]::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8 !important;
+}
+
+
+/* =============================================================================
+   5. Tables & DataFrames (st.table, st.dataframe) in Light Mode ("Daylight Turf")
+   ============================================================================= */
+
+/* HTML Tables (st.table, .stTable, [data-testid="stTable"]) Container */
+html:has(#light-theme-flag) .stTable,
+html:has(#light-theme-flag) [data-testid="stTable"],
+body:has(#light-theme-flag) .stTable,
+body:has(#light-theme-flag) [data-testid="stTable"],
+.stApp:has(#light-theme-flag) .stTable,
+.stApp:has(#light-theme-flag) [data-testid="stTable"],
+.stApp:has(.light-theme) .stTable,
+.stApp:has(.light-theme) [data-testid="stTable"],
+.light-theme .stTable,
+.light-theme [data-testid="stTable"] {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    border-radius: 8px !important;
+    border: 1px solid rgba(16, 185, 129, 0.25) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04) !important;
+    overflow: hidden !important;
+}
+
+/* Base Table Structure */
+html:has(#light-theme-flag) table,
+html:has(#light-theme-flag) .stTable table,
+html:has(#light-theme-flag) [data-testid="stTable"] table,
+html:has(#light-theme-flag) [data-testid="stTableStyledTable"],
+html:has(#light-theme-flag) [data-testid="stDataFrame"] table,
+body:has(#light-theme-flag) table,
+body:has(#light-theme-flag) .stTable table,
+body:has(#light-theme-flag) [data-testid="stTable"] table,
+body:has(#light-theme-flag) [data-testid="stTableStyledTable"],
+body:has(#light-theme-flag) [data-testid="stDataFrame"] table,
+.stApp:has(#light-theme-flag) table,
+.stApp:has(#light-theme-flag) .stTable table,
+.stApp:has(#light-theme-flag) [data-testid="stTable"] table,
+.stApp:has(#light-theme-flag) [data-testid="stTableStyledTable"],
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] table,
+.stApp:has(.light-theme) table,
+.stApp:has(.light-theme) .stTable table,
+.stApp:has(.light-theme) [data-testid="stTable"] table,
+.stApp:has(.light-theme) [data-testid="stTableStyledTable"],
+.stApp:has(.light-theme) [data-testid="stDataFrame"] table,
+.light-theme table,
+.light-theme .stTable table,
+.light-theme [data-testid="stTable"] table,
+.light-theme [data-testid="stTableStyledTable"],
+.light-theme [data-testid="stDataFrame"] table {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    color: #1e293b !important;
+    -webkit-text-fill-color: #1e293b !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    width: 100% !important;
+    border: none !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+}
+
+/* Table Headers (th): Light crisp background (#f1f5f9), dark bold text, turf-accented border */
+html:has(#light-theme-flag) th,
+html:has(#light-theme-flag) thead th,
+html:has(#light-theme-flag) .stTable th,
+html:has(#light-theme-flag) [data-testid="stTable"] th,
+html:has(#light-theme-flag) [data-testid="stTableStyledTable"] th,
+html:has(#light-theme-flag) [data-testid="stDataFrame"] th,
+html:has(#light-theme-flag) [data-testid="stDataFrame"] [role="columnheader"],
+body:has(#light-theme-flag) th,
+body:has(#light-theme-flag) thead th,
+body:has(#light-theme-flag) .stTable th,
+body:has(#light-theme-flag) [data-testid="stTable"] th,
+body:has(#light-theme-flag) [data-testid="stTableStyledTable"] th,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] th,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] [role="columnheader"],
+.stApp:has(#light-theme-flag) th,
+.stApp:has(#light-theme-flag) thead th,
+.stApp:has(#light-theme-flag) .stTable th,
+.stApp:has(#light-theme-flag) [data-testid="stTable"] th,
+.stApp:has(#light-theme-flag) [data-testid="stTableStyledTable"] th,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] th,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] [role="columnheader"],
+.stApp:has(.light-theme) th,
+.stApp:has(.light-theme) thead th,
+.stApp:has(.light-theme) .stTable th,
+.stApp:has(.light-theme) [data-testid="stTable"] th,
+.stApp:has(.light-theme) [data-testid="stTableStyledTable"] th,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] th,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] [role="columnheader"],
+.light-theme th,
+.light-theme thead th,
+.light-theme .stTable th,
+.light-theme [data-testid="stTable"] th,
+.light-theme [data-testid="stTableStyledTable"] th,
+.light-theme [data-testid="stDataFrame"] th,
+.light-theme [data-testid="stDataFrame"] [role="columnheader"] {
+    background-color: #f1f5f9 !important;
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
+    font-weight: 700 !important;
+    font-size: 0.825rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.04em !important;
+    padding: 12px 16px !important;
+    border-bottom: 2px solid rgba(16, 185, 129, 0.55) !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    text-align: left !important;
+    vertical-align: middle !important;
+}
+
+html:has(#light-theme-flag) th *,
+body:has(#light-theme-flag) th *,
+.stApp:has(#light-theme-flag) th *,
+.stApp:has(.light-theme) th *,
+.light-theme th * {
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
+    font-weight: 700 !important;
+}
+
+/* Table Cells (td): Clean white background (#ffffff), dark #1e293b text, subtle row dividers */
+html:has(#light-theme-flag) td,
+html:has(#light-theme-flag) tbody td,
+html:has(#light-theme-flag) .stTable td,
+html:has(#light-theme-flag) [data-testid="stTable"] td,
+html:has(#light-theme-flag) [data-testid="stTableStyledTable"] td,
+html:has(#light-theme-flag) [data-testid="stDataFrame"] td,
+html:has(#light-theme-flag) [data-testid="stDataFrame"] [role="gridcell"],
+body:has(#light-theme-flag) td,
+body:has(#light-theme-flag) tbody td,
+body:has(#light-theme-flag) .stTable td,
+body:has(#light-theme-flag) [data-testid="stTable"] td,
+body:has(#light-theme-flag) [data-testid="stTableStyledTable"] td,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] td,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] [role="gridcell"],
+.stApp:has(#light-theme-flag) td,
+.stApp:has(#light-theme-flag) tbody td,
+.stApp:has(#light-theme-flag) .stTable td,
+.stApp:has(#light-theme-flag) [data-testid="stTable"] td,
+.stApp:has(#light-theme-flag) [data-testid="stTableStyledTable"] td,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] td,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] [role="gridcell"],
+.stApp:has(.light-theme) td,
+.stApp:has(.light-theme) tbody td,
+.stApp:has(.light-theme) .stTable td,
+.stApp:has(.light-theme) [data-testid="stTable"] td,
+.stApp:has(.light-theme) [data-testid="stTableStyledTable"] td,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] td,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] [role="gridcell"],
+.light-theme td,
+.light-theme tbody td,
+.light-theme .stTable td,
+.light-theme [data-testid="stTable"] td,
+.light-theme [data-testid="stTableStyledTable"] td,
+.light-theme [data-testid="stDataFrame"] td,
+.light-theme [data-testid="stDataFrame"] [role="gridcell"] {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    color: #1e293b !important;
+    -webkit-text-fill-color: #1e293b !important;
+    font-size: 0.875rem !important;
+    padding: 11px 16px !important;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    vertical-align: middle !important;
+    transition: background-color 0.15s ease, color 0.15s ease !important;
+}
+
+html:has(#light-theme-flag) td *,
+body:has(#light-theme-flag) td *,
+.stApp:has(#light-theme-flag) td *,
+.stApp:has(.light-theme) td *,
+.light-theme td * {
+    color: #1e293b !important;
+    -webkit-text-fill-color: #1e293b !important;
+}
+
+/* Alternating Subtle Row Striping */
+html:has(#light-theme-flag) tbody tr:nth-child(even) td,
+html:has(#light-theme-flag) .stTable tbody tr:nth-child(even) td,
+html:has(#light-theme-flag) [data-testid="stTable"] tbody tr:nth-child(even) td,
+body:has(#light-theme-flag) tbody tr:nth-child(even) td,
+body:has(#light-theme-flag) .stTable tbody tr:nth-child(even) td,
+body:has(#light-theme-flag) [data-testid="stTable"] tbody tr:nth-child(even) td,
+.stApp:has(#light-theme-flag) tbody tr:nth-child(even) td,
+.stApp:has(#light-theme-flag) .stTable tbody tr:nth-child(even) td,
+.stApp:has(#light-theme-flag) [data-testid="stTable"] tbody tr:nth-child(even) td,
+.stApp:has(.light-theme) tbody tr:nth-child(even) td,
+.stApp:has(.light-theme) .stTable tbody tr:nth-child(even) td,
+.stApp:has(.light-theme) [data-testid="stTable"] tbody tr:nth-child(even) td,
+.light-theme tbody tr:nth-child(even) td,
+.light-theme .stTable tbody tr:nth-child(even) td,
+.light-theme [data-testid="stTable"] tbody tr:nth-child(even) td {
+    background-color: #f8fafc !important;
+    background: #f8fafc !important;
+}
+
+/* Hover or Active Rows: Soft turf-green background tint (#e8f5e9) with deep green text (#065f46) */
+html:has(#light-theme-flag) tbody tr:hover td,
+html:has(#light-theme-flag) tbody tr:hover th,
+html:has(#light-theme-flag) tbody tr.active td,
+html:has(#light-theme-flag) .stTable tbody tr:hover td,
+html:has(#light-theme-flag) [data-testid="stTable"] tbody tr:hover td,
+html:has(#light-theme-flag) [data-testid="stTableStyledTable"] tbody tr:hover td,
+html:has(#light-theme-flag) [data-testid="stDataFrame"] tbody tr:hover td,
+body:has(#light-theme-flag) tbody tr:hover td,
+body:has(#light-theme-flag) tbody tr:hover th,
+body:has(#light-theme-flag) tbody tr.active td,
+body:has(#light-theme-flag) .stTable tbody tr:hover td,
+body:has(#light-theme-flag) [data-testid="stTable"] tbody tr:hover td,
+body:has(#light-theme-flag) [data-testid="stTableStyledTable"] tbody tr:hover td,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] tbody tr:hover td,
+.stApp:has(#light-theme-flag) tbody tr:hover td,
+.stApp:has(#light-theme-flag) tbody tr:hover th,
+.stApp:has(#light-theme-flag) tbody tr.active td,
+.stApp:has(#light-theme-flag) .stTable tbody tr:hover td,
+.stApp:has(#light-theme-flag) [data-testid="stTable"] tbody tr:hover td,
+.stApp:has(#light-theme-flag) [data-testid="stTableStyledTable"] tbody tr:hover td,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] tbody tr:hover td,
+.stApp:has(.light-theme) tbody tr:hover td,
+.stApp:has(.light-theme) tbody tr:hover th,
+.stApp:has(.light-theme) tbody tr.active td,
+.stApp:has(.light-theme) .stTable tbody tr:hover td,
+.stApp:has(.light-theme) [data-testid="stTable"] tbody tr:hover td,
+.stApp:has(.light-theme) [data-testid="stTableStyledTable"] tbody tr:hover td,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] tbody tr:hover td,
+.light-theme tbody tr:hover td,
+.light-theme tbody tr:hover th,
+.light-theme tbody tr.active td,
+.light-theme .stTable tbody tr:hover td,
+.light-theme [data-testid="stTable"] tbody tr:hover td,
+.light-theme [data-testid="stTableStyledTable"] tbody tr:hover td,
+.light-theme [data-testid="stDataFrame"] tbody tr:hover td {
+    background-color: #e8f5e9 !important;
+    background: #e8f5e9 !important;
+    color: #065f46 !important;
+    -webkit-text-fill-color: #065f46 !important;
+}
+
+html:has(#light-theme-flag) tbody tr:hover td *,
+html:has(#light-theme-flag) tbody tr.active td *,
+html:has(#light-theme-flag) .stTable tbody tr:hover td *,
+html:has(#light-theme-flag) [data-testid="stTable"] tbody tr:hover td *,
+body:has(#light-theme-flag) tbody tr:hover td *,
+body:has(#light-theme-flag) tbody tr.active td *,
+body:has(#light-theme-flag) .stTable tbody tr:hover td *,
+body:has(#light-theme-flag) [data-testid="stTable"] tbody tr:hover td *,
+.stApp:has(#light-theme-flag) tbody tr:hover td *,
+.stApp:has(#light-theme-flag) tbody tr.active td *,
+.stApp:has(#light-theme-flag) .stTable tbody tr:hover td *,
+.stApp:has(#light-theme-flag) [data-testid="stTable"] tbody tr:hover td *,
+.stApp:has(.light-theme) tbody tr:hover td *,
+.stApp:has(.light-theme) tbody tr.active td *,
+.stApp:has(.light-theme) .stTable tbody tr:hover td *,
+.stApp:has(.light-theme) [data-testid="stTable"] tbody tr:hover td *,
+.light-theme tbody tr:hover td *,
+.light-theme tbody tr.active td *,
+.light-theme .stTable tbody tr:hover td *,
+.light-theme [data-testid="stTable"] tbody tr:hover td * {
+    color: #065f46 !important;
+    -webkit-text-fill-color: #065f46 !important;
+}
+
+/* Streamlit DataFrames (st.dataframe, .stDataFrame, [data-testid="stDataFrame"]) Container */
+html:has(#light-theme-flag) .stDataFrame,
+html:has(#light-theme-flag) [data-testid="stDataFrame"],
+body:has(#light-theme-flag) .stDataFrame,
+body:has(#light-theme-flag) [data-testid="stDataFrame"],
+.stApp:has(#light-theme-flag) .stDataFrame,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"],
+.stApp:has(.light-theme) .stDataFrame,
+.stApp:has(.light-theme) [data-testid="stDataFrame"],
+.light-theme .stDataFrame,
+.light-theme [data-testid="stDataFrame"] {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    border-radius: 8px !important;
+    border: 1px solid rgba(16, 185, 129, 0.3) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04) !important;
+    overflow: hidden !important;
+}
+
+html:has(#light-theme-flag) [data-testid="stDataFrameResizable"],
+body:has(#light-theme-flag) [data-testid="stDataFrameResizable"],
+.stApp:has(#light-theme-flag) [data-testid="stDataFrameResizable"],
+.stApp:has(.light-theme) [data-testid="stDataFrameResizable"],
+.light-theme [data-testid="stDataFrameResizable"] {
+    border: 1px solid rgba(16, 185, 129, 0.3) !important;
+    border-radius: 8px !important;
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+}
+
+/* Inner canvas wrappers, grid containers, and underlays inside Streamlit DataFrames */
+html:has(#light-theme-flag) [data-testid="stDataFrame"] .stDataFrameGlideDataEditor,
+html:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-underlay,
+html:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-scroller,
+html:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-scroll-inner,
+html:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-inner,
+html:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-stack,
+html:has(#light-theme-flag) .stDataFrame .stDataFrameGlideDataEditor,
+html:has(#light-theme-flag) .stDataFrame .dvn-underlay,
+html:has(#light-theme-flag) .stDataFrame .dvn-scroller,
+html:has(#light-theme-flag) .stDataFrame .dvn-scroll-inner,
+html:has(#light-theme-flag) .stDataFrame .dvn-inner,
+html:has(#light-theme-flag) .stDataFrame .dvn-stack,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] .stDataFrameGlideDataEditor,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-underlay,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-scroller,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-scroll-inner,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-inner,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-stack,
+body:has(#light-theme-flag) .stDataFrame .stDataFrameGlideDataEditor,
+body:has(#light-theme-flag) .stDataFrame .dvn-underlay,
+body:has(#light-theme-flag) .stDataFrame .dvn-scroller,
+body:has(#light-theme-flag) .stDataFrame .dvn-scroll-inner,
+body:has(#light-theme-flag) .stDataFrame .dvn-inner,
+body:has(#light-theme-flag) .stDataFrame .dvn-stack,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] .stDataFrameGlideDataEditor,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-underlay,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-scroller,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-scroll-inner,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-inner,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-stack,
+.stApp:has(#light-theme-flag) .stDataFrame .stDataFrameGlideDataEditor,
+.stApp:has(#light-theme-flag) .stDataFrame .dvn-underlay,
+.stApp:has(#light-theme-flag) .stDataFrame .dvn-scroller,
+.stApp:has(#light-theme-flag) .stDataFrame .dvn-scroll-inner,
+.stApp:has(#light-theme-flag) .stDataFrame .dvn-inner,
+.stApp:has(#light-theme-flag) .stDataFrame .dvn-stack,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] .stDataFrameGlideDataEditor,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] .dvn-underlay,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] .dvn-scroller,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] .dvn-scroll-inner,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] .dvn-inner,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] .dvn-stack,
+.stApp:has(.light-theme) .stDataFrame .stDataFrameGlideDataEditor,
+.stApp:has(.light-theme) .stDataFrame .dvn-underlay,
+.stApp:has(.light-theme) .stDataFrame .dvn-scroller,
+.stApp:has(.light-theme) .stDataFrame .dvn-scroll-inner,
+.stApp:has(.light-theme) .stDataFrame .dvn-inner,
+.stApp:has(.light-theme) .stDataFrame .dvn-stack,
+.light-theme [data-testid="stDataFrame"] .stDataFrameGlideDataEditor,
+.light-theme [data-testid="stDataFrame"] .dvn-underlay,
+.light-theme [data-testid="stDataFrame"] .dvn-scroller,
+.light-theme [data-testid="stDataFrame"] .dvn-scroll-inner,
+.light-theme [data-testid="stDataFrame"] .dvn-inner,
+.light-theme [data-testid="stDataFrame"] .dvn-stack,
+.light-theme .stDataFrame .stDataFrameGlideDataEditor,
+.light-theme .stDataFrame .dvn-underlay,
+.light-theme .stDataFrame .dvn-scroller,
+.light-theme .stDataFrame .dvn-scroll-inner,
+.light-theme .stDataFrame .dvn-inner,
+.light-theme .stDataFrame .dvn-stack {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    color: #1e293b !important;
+    -webkit-text-fill-color: #1e293b !important;
+    filter: none !important;
+}
+
+/* Glide Data Editor Canvas in Light Mode: Target canvas strictly once to prevent cancellation */
+html:has(#light-theme-flag) [data-testid="stDataFrame"] canvas,
+html:has(#light-theme-flag) .stDataFrame canvas,
+html:has(#light-theme-flag) [data-testid="stDataFrame"] [data-testid="data-grid-canvas"],
+html:has(#light-theme-flag) .stDataFrame [data-testid="data-grid-canvas"],
+body:has(#light-theme-flag) [data-testid="stDataFrame"] canvas,
+body:has(#light-theme-flag) .stDataFrame canvas,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] [data-testid="data-grid-canvas"],
+body:has(#light-theme-flag) .stDataFrame [data-testid="data-grid-canvas"],
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] canvas,
+.stApp:has(#light-theme-flag) .stDataFrame canvas,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] [data-testid="data-grid-canvas"],
+.stApp:has(#light-theme-flag) .stDataFrame [data-testid="data-grid-canvas"],
+.stApp:has(.light-theme) [data-testid="stDataFrame"] canvas,
+.stApp:has(.light-theme) .stDataFrame canvas,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] [data-testid="data-grid-canvas"],
+.stApp:has(.light-theme) .stDataFrame [data-testid="data-grid-canvas"],
+.light-theme [data-testid="stDataFrame"] canvas,
+.light-theme .stDataFrame canvas,
+.light-theme [data-testid="stDataFrame"] [data-testid="data-grid-canvas"],
+.light-theme .stDataFrame [data-testid="data-grid-canvas"] {
+    filter: invert(0.92) hue-rotate(180deg) brightness(1.05) contrast(0.95) !important;
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    border-radius: inherit !important;
+}
+
+/* DataFrame Toolbar, Search Bar, and Tooltips in Light Mode */
+html:has(#light-theme-flag) [data-testid="stDataFrame"] .gdg-search-bar,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] .gdg-search-bar,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] .gdg-search-bar,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] .gdg-search-bar,
+.light-theme [data-testid="stDataFrame"] .gdg-search-bar {
+    background-color: #ffffff !important;
+    border: 1px solid rgba(16, 185, 129, 0.3) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    border-radius: 6px !important;
+}
+
+html:has(#light-theme-flag) [data-testid="stDataFrame"] .gdg-search-bar input,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] .gdg-search-bar input,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] .gdg-search-bar input,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] .gdg-search-bar input,
+.light-theme [data-testid="stDataFrame"] .gdg-search-bar input {
+    color: #1e293b !important;
+    -webkit-text-fill-color: #1e293b !important;
+    background: transparent !important;
+}
+
+html:has(#light-theme-flag) [data-testid="stDataFrame"] [data-testid="stElementToolbar"],
+body:has(#light-theme-flag) [data-testid="stDataFrame"] [data-testid="stElementToolbar"],
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] [data-testid="stElementToolbar"],
+.stApp:has(.light-theme) [data-testid="stDataFrame"] [data-testid="stElementToolbar"],
+.light-theme [data-testid="stDataFrame"] [data-testid="stElementToolbar"] {
+    background-color: #ffffff !important;
+    border: 1px solid rgba(16, 185, 129, 0.3) !important;
+    border-radius: 6px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+}
+
+html:has(#light-theme-flag) [data-testid="stDataFrame"] [data-testid="stElementToolbarButton"],
+body:has(#light-theme-flag) [data-testid="stDataFrame"] [data-testid="stElementToolbarButton"],
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] [data-testid="stElementToolbarButton"],
+.stApp:has(.light-theme) [data-testid="stDataFrame"] [data-testid="stElementToolbarButton"],
+.light-theme [data-testid="stDataFrame"] [data-testid="stElementToolbarButton"] {
+    color: #475569 !important;
+}
+
+html:has(#light-theme-flag) [data-testid="stDataFrame"] [data-testid="stElementToolbarButton"]:hover,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] [data-testid="stElementToolbarButton"]:hover,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] [data-testid="stElementToolbarButton"]:hover,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] [data-testid="stElementToolbarButton"]:hover,
+.light-theme [data-testid="stDataFrame"] [data-testid="stElementToolbarButton"]:hover {
+    color: #059669 !important;
+    background-color: #e8f5e9 !important;
+}
+
+html:has(#light-theme-flag) [data-testid="stDataFrameColumnMenu"],
+html:has(#light-theme-flag) [data-testid="stDataFrameTooltipContent"],
+body:has(#light-theme-flag) [data-testid="stDataFrameColumnMenu"],
+body:has(#light-theme-flag) [data-testid="stDataFrameTooltipContent"],
+.stApp:has(#light-theme-flag) [data-testid="stDataFrameColumnMenu"],
+.stApp:has(#light-theme-flag) [data-testid="stDataFrameTooltipContent"],
+.stApp:has(.light-theme) [data-testid="stDataFrameColumnMenu"],
+.stApp:has(.light-theme) [data-testid="stDataFrameTooltipContent"],
+.light-theme [data-testid="stDataFrameColumnMenu"],
+.light-theme [data-testid="stDataFrameTooltipContent"] {
+    background-color: #ffffff !important;
+    color: #1e293b !important;
+    border: 1px solid rgba(16, 185, 129, 0.3) !important;
+    border-radius: 6px !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* DataFrame Scrollbars */
+html:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-scroller::-webkit-scrollbar,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-scroller::-webkit-scrollbar,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-scroller::-webkit-scrollbar,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] .dvn-scroller::-webkit-scrollbar,
+.light-theme [data-testid="stDataFrame"] .dvn-scroller::-webkit-scrollbar {
+    width: 8px !important;
+    height: 8px !important;
+    background: #f1f5f9 !important;
+}
+
+html:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-scroller::-webkit-scrollbar-thumb,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-scroller::-webkit-scrollbar-thumb,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-scroller::-webkit-scrollbar-thumb,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] .dvn-scroller::-webkit-scrollbar-thumb,
+.light-theme [data-testid="stDataFrame"] .dvn-scroller::-webkit-scrollbar-thumb {
+    background: #cbd5e1 !important;
+    border-radius: 4px !important;
+}
+
+html:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-scroller::-webkit-scrollbar-thumb:hover,
+body:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-scroller::-webkit-scrollbar-thumb:hover,
+.stApp:has(#light-theme-flag) [data-testid="stDataFrame"] .dvn-scroller::-webkit-scrollbar-thumb:hover,
+.stApp:has(.light-theme) [data-testid="stDataFrame"] .dvn-scroller::-webkit-scrollbar-thumb:hover,
+.light-theme [data-testid="stDataFrame"] .dvn-scroller::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8 !important;
+}
+
+
+
+

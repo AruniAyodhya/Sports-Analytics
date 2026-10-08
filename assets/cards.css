@@ -48,9 +48,32 @@
 }
 
 .st-key-header_card [data-testid="stHorizontalBlock"] {
-    align-items: center;
+    align-items: flex-start !important;
     position: relative;
     z-index: 1;
+}
+
+.st-key-header_card [data-testid="stColumn"]:has(.st-key-theme_toggle_btn) {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: flex-end !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    gap: 0 !important;
+}
+
+.st-key-header_card [data-testid="stColumn"]:has(.st-key-theme_toggle_btn) > div:first-child:not(:has(button)) {
+    display: none !important;
+    position: absolute !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
 }
 
 /* Match Official Pass Badge */

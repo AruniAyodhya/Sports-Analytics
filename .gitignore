@@ -19,3 +19,4 @@ artifacts/splitted_dataset/
 
 # Ignore folder
 scratch/
+static/

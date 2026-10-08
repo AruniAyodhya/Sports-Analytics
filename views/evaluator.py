@@ -15,7 +15,7 @@ from .charts import plot_probabilities
 
 def render_evaluator(engine: SoccerInferenceEngine, active_theme: str = "dark") -> None:
     """Render Mode 2: Historical Test Match Evaluator."""
-    st.markdown("#### 🔍 Historical Holdout Match Audit")
+    st.markdown("#### Historical Holdout Match Audit")
     st.markdown(
         """
         <p class="page-subtitle">

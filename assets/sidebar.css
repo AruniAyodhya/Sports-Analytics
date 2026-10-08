@@ -428,6 +428,14 @@
     background: rgba(15, 23, 42, 0.08) !important;
 }
 
+/* Light mode sidebar selectbox */
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] div[data-baseweb="select"],
+.stApp:has(#light-theme-flag) [data-testid="stSidebar"] div[data-baseweb="select"] > div {
+    background-color: #ffffff !important;
+    border-color: rgba(16, 185, 129, 0.45) !important;
+    color: #1e293b !important;
+}
+
 /* Light mode sidebar navigation pills */
 .stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"],
 .stApp:has(#light-theme-flag) [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label,

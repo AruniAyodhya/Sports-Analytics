@@ -50,19 +50,20 @@ with st.sidebar:
     st.markdown(
         """
         <div class="sidebar-brand">
-            <h2 class="sidebar-brand-title">⚽ SoccerOutcome AI</h2>
+            <h2 class="sidebar-brand-title">⚽︎ SoccerOutcome AI</h2>
             <p class="sidebar-brand-sub">European League Match Decision Support</p>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-    st.markdown("##### ⚙️ Configuration")
+    st.markdown("##### Configuration")
     model_options = {
-        "Random Forest (Tuned) [Active]": "random_forest",
-        "Logistic Regression (L1 Tuned) [Active]": "logistic_regression",
-        "Decision Tree (Tuned RFE) [Active]": "decision_tree",
-        "XGBoost Classifier (Tuned) [Active]": "xgboost",
+        "Logistic Regression (L1 Tuned)": "logistic_regression",
+        "Random Forest (Tuned)": "random_forest",
+        "XGBoost Classifier (Tuned)": "xgboost",
+        "Decision Tree (Tuned RFE)": "decision_tree",
+        
     }
     selected_model_label = st.selectbox(
         "Active Model Pipeline",
@@ -92,7 +93,7 @@ with st.sidebar:
     )
 
     st.markdown("<hr/>", unsafe_allow_html=True)
-    st.markdown("##### 🔬 Pipeline Architecture")
+    st.markdown("##### Pipeline Architecture")
     st.markdown(
         f"""
         <div class="arch-grid">
@@ -142,12 +143,17 @@ active_theme = st.session_state.get("theme", "dark")
 tp = get_theme_palette(active_theme)
 is_dark = active_theme == "dark"
 
+# Fixed theme flag container: renders identically in both modes to prevent any DOM height/layout shift
+theme_flag_html = (
+    f'<div id="theme-flag" class="{active_theme}-mode" aria-hidden="true" '
+    f'style="display:none;position:fixed;top:0;left:0;width:0;height:0;margin:0;padding:0;overflow:hidden;pointer-events:none;"></div>'
+)
 if active_theme == "light":
-    st.markdown(
-        '<div id="light-theme-flag" aria-hidden="true" '
-        'style="display:none;position:absolute;pointer-events:none;"></div>',
-        unsafe_allow_html=True,
+    theme_flag_html += (
+        '<div id="light-theme-flag" class="light-theme" aria-hidden="true" '
+        'style="display:none;position:fixed;top:0;left:0;width:0;height:0;margin:0;padding:0;overflow:hidden;pointer-events:none;"></div>'
     )
+st.markdown(theme_flag_html, unsafe_allow_html=True)
 
 
 # Initialize engine with graceful error handling
@@ -165,7 +171,7 @@ except Exception as exc:
 # HEADER SECTION & TACTICAL COMMAND CENTER
 # =============================================================================
 with st.container(key="header_card"):
-    head_left, head_right = st.columns([0.78, 0.22], vertical_alignment="center")
+    head_left, head_right = st.columns([0.78, 0.22], vertical_alignment="top")
     with head_left:
         st.markdown(
             """
