@@ -1,0 +1,265 @@
+/* -----------------------------------------------------------------------------
+   Buttons
+   ----------------------------------------------------------------------------- */
+/* Minimalist Interactive Pill Theme Toggle Switch */
+.st-key-theme_toggle_btn {
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    max-height: 38px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.st-key-theme_toggle_btn .stButton {
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: flex-start !important;
+    width: auto !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    max-height: 38px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.st-key-theme_toggle_btn button {
+    position: relative !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 88px !important;
+    min-width: 88px !important;
+    max-width: 88px !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    max-height: 38px !important;
+    border-radius: 9999px !important;
+    box-sizing: border-box !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    top: 0 !important;
+    cursor: pointer !important;
+    overflow: hidden !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    user-select: none !important;
+}
+
+.st-key-theme_toggle_btn button:hover {
+    transform: translateY(-1px) scale(1.02) !important;
+}
+
+.st-key-theme_toggle_btn button:active {
+    transform: translateY(0) scale(0.98) !important;
+}
+
+.st-key-theme_toggle_btn button:focus,
+.st-key-theme_toggle_btn button:focus-visible {
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.45) !important;
+}
+
+.st-key-theme_toggle_btn button img {
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+
+/* Primary buttons */
+button[kind="primary"] {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: var(--radius-sm) !important;
+    padding: 8px 20px !important;
+    font-weight: 600 !important;
+    font-size: 0.92rem !important;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25) !important;
+    transition: all 0.2s ease !important;
+}
+
+button[kind="primary"]:hover {
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%) !important;
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4) !important;
+    transform: translateY(-1px);
+}
+
+/* Secondary buttons */
+button[kind="secondary"] {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid var(--border-subtle) !important;
+    color: var(--text-primary) !important;
+    border-radius: var(--radius-sm) !important;
+}
+
+button[kind="secondary"]:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: var(--border-highlight) !important;
+}
+
+/* -----------------------------------------------------------------------------
+   Form Inputs & Selectboxes
+   ----------------------------------------------------------------------------- */
+div[data-baseweb="input"],
+div[data-baseweb="base-input"],
+div[data-baseweb="select"],
+div[data-baseweb="select"]>div {
+    border-radius: var(--radius-sm) !important;
+    background-color: rgba(11, 19, 27, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #f1f5f9 !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+div[data-baseweb="input"] input,
+div[data-baseweb="base-input"] input {
+    background-color: transparent !important;
+    color: #f1f5f9 !important;
+}
+
+div[data-baseweb="input"]:focus-within,
+div[data-baseweb="base-input"]:focus-within,
+div[data-baseweb="select"]:focus-within {
+    border-color: rgba(16, 185, 129, 0.6) !important;
+    box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.35) !important;
+}
+
+/* Number input stepper buttons in Dark Mode */
+div[data-testid="stNumberInput"] button,
+div[data-baseweb="input"] button,
+div[data-baseweb="base-input"] button,
+[data-testid="stNumberInputStepDown"],
+[data-testid="stNumberInputStepUp"],
+div[data-testid="stNumberInput"] [data-baseweb="input"]>div:last-child {
+    background-color: rgba(31, 41, 55, 0.75) !important;
+    color: #f1f5f9 !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+div[data-testid="stNumberInput"] button:hover,
+div[data-baseweb="input"] button:hover,
+div[data-baseweb="base-input"] button:hover {
+    background-color: rgba(55, 65, 81, 0.9) !important;
+    color: #10b981 !important;
+}
+
+/* -----------------------------------------------------------------------------
+   Sliders
+   ----------------------------------------------------------------------------- */
+.stSlider [data-baseweb="slider"] {
+    margin-top: 6px;
+}
+
+/* Slider Track & Thumb Polish — Turf Green Accent (#10B981) */
+.stSlider [data-baseweb="slider"]>div>div>div:nth-child(2),
+.stSlider [data-baseweb="slider"]>div>div>div:last-child,
+div[data-baseweb="slider"]>div>div>div:nth-child(2),
+div[data-baseweb="slider"]>div>div>div:last-child {
+    filter: hue-rotate(155deg) saturate(1.2) !important;
+}
+
+/* Slider Tick Numbers & Value Labels */
+[data-testid="stSliderTickBar"],
+[data-testid="stSliderTickBar"] * {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #bebebe !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    font-weight: 600 !important;
+}
+
+/* Floating number value above the slider thumb */
+[data-testid="stSliderThumbValue"],
+[data-testid="stSliderThumbValue"] * {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #10b981 !important;
+    font-weight: 700 !important;
+}
+
+.stSlider [data-baseweb="slider"] div[role="slider"] {
+    background-color: #10b981 !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.6) !important;
+}
+
+/* -----------------------------------------------------------------------------
+   Radio Buttons (Non-Sidebar) — Turf Green Accent (#10B981)
+   ----------------------------------------------------------------------------- */
+div[data-testid="stRadio"] label:has(input:checked)>div:first-child {
+    background-color: #10b981 !important;
+    border-color: #10b981 !important;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.45) !important;
+}
+
+div[data-testid="stRadio"] label:has(input:checked)>div:first-child>div {
+    background-color: #ffffff !important;
+}
+
+div[data-testid="stRadio"] label:hover>div:first-child {
+    border-color: rgba(16, 185, 129, 0.6) !important;
+}
+
+/* Muted horizontal rule */
+hr {
+    border: none;
+    height: 1px;
+    background: var(--border-subtle);
+    margin: 24px 0;
+}
+
+/* -----------------------------------------------------------------------------
+   Typography & Spacing Utilities
+   ----------------------------------------------------------------------------- */
+.simulator-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.simulator-title {
+    margin: 0;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.simulator-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    margin: 2px 0 0 0;
+}
+
+.page-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-top: -8px;
+    margin-bottom: 18px;
+}
+
+.section-desc {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin-top: -6px;
+    margin-bottom: 14px;
+}
+
+.spacer-sm {
+    height: 12px;
+}
+
+.spacer-md {
+    height: 16px;
+}
+
+.spacer-lg {
+    height: 28px;
+}
+

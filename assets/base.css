@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+    --bg-primary: #090d16;
+    --bg-surface: rgba(18, 24, 38, 0.7);
+    --bg-surface-hover: rgba(26, 34, 52, 0.85);
+    --border-subtle: rgba(255, 255, 255, 0.07);
+    --border-highlight: rgba(255, 255, 255, 0.14);
+
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+
+    --accent-blue: #38bdf8;
+    --accent-indigo: #6366f1;
+    --accent-home: #10b981;
+    --accent-draw: #f59e0b;
+    --accent-away: #f43f5e;
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+}
+
+/* -----------------------------------------------------------------------------
+   Streamlit Header Chrome Resets
+   ----------------------------------------------------------------------------- */
+[data-testid="stHeader"] {
+    background: transparent !important;
+    color: transparent !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+
+[data-testid="stDecoration"] {
+    display: none !important;
+}
+
+#MainMenu,
+footer {
+    visibility: hidden !important;
+}
+
+/* Base resets & typography */
+html,
+body,
+[class*="css"] {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text-primary);
+}
+
+.stApp {
+    background: radial-gradient(circle at 50% 0%, #111827 0%, #090d16 80%);
+    color: var(--text-primary);
+}
+
+/* Zero-dimension flag containers to prevent vertical layout shifts */
+div[data-testid="stElementContainer"]:has(#theme-flag),
+div[data-testid="stElementContainer"]:has(#light-theme-flag) {
+    display: none !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+}
+
+/* Remove excessive top padding */
+.block-container {
+    padding-top: 2rem !important;
+    padding-bottom: 3rem !important;
+    max-width: 1200px !important;
+}
+
+/* -----------------------------------------------------------------------------
+   Theme System — Smooth Transitions
+   ----------------------------------------------------------------------------- */
+.stApp,
+.st-key-header_card,
+.header-container,
+.outcome-card-minimal,
+.kpi-tile,
+.fixture-bar,
+.arch-tile,
+.sidebar-brand,
+[data-testid="stSidebar"],
+[data-testid="collapsedControl"] {
+    transition: background 0.4s ease, border-color 0.3s ease,
+        color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.header-title,
+.header-subtitle,
+.header-badge,
+.tactical-title,
+.tactical-subtitle,
+.matchday-badge,
+.telemetry-chip,
+.floodlight-console,
+.console-state-badge,
+.sidebar-brand-title,
+.sidebar-brand-sub,
+.card-title,
+.outcome-main,
+.outcome-confidence,
+.outcome-conf-val,
+.kpi-label,
+.kpi-value,
+.kpi-sub,
+.arch-tile-label,
+.arch-tile-value,
+.fixture-pill,
+.fixture-pill strong {
+    transition: color 0.3s ease;
+}
+
+/* =============================================================================
+   Clean Turf Light Mode — Root & Global Overrides
+   ============================================================================= */
+.stApp:has(#light-theme-flag) {
+    --bg-primary: #f8fafc;
+    --bg-surface: rgba(255, 255, 255, 0.8);
+    --bg-surface-hover: rgba(241, 245, 249, 0.95);
+    --border-subtle: rgba(15, 23, 42, 0.08);
+    --border-highlight: rgba(15, 23, 42, 0.16);
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --accent-blue: #0284c7;
+
+    background: linear-gradient(180deg, #f1f5f9 0%, #f8fafc 50%, #e2e8f0 100%) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Global text overrides for light mode */
+.stApp:has(#light-theme-flag) h1,
+.stApp:has(#light-theme-flag) h2,
+.stApp:has(#light-theme-flag) h3,
+.stApp:has(#light-theme-flag) h4,
+.stApp:has(#light-theme-flag) h5 {
+    color: #0f172a !important;
+}
+
+.stApp:has(#light-theme-flag) .stMarkdown p,
+.stApp:has(#light-theme-flag) [data-testid="stMarkdownContainer"] p {
+    color: #334155 !important;
+}
+
+.stApp:has(#light-theme-flag) .stCaption {
+    color: #64748b !important;
+}
+
+.stApp:has(#light-theme-flag) label {
+    color: #334155 !important;
+}

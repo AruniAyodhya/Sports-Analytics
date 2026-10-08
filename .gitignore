@@ -1,0 +1,16 @@
+# Ignore Python cache and compiled bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Databases and dataset folders
+database.sqlite
+preprocessed_dataset/
+splitted_dataset/
+artifacts/preprocessed_dataset/
+artifacts/splitted_dataset/
+
+# Ignore folder
+scratch/
+static/

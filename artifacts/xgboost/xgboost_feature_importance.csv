@@ -1,0 +1,51 @@
+Feature,Importance
+elo_difference,0.13819383
+goals_for_difference,0.09488523
+win_rate_difference,0.06395228
+venue_goals_for_difference,0.050935145
+goals_against_difference,0.029121956
+home_elo_before,0.022267496
+away_win_rate,0.020132858
+home_goals_for_per_match,0.019647473
+home_points_last10,0.018491205
+venue_win_rate_difference,0.018220562
+goals_for_last10_difference,0.018062389
+home_points_last5,0.018016916
+home_goals_against_per_match,0.01792719
+home_points_last3,0.017621469
+points_last10_difference,0.017224878
+away_loss_rate,0.017138666
+goals_against_last10_difference,0.01641077
+away_points_last10,0.015658105
+league_name_France Ligue 1,0.015438796
+goals_for_last5_difference,0.014429147
+home_goals_for_last10,0.014390068
+home_win_rate,0.014339796
+away_away_goals_for_per_match,0.013855973
+away_goals_for_per_match,0.01371635
+venue_goals_against_difference,0.013549979
+home_goals_against_last10,0.013540169
+home_goals_against_last5,0.013321943
+home_loss_rate,0.013291615
+home_home_win_rate,0.0132781025
+points_last5_difference,0.0129815675
+goals_against_last5_difference,0.012879486
+away_elo_before,0.012814239
+goals_against_last3_difference,0.012630279
+away_goals_against_per_match,0.0124322735
+stage,0.012348598
+league_name_Scotland Premier League,0.01196294
+home_home_goals_against_per_match,0.011770228
+points_last3_difference,0.011741269
+away_away_goals_against_per_match,0.011737485
+home_days_since_last_match,0.011705499
+away_away_draw_rate,0.011689781
+home_draw_rate,0.0116609465
+home_goals_for_last5,0.0114739975
+away_goals_against_last3,0.011469029
+away_goals_for_last3,0.011389966
+away_goals_for_last10,0.011131412
+away_goals_for_last5,0.010583191
+league_name_Italy Serie A,0.010333311
+league_name_Portugal Liga ZON Sagres,0.008204127
+league_name_Poland Ekstraklasa,0.0
