@@ -415,7 +415,77 @@ def render_comparison(active_theme: str = "dark") -> None:
     active_stages = comp_data["lifecycle_stages"] if is_lifecycle else comp_data["split_stages"]
     active_dataset = comp_data["lifecycle_data"] if is_lifecycle else comp_data["split_data"]
 
-    # Interactive Visual Tabs: Clean, Spacious, and Un-cramped
+    # Interactive Visual Tabs: Clean, Spacious, and Un-cramped (Full-width evenly distributed)
+    st.markdown(
+        """
+        <style>
+        /* Evaluation Tabs: Full-width even flex distribution across a clean single row */
+        [data-testid="stTabs"] > div:first-child {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+
+        [data-testid="stTabs"] div[data-baseweb="tab-list"],
+        [data-testid="stTabs"] div[role="tablist"] {
+            display: flex !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+            justify-content: space-between !important;
+            align-items: stretch !important;
+            gap: 0px !important;
+        }
+
+        [data-testid="stTabs"] div[data-baseweb="tab-border"] {
+            width: 100% !important;
+        }
+
+        [data-testid="stTabs"] button[data-baseweb="tab"],
+        [data-testid="stTabs"] button[role="tab"] {
+            flex: 1 1 0px !important;
+            min-width: 0 !important;
+            width: 100% !important;
+            display: inline-flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            text-align: center !important;
+            padding: 10px 4px !important;
+            white-space: nowrap !important;
+            border-radius: 6px 6px 0 0 !important;
+            transition: background-color 0.2s ease, color 0.2s ease !important;
+        }
+
+        [data-testid="stTabs"] button[data-baseweb="tab"]:hover,
+        [data-testid="stTabs"] button[role="tab"]:hover {
+            background-color: rgba(255, 255, 255, 0.04) !important;
+        }
+
+        .stApp:has(#light-theme-flag) [data-testid="stTabs"] button[data-baseweb="tab"]:hover,
+        .stApp:has(#light-theme-flag) [data-testid="stTabs"] button[role="tab"]:hover {
+            background-color: rgba(0, 0, 0, 0.03) !important;
+        }
+
+        [data-testid="stTabs"] button[data-baseweb="tab"] div[data-testid="stMarkdownContainer"],
+        [data-testid="stTabs"] button[role="tab"] div[data-testid="stMarkdownContainer"],
+        [data-testid="stTabs"] button[data-baseweb="tab"] p,
+        [data-testid="stTabs"] button[role="tab"] p {
+            width: 100% !important;
+            text-align: center !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            font-size: clamp(0.78rem, 0.9vw, 0.88rem) !important;
+            font-weight: 600 !important;
+            letter-spacing: -0.01em !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
     tab_acc, tab_f1, tab_auc, tab_stack, tab_gap, tab_matrix = st.tabs([
         "Accuracy Benchmark",
         "Macro F1-Score (Primary)",

@@ -63,7 +63,7 @@
     gap: 0 !important;
 }
 
-.st-key-header_card [data-testid="stColumn"]:has(.st-key-theme_toggle_btn) > div:first-child:not(:has(button)) {
+.st-key-header_card [data-testid="stColumn"]:has(.st-key-theme_toggle_btn)>div:first-child:not(:has(button)) {
     display: none !important;
     position: absolute !important;
     margin: 0 !important;
@@ -104,6 +104,7 @@
 }
 
 @keyframes beacon-pulse {
+
     0%,
     100% {
         transform: scale(1);
@@ -420,13 +421,13 @@ div.stColumn:has(.kpi-tile),
     min-height: 100% !important;
 }
 
-div[data-testid="stColumn"]:has(.kpi-tile) > div,
+div[data-testid="stColumn"]:has(.kpi-tile)>div,
 div[data-testid="stColumn"]:has(.kpi-tile) [data-testid="stVerticalBlockBorderWrapper"],
 div[data-testid="stColumn"]:has(.kpi-tile) [data-testid="stVerticalBlock"],
 div[data-testid="stColumn"]:has(.kpi-tile) .stVerticalBlock,
 div[data-testid="stColumn"]:has(.kpi-tile) [data-testid="stElementContainer"],
 div[data-testid="stColumn"]:has(.kpi-tile) .stElementContainer,
-div[data-testid="stColumn"]:has(.kpi-tile) [data-testid="stElementContainer"] > div,
+div[data-testid="stColumn"]:has(.kpi-tile) [data-testid="stElementContainer"]>div,
 div[data-testid="stColumn"]:has(.kpi-tile) [data-testid="stMarkdownContainer"],
 div[data-testid="stColumn"]:has(.kpi-tile) .stMarkdownContainer,
 div[data-testid="stColumn"]:has(.kpi-tile) [data-testid="stMarkdown"],
@@ -434,7 +435,7 @@ div[data-testid="stColumn"]:has(.kpi-tile) .stMarkdown,
 div[data-testid="stColumn"]:has(.kpi-tile) div:has(> .kpi-tile),
 div:has(> .kpi-tile),
 div:has(> * > .kpi-tile),
-.st-key-comp_metrics_row [data-testid="stColumn"] > div,
+.st-key-comp_metrics_row [data-testid="stColumn"]>div,
 .st-key-comp_metrics_row [data-testid="stColumn"] [data-testid="stVerticalBlockBorderWrapper"],
 .st-key-comp_metrics_row [data-testid="stColumn"] [data-testid="stVerticalBlock"],
 .st-key-comp_metrics_row [data-testid="stColumn"] .stVerticalBlock,

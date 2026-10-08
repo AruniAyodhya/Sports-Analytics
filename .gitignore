@@ -4,12 +4,6 @@ __pycache__/
 *.pyo
 *.pyd
 
-# Ignore all Markdown files
-*.md
-
-# Ignore documentation files
-docs/
-
 # Databases and dataset folders
 database.sqlite
 preprocessed_dataset/

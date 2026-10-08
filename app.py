@@ -24,8 +24,8 @@ from views import render_simulator, render_evaluator, render_comparison
 # PAGE SETUP & CSS LOADING
 # =============================================================================
 st.set_page_config(
-    page_title="Soccer Outcome Predictor | Decision Support",
-    page_icon="⚽",
+    page_title="SoccerOutcome AI",
+    page_icon="assets/favicon.png",
     layout="wide",
     initial_sidebar_state="expanded",
 )
