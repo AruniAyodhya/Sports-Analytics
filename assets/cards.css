@@ -892,8 +892,20 @@ div:has(> * > .kpi-tile),
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
-.stApp:has(#light-theme-flag) .kpi-value {
+.stApp:has(#light-theme-flag) .kpi-value:not(.kpi-val-home):not(.kpi-val-draw):not(.kpi-val-away):not(.kpi-val-lr):not(.kpi-val-rf):not(.kpi-val-xgb):not(.kpi-val-dt):not([style*="color"]) {
     color: #0f172a !important;
+}
+
+.stApp:has(#light-theme-flag) .kpi-val-home {
+    color: #10b981 !important;
+}
+
+.stApp:has(#light-theme-flag) .kpi-val-draw {
+    color: #f59e0b !important;
+}
+
+.stApp:has(#light-theme-flag) .kpi-val-away {
+    color: #f43f5e !important;
 }
 
 .stApp:has(#light-theme-flag) .kpi-label {

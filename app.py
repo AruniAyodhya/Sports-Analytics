@@ -150,7 +150,7 @@ theme_flag_html = (
 )
 if active_theme == "light":
     theme_flag_html += (
-        '<div id="light-theme-flag" class="light-theme" aria-hidden="true" '
+        '<div id="light-theme-flag" aria-hidden="true" '
         'style="display:none;position:fixed;top:0;left:0;width:0;height:0;margin:0;padding:0;overflow:hidden;pointer-events:none;"></div>'
     )
 st.markdown(theme_flag_html, unsafe_allow_html=True)

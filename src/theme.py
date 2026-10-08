@@ -61,7 +61,15 @@ def get_theme_palette(theme: str = "dark") -> Dict[str, str]:
 def load_custom_css() -> None:
     """Load and inject all modular CSS stylesheets from the assets/ directory."""
     assets_dir = Path(__file__).resolve().parent.parent / "assets"
-    modular_files = ["base.css", "sidebar.css", "cards.css", "components.css"]
+    dark_comp = "dark-theme-components.css" if (assets_dir / "dark-theme-components.css").exists() else "dark-components.css"
+    light_comp = "light-theme-components.css" if (assets_dir / "light-theme-components.css").exists() else "light-components.css"
+    modular_files = [
+        "base.css",
+        "sidebar.css",
+        "cards.css",
+        dark_comp,
+        light_comp,
+    ]
 
     css_chunks = []
     for fname in modular_files:
