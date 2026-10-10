@@ -50,8 +50,8 @@ body,
 }
 
 .stApp {
-    background: radial-gradient(circle at 50% 0%, #111827 0%, #090d16 80%);
-    color: var(--text-primary);
+    background: radial-gradient(circle at 50% 0%, #111827 0%, #090d16 80%) !important;
+    color: var(--text-primary) !important;
 }
 
 /* Zero-dimension flag containers to prevent vertical layout shifts */

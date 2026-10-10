@@ -1,42 +1,133 @@
 /* =============================================================================
-   Clean Turf Light Mode — Component Overrides
+   Clean Turf Light Mode — Selectbox Dropdowns & Popovers
+   ============================================================================= */
+body:has(#light-theme-flag) div[data-baseweb="popover"],
+body:has(#light-theme-flag) div[data-baseweb="popover"] > div,
+body:has(#light-theme-flag) [data-baseweb="popover"] ul,
+body:has(#light-theme-flag) ul[data-baseweb="menu"],
+body:has(#light-theme-flag) ul[role="listbox"],
+body:has(#light-theme-flag) [data-testid="stSelectboxVirtualDropdown"],
+body:has(#light-theme-flag) [data-testid="stSelectboxMenu"],
+.stApp:has(#light-theme-flag) div[data-baseweb="popover"],
+.stApp:has(#light-theme-flag) ul[data-baseweb="menu"],
+.stApp:has(#light-theme-flag) ul[role="listbox"] {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid rgba(15, 23, 42, 0.15) !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
+    border-radius: 8px !important;
+}
+
+body:has(#light-theme-flag) li[data-baseweb="menu-item"],
+body:has(#light-theme-flag) li[role="option"],
+body:has(#light-theme-flag) div[role="option"],
+body:has(#light-theme-flag) [data-baseweb="popover"] li,
+body:has(#light-theme-flag) ul[role="listbox"] > li,
+.stApp:has(#light-theme-flag) li[role="option"] {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
+    font-weight: 500 !important;
+    transition: background-color 0.15s ease, color 0.15s ease !important;
+}
+
+body:has(#light-theme-flag) li[data-baseweb="menu-item"] *,
+body:has(#light-theme-flag) li[role="option"] *,
+body:has(#light-theme-flag) div[role="option"] *,
+body:has(#light-theme-flag) [data-baseweb="popover"] li * {
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
+}
+
+body:has(#light-theme-flag) li[data-baseweb="menu-item"]:hover,
+body:has(#light-theme-flag) li[role="option"]:hover,
+body:has(#light-theme-flag) div[role="option"]:hover,
+body:has(#light-theme-flag) [data-baseweb="popover"] li:hover {
+    background-color: #f1f5f9 !important;
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+
+body:has(#light-theme-flag) li[role="option"][aria-selected="true"],
+body:has(#light-theme-flag) li[data-baseweb="menu-item"][aria-selected="true"],
+body:has(#light-theme-flag) div[role="option"][aria-selected="true"] {
+    background-color: rgba(16, 185, 129, 0.15) !important;
+    background: rgba(16, 185, 129, 0.15) !important;
+    color: #047857 !important;
+    font-weight: 600 !important;
+}
+
+body:has(#light-theme-flag) li[role="option"][aria-selected="true"] *,
+body:has(#light-theme-flag) li[data-baseweb="menu-item"][aria-selected="true"] * {
+    color: #047857 !important;
+    -webkit-text-fill-color: #047857 !important;
+}
+
+/* =============================================================================
+   Clean Turf Light Mode — Inputs, Selectboxes & Number Inputs
    ============================================================================= */
 .stApp:has(#light-theme-flag) div[data-baseweb="input"],
 .stApp:has(#light-theme-flag) div[data-baseweb="base-input"],
 .stApp:has(#light-theme-flag) div[data-baseweb="select"],
-.stApp:has(#light-theme-flag) div[data-baseweb="select"]>div {
-    background-color: rgba(255, 255, 255, 0.75) !important;
-    border-color: rgba(15, 23, 42, 0.12) !important;
-    color: #1e293b !important;
+.stApp:has(#light-theme-flag) div[data-baseweb="select"] > div,
+.stApp:has(#light-theme-flag) [data-testid="stSelectbox"] div[data-baseweb="select"],
+.stApp:has(#light-theme-flag) [data-testid="stSelectbox"] div[data-baseweb="select"] > div,
+.stApp:has(#light-theme-flag) [data-testid="stNumberInput"] div[data-baseweb="input"],
+.stApp:has(#light-theme-flag) [data-testid="stNumberInput"] div[data-baseweb="base-input"] {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    border-color: rgba(15, 23, 42, 0.15) !important;
+    border-radius: var(--radius-sm, 8px) !important;
+    color: #0f172a !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
 }
 
 .stApp:has(#light-theme-flag) div[data-baseweb="input"] input,
-.stApp:has(#light-theme-flag) div[data-baseweb="base-input"] input {
-    color: #1e293b !important;
+.stApp:has(#light-theme-flag) div[data-baseweb="base-input"] input,
+.stApp:has(#light-theme-flag) [data-testid="stNumberInput"] input {
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
     background-color: transparent !important;
+    font-weight: 500 !important;
 }
 
 .stApp:has(#light-theme-flag) div[data-baseweb="select"] span,
 .stApp:has(#light-theme-flag) div[data-baseweb="select"] div,
-.stApp:has(#light-theme-flag) div[data-baseweb="select"] p {
-    color: #1e293b !important;
-    -webkit-text-fill-color: #1e293b !important;
+.stApp:has(#light-theme-flag) div[data-baseweb="select"] p,
+.stApp:has(#light-theme-flag) [data-testid="stSelectbox"] span,
+.stApp:has(#light-theme-flag) [data-testid="stSelectbox"] p,
+.stApp:has(#light-theme-flag) [data-testid="stSelectbox"] div {
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
 }
 
-.stApp:has(#light-theme-flag) div[data-baseweb="select"] svg {
+.stApp:has(#light-theme-flag) div[data-baseweb="select"] svg,
+.stApp:has(#light-theme-flag) [data-testid="stSelectbox"] svg {
     fill: #475569 !important;
     color: #475569 !important;
 }
 
-/* Number input stepper buttons in Light Mode */
+/* Focus states */
+.stApp:has(#light-theme-flag) div[data-baseweb="input"]:focus-within,
+.stApp:has(#light-theme-flag) div[data-baseweb="base-input"]:focus-within,
+.stApp:has(#light-theme-flag) div[data-baseweb="select"]:focus-within,
+.stApp:has(#light-theme-flag) [data-testid="stSelectbox"] div[data-baseweb="select"]:focus-within {
+    border-color: #10b981 !important;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25) !important;
+}
+
+/* Number input stepper buttons (+ / -) in Light Mode */
 .stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] [data-baseweb="input"] button,
 .stApp:has(#light-theme-flag) div[data-baseweb="input"] button,
 .stApp:has(#light-theme-flag) div[data-baseweb="base-input"] button,
 .stApp:has(#light-theme-flag) [data-testid="stNumberInputStepDown"],
 .stApp:has(#light-theme-flag) [data-testid="stNumberInputStepUp"],
-.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] [data-baseweb="input"]>div:last-child {
-    background-color: #f1f5f9 !important;
-    color: #1e293b !important;
+.stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] [data-baseweb="input"] > div:last-child {
+    background-color: #f8fafc !important;
+    background: #f8fafc !important;
+    color: #0f172a !important;
     border-color: rgba(15, 23, 42, 0.12) !important;
 }
 
@@ -44,9 +135,9 @@
 .stApp:has(#light-theme-flag) [data-testid="stNumberInputStepDown"] svg,
 .stApp:has(#light-theme-flag) [data-testid="stNumberInputStepUp"] svg,
 .stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] [data-baseweb="input"] button * {
-    fill: #1e293b !important;
-    stroke: #1e293b !important;
-    color: #1e293b !important;
+    fill: #0f172a !important;
+    stroke: #0f172a !important;
+    color: #0f172a !important;
 }
 
 .stApp:has(#light-theme-flag) div[data-testid="stNumberInput"] [data-baseweb="input"] button:hover,
@@ -55,7 +146,8 @@
 .stApp:has(#light-theme-flag) [data-testid="stNumberInputStepDown"]:hover,
 .stApp:has(#light-theme-flag) [data-testid="stNumberInputStepUp"]:hover {
     background-color: #e2e8f0 !important;
-    color: #0284c7 !important;
+    background: #e2e8f0 !important;
+    color: #047857 !important;
 }
 
 /* Tooltip / Help Question Mark Icon in Light Mode (scoped to stTooltipIcon / stWidgetLabel) */

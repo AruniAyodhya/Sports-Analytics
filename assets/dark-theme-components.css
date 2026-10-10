@@ -128,6 +128,61 @@ div[data-baseweb="select"]:focus-within {
     box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.35) !important;
 }
 
+/* Selectbox Dropdown Menu & Popovers in Dark Mode */
+body:not(:has(#light-theme-flag)) div[data-baseweb="popover"],
+body:not(:has(#light-theme-flag)) div[data-baseweb="popover"] > div,
+body:not(:has(#light-theme-flag)) [data-baseweb="popover"] ul,
+body:not(:has(#light-theme-flag)) ul[data-baseweb="menu"],
+body:not(:has(#light-theme-flag)) ul[role="listbox"],
+body:not(:has(#light-theme-flag)) [data-testid="stSelectboxVirtualDropdown"],
+body:not(:has(#light-theme-flag)) [data-testid="stSelectboxMenu"] {
+    background-color: #0b131b !important;
+    background: #0b131b !important;
+    color: #f1f5f9 !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6) !important;
+    border-radius: 8px !important;
+}
+
+body:not(:has(#light-theme-flag)) li[data-baseweb="menu-item"],
+body:not(:has(#light-theme-flag)) li[role="option"],
+body:not(:has(#light-theme-flag)) div[role="option"],
+body:not(:has(#light-theme-flag)) [data-baseweb="popover"] li,
+body:not(:has(#light-theme-flag)) ul[role="listbox"] > li {
+    background-color: #0b131b !important;
+    background: #0b131b !important;
+    color: #f1f5f9 !important;
+    -webkit-text-fill-color: #f1f5f9 !important;
+}
+
+body:not(:has(#light-theme-flag)) li[data-baseweb="menu-item"] *,
+body:not(:has(#light-theme-flag)) li[role="option"] *,
+body:not(:has(#light-theme-flag)) div[role="option"] *,
+body:not(:has(#light-theme-flag)) [data-baseweb="popover"] li * {
+    color: #f1f5f9 !important;
+    -webkit-text-fill-color: #f1f5f9 !important;
+}
+
+body:not(:has(#light-theme-flag)) li[data-baseweb="menu-item"]:hover,
+body:not(:has(#light-theme-flag)) li[role="option"]:hover,
+body:not(:has(#light-theme-flag)) div[role="option"]:hover,
+body:not(:has(#light-theme-flag)) [data-baseweb="popover"] li:hover {
+    background-color: rgba(16, 185, 129, 0.15) !important;
+    color: #ffffff !important;
+}
+
+body:not(:has(#light-theme-flag)) li[role="option"][aria-selected="true"],
+body:not(:has(#light-theme-flag)) li[data-baseweb="menu-item"][aria-selected="true"] {
+    background-color: rgba(16, 185, 129, 0.25) !important;
+    color: #10b981 !important;
+}
+
+body:not(:has(#light-theme-flag)) li[role="option"][aria-selected="true"] *,
+body:not(:has(#light-theme-flag)) li[data-baseweb="menu-item"][aria-selected="true"] * {
+    color: #10b981 !important;
+    -webkit-text-fill-color: #10b981 !important;
+}
+
 /* Number input stepper buttons in Dark Mode */
 div[data-testid="stNumberInput"] button,
 div[data-baseweb="input"] button,
