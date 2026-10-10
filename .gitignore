@@ -218,6 +218,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+!.streamlit/
+!.streamlit/config.toml
 
 
 # Databases and dataset folders

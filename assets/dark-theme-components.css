@@ -148,18 +148,50 @@ div[data-baseweb="base-input"] button:hover {
 }
 
 /* -----------------------------------------------------------------------------
-   Sliders
+   Sliders — Turf Green Accent (#10B981)
    ----------------------------------------------------------------------------- */
 .stSlider [data-baseweb="slider"] {
     margin-top: 6px;
 }
 
-/* Slider Track & Thumb Polish — Turf Green Accent (#10B981) */
-.stSlider [data-baseweb="slider"]>div>div>div:nth-child(2),
-.stSlider [data-baseweb="slider"]>div>div>div:last-child,
-div[data-baseweb="slider"]>div>div>div:nth-child(2),
-div[data-baseweb="slider"]>div>div>div:last-child {
-    filter: hue-rotate(155deg) saturate(1.2) !important;
+/* Slider Track Bar & Progress */
+.stSlider [data-baseweb="slider"] > div > div,
+div[data-baseweb="slider"] > div > div {
+    border-radius: 9999px !important;
+}
+
+/* Fallback: Ensure any default-red filled slider track segment is coerced to Turf Green */
+.stSlider div[data-baseweb="slider"] div[style*="rgb(255, 75, 75)"],
+.stSlider div[data-baseweb="slider"] div[style*="#ff4b4b"],
+.stSlider div[data-baseweb="slider"] div[style*="#FF4B4B"],
+div[data-baseweb="slider"] div[style*="rgb(255, 75, 75)"],
+div[data-baseweb="slider"] div[style*="#ff4b4b"],
+div[data-baseweb="slider"] div[style*="#FF4B4B"] {
+    background: #10b981 !important;
+    background-color: #10b981 !important;
+}
+
+/* Slider Thumb (Handle) */
+.stSlider [data-baseweb="slider"] div[role="slider"],
+div[data-baseweb="slider"] div[role="slider"],
+[data-testid="stSlider"] div[role="slider"] {
+    background-color: #10b981 !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.75) !important;
+    cursor: grab !important;
+    transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+.stSlider [data-baseweb="slider"] div[role="slider"]:hover,
+div[data-baseweb="slider"] div[role="slider"]:hover {
+    box-shadow: 0 0 16px rgba(16, 185, 129, 0.95) !important;
+    transform: scale(1.1) !important;
+}
+
+.stSlider [data-baseweb="slider"] div[role="slider"]:active,
+div[data-baseweb="slider"] div[role="slider"]:active {
+    cursor: grabbing !important;
+    transform: scale(1.2) !important;
 }
 
 /* Slider Tick Numbers & Value Labels */
@@ -182,27 +214,36 @@ div[data-baseweb="slider"]>div>div>div:last-child {
     font-weight: 700 !important;
 }
 
-.stSlider [data-baseweb="slider"] div[role="slider"] {
-    background-color: #10b981 !important;
-    border: 2px solid #ffffff !important;
-    box-shadow: 0 0 10px rgba(16, 185, 129, 0.6) !important;
-}
-
 /* -----------------------------------------------------------------------------
    Radio Buttons (Non-Sidebar) — Turf Green Accent (#10B981)
    ----------------------------------------------------------------------------- */
-div[data-testid="stRadio"] label:has(input:checked)>div:first-child {
+div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:has(input:checked) > div:first-of-type,
+div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:has(input:checked) > div:first-child,
+div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label input:checked + div {
     background-color: #10b981 !important;
     border-color: #10b981 !important;
-    box-shadow: 0 0 10px rgba(16, 185, 129, 0.45) !important;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.55) !important;
 }
 
-div[data-testid="stRadio"] label:has(input:checked)>div:first-child>div {
+div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:has(input:checked) > div:first-of-type > div,
+div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:has(input:checked) > div:first-child > div,
+div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label input:checked + div > div {
     background-color: #ffffff !important;
 }
 
-div[data-testid="stRadio"] label:hover>div:first-child {
-    border-color: rgba(16, 185, 129, 0.6) !important;
+div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:hover > div:first-of-type,
+div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:hover > div:first-child,
+div[data-testid="stRadio"]:not([data-testid="stSidebar"] *) label:hover input + div {
+    border-color: rgba(16, 185, 129, 0.7) !important;
+}
+
+/* Checkbox (Checked) — Turf Green Accent (#10B981) */
+[data-testid="stCheckbox"] label:has(input:checked) > div:first-of-type,
+[data-testid="stCheckbox"] label:has(input:checked) > div:first-child,
+[data-testid="stCheckbox"] label input:checked + div {
+    background-color: #10b981 !important;
+    border-color: #10b981 !important;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.45) !important;
 }
 
 /* Muted horizontal rule */
