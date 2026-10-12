@@ -27,6 +27,42 @@
 }
 
 /* -----------------------------------------------------------------------------
+   Sidebar Top Whitespace Reduction & Forceful Header Collapse
+   ----------------------------------------------------------------------------- */
+/* 1. Target the main sidebar content container and remove top padding */
+section[data-testid="stSidebar"] > div:first-child {
+    padding-top: 0.5rem !important;
+}
+
+/* 2. Target internal user content wrapper */
+div[data-testid="stSidebarUserContent"] {
+    padding-top: 0rem !important;
+}
+
+/* 3. Collapse stSidebarHeader and reduce its height */
+div[data-testid="stSidebarHeader"] {
+    padding-top: 0rem !important;
+    padding-bottom: 0rem !important;
+    height: auto !important;
+    min-height: 0px !important;
+}
+
+/* 4. Align the collapse button without adding top height */
+div[data-testid="stSidebarHeader"] > div {
+    margin-top: 0rem !important;
+    padding-top: 0.2rem !important;
+}
+
+/* 5. Ensure the first element (Logo/Title) has zero top margin */
+div[data-testid="stSidebarUserContent"] > div:first-child,
+section[data-testid="stSidebar"] div[data-testid="stSidebarUserContent"] > div:first-child,
+[data-testid="stSidebar"] div[data-testid="stElementContainer"]:first-child,
+[data-testid="stSidebar"] div.element-container:first-child {
+    margin-top: 0rem !important;
+    padding-top: 0rem !important;
+}
+
+/* -----------------------------------------------------------------------------
    Sidebar Control Buttons Preservation
    ----------------------------------------------------------------------------- */
 [data-testid="collapsedControl"] {
@@ -73,9 +109,10 @@
    Sidebar Brand Header & Architecture Grid
    ----------------------------------------------------------------------------- */
 .sidebar-brand {
-    padding: 12px 0 18px 0;
+    padding: 0 0 14px 0 !important;
+    margin-top: 0 !important;
     border-bottom: 1px solid var(--border-subtle);
-    margin-bottom: 18px;
+    margin-bottom: 16px;
 }
 
 .sidebar-brand-title {
