@@ -148,7 +148,16 @@ class SoccerInferenceEngine:
     # -------------------------------------------------------------------------
 
     def load_target_encoder(self):
-        """Load and cache the fitted target LabelEncoder."""
+        """Load and cache the fitted target LabelEncoder.
+
+        Target Encoding Mapping:
+            - Class 0: Away Win (away_team_goal > home_team_goal)
+            - Class 1: Draw (home_team_goal == away_team_goal)
+            - Class 2: Home Win (home_team_goal > away_team_goal)
+
+        Returns:
+            LabelEncoder: Fitted scikit-learn LabelEncoder instance for multi-class target inverse transforms.
+        """
         if self._target_encoder is None:
             target_enc_path = self.artifacts_dir / "final_dataset" / "target_encoder.joblib"
             if not target_enc_path.exists():
@@ -175,7 +184,20 @@ class SoccerInferenceEngine:
         return self._scaler
 
     def load_dropped_columns(self, model_type: Optional[str] = None) -> List[str]:
-        """Load and cache the Stage-1 correlation dropped columns for a given model."""
+        """Load and cache the Stage-1 correlation dropped columns for a given model.
+
+        Preprocessing Context (Stage-1 Multicollinearity Pruning):
+            During offline preprocessing, pairwise Pearson correlation coefficients (|r|) were
+            computed across all numeric candidate features. If any two features exhibited |r| >= 0.90,
+            the redundant colinear feature was pruned to eliminate matrix collinearity, stabilize
+            regression coefficients, and prevent variance inflation in linear and distance models.
+
+        Args:
+            model_type: Model identifier key (defaults to active self.model_type).
+
+        Returns:
+            List[str]: Column names eliminated during offline feature selection.
+        """
         m_type = model_type or self.model_type
         if m_type in self._dropped_columns:
             return self._dropped_columns[m_type]
@@ -481,7 +503,23 @@ class SoccerInferenceEngine:
         return self._league_baselines.get("__global__", self.get_median_baseline("random_forest"))
 
     def get_test_data(self, model_type: Optional[str] = None) -> Tuple[pd.DataFrame, pd.DataFrame]:
-        """Load and cache the historical holdout test set."""
+        """Load and cache the historical holdout test set with zero temporal leakage.
+
+        Chronological Splitting Protocol:
+            - Training Set: Seasons 2008/2009 to 2013/2014 (18,179 fixtures) - Used for model fitting.
+            - Validation Set: Season 2014/2015 (3,932 fixtures) - Used for tuning & threshold calibration.
+            - Holdout Test Set: Season 2015/2016 (3,923 fixtures) - Strictly isolated final evaluation set.
+
+        Data Architecture:
+            Loads either standardized features (`X_test_logistic.csv`) for linear classifiers
+            or raw unscaled features (`X_test_tree.csv`) for tree-based ensemble estimators.
+
+        Args:
+            model_type: Identifier of the model to determine feature matrix family.
+
+        Returns:
+            Tuple[pd.DataFrame, pd.DataFrame]: (X_test feature matrix, y_test target matrix).
+        """
         m_type = model_type or self.model_type
         family = self.SUPPORTED_MODELS.get(m_type, {}).get("family", "tree")
 
@@ -573,11 +611,44 @@ class SoccerInferenceEngine:
     def synthesize_simulation_features(
         self, input_dict: Dict[str, Any]
     ) -> pd.DataFrame:
-        """Synthesize a complete fixture feature vector overlaying user inputs on the empirical baseline.
+        """Synthesize a complete fixture feature vector overlaying user inputs on empirical baselines.
 
-        Ensures every dynamic UI input (league, stage, market odds, points-per-match, recent points,
-        goal differential, win rate differential) coherently propagates across the exact feature subsets
-        utilized by Random Forest, Logistic Regression, Decision Tree, and XGBoost.
+        Data Preprocessing & Synthesis Architecture:
+            The simulation engine performs deterministic multi-stage feature reconstruction,
+            transforming user-facing tactical telemetry (e.g. league, stage, win-rate differentials,
+            points-per-match, recent points momentum) into a complete, model-compliant feature row.
+            
+            Multi-Phase Transformation Workflow:
+                Phase 1 (Baseline Prior): Ingests the empirical median feature vector corresponding
+                    to the selected league competition, pre-populating historical metrics and one-hot
+                    league indicators (`league_*`).
+                Phase 2 (Temporal Progression & Fixture Congestion): Computes estimated rest intervals
+                    via dynamic schedule decay:
+                        rest_days = 14.0 - (stage / 38.0) * 8.0
+                    Applies stage maturity scaling factor to model early-season variance vs late-season
+                    polarization:
+                        stage_factor = 0.75 + 0.50 * (stage / 38.0)
+                Phase 3 (Anti-Leakage Safeguard): Excludes in-match post-kickoff stats and decouples
+                    betting market odds, ensuring purely athletic pre-match feature representations.
+                Phase 4 (Differential Propagation): Projects team strength onto multi-timescale
+                    rolling horizons:
+                        - Elo rating differentials: derived from win rate differentials and goal margins.
+                        - Scoring and conceding rates: venue-specific home/away scoring distributions.
+                        - Multi-window rolling form: 3-match surge, 5-match form, 10-match stability.
+                Phase 5 (Statistical Normalization): For linear models (Logistic Regression),
+                    standardizes numeric features using the offline fitted StandardScaler:
+                        z = (x - mu) / sigma
+                    For tree models, preserves native unscaled physical units.
+                Phase 6 (Multicollinearity Filtering): Automatically drops redundant colinear
+                    features (Pearson |r| >= 0.90) identified during offline feature selection.
+                Phase 7 (Schema & Order Alignment): Reindexes feature columns to strictly match
+                    the trained scikit-learn pipeline's expected input dimensions (`feature_names_in_`).
+
+        Args:
+            input_dict: Dictionary containing simulation parameters (league, stage, form differences).
+
+        Returns:
+            pd.DataFrame: Single-row feature DataFrame formatted for model prediction.
         """
         family = self.SUPPORTED_MODELS.get(self.model_type, {}).get("family", "tree")
         is_logistic = bool(family == "logistic")
