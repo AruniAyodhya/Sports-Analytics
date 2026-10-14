@@ -170,7 +170,23 @@ class SoccerInferenceEngine:
         return self._target_encoder
 
     def load_scaler(self):
-        """Load and cache the fitted StandardScaler used for numerical normalization."""
+        """Load and cache the fitted StandardScaler used for numerical normalization.
+
+        Mathematical & Model Context (L1-Regularized Logistic Regression):
+            Unlike tree ensembles that are invariant to monotonic scaling, Logistic Regression
+            is deeply sensitive to feature magnitude. In L1-regularized (Lasso) multinomial
+            logistic regression:
+                min_w  -sum_i sum_k y_ik * log(P(Y=k|x_i)) + lambda * ||w||_1
+            features with wide numeric dispersion (e.g. Elo ~1500) would dominate the penalty term
+            over tightly bounded metrics (e.g. win rates in [0, 1]).
+            
+            The StandardScaler normalizes each feature to zero mean and unit variance:
+                z = (x - mu) / sigma
+            ensuring all candidate predictors compete equitably during sparse coefficient selection.
+
+        Returns:
+            StandardScaler: Pre-fitted scikit-learn StandardScaler deserialized from disk.
+        """
         if self._scaler is None:
             scaler_path = self.artifacts_dir / "final_dataset" / "logistic_scaler.joblib"
             if not scaler_path.exists():
@@ -570,7 +586,23 @@ class SoccerInferenceEngine:
     # -------------------------------------------------------------------------
 
     def scale_single_feature(self, col: str, val: float) -> float:
-        """Scale a human-readable feature value using the fitted StandardScaler parameters."""
+        """Standardize an individual numeric feature value using the fitted StandardScaler.
+
+        Mathematical Formulation:
+            z = (x - mu) / sigma
+
+        Notes:
+            Essential for Logistic Regression inference, mapping unscaled physical metrics
+            (such as Elo differences or points-per-match) into unit-variance coordinates.
+            Guarantees alignment with the training feature distribution.
+
+        Args:
+            col: Name of the feature column in the scaler's feature_names_in_ space.
+            val: Raw unscaled float value.
+
+        Returns:
+            float: Standardized z-score (or original val if column was not standardized).
+        """
         scaler = self.load_scaler()
         if scaler is not None and hasattr(scaler, "feature_names_in_"):
             if col in scaler.feature_names_in_:
@@ -581,7 +613,23 @@ class SoccerInferenceEngine:
         return float(val)
 
     def unscale_single_feature(self, col: str, val: float) -> float:
-        """Unscale a standardized feature value back to human-interpretable units."""
+        """Invert feature standardization back to human-interpretable domain units.
+
+        Mathematical Formulation:
+            x = z * sigma + mu
+
+        Notes:
+            Employed in UI metadata extraction and tactical telemetry displays where
+            standardized features in Logistic Regression test vectors must be presented
+            in human-readable form (e.g., season stage, points, or goal differences).
+
+        Args:
+            col: Name of the feature column.
+            val: Standardized z-score.
+
+        Returns:
+            float: Unscaled value in original physical domain units.
+        """
         scaler = self.load_scaler()
         if scaler is not None and hasattr(scaler, "feature_names_in_"):
             if col in scaler.feature_names_in_:
@@ -591,11 +639,28 @@ class SoccerInferenceEngine:
 
     @staticmethod
     def predict_with_draw_threshold(p: np.ndarray, threshold: float = 0.360) -> int:
-        """Classify 3-class probability distribution with calibrated draw threshold.
+        """Classify 3-class outcome probabilities using the calibrated draw threshold boundary.
 
-        Class 0: Away Win
-        Class 1: Draw
-        Class 2: Home Win
+        Problem Context & Threshold Calibration Mechanics:
+            In association football match forecasting, draws (Class 1) occur in ~25% of matches
+            but suffer from high tactical stochasticity. Standard multi-class argmax decision rules
+            (y_hat = argmax_k P(Y=k)) frequently suffer from severe draw under-prediction because
+            home win (Class 2) and away win (Class 0) probabilities routinely surpass 0.35.
+
+            The calibrated decision boundary implements a prioritized draw threshold:
+                y_hat = 1 (Draw)        if P(Draw) >= theta_draw
+                y_hat = 2 (Home Win)    else if P(Home Win) >= P(Away Win)
+                y_hat = 0 (Away Win)    otherwise
+
+            The default threshold (theta_draw = 0.360) is tuned via 5-fold cross-validation
+            on the chronological validation set (2014/15) to maximize multi-class Macro F1.
+
+        Args:
+            p: 1D or 2D array of predicted class probabilities ordered as [Away Win, Draw, Home Win].
+            threshold: Calibrated draw probability threshold (default: 0.360).
+
+        Returns:
+            int or np.ndarray: Predicted class integer index (0, 1, or 2).
         """
         p = np.asarray(p)
         if p.ndim == 1:
@@ -806,6 +871,13 @@ class SoccerInferenceEngine:
         df_result = pd.DataFrame([row])
 
         # 5. Standardize Numerical Features for Logistic Regression
+        # Machine Learning Context:
+        # Logistic Regression computes linear decision boundaries: z_k = w_k^T x + b_k, followed
+        # by the softmax activation P(Y=k|x) = exp(z_k) / sum_j exp(z_j).
+        # Because the model is trained with an L1 (Lasso) sparsity penalty, unstandardized features
+        # with high numerical scales would distort the gradient and shrink disproportionately.
+        # Here we project the synthesized feature vector into standard normal space (z-scores)
+        # matching the offline fitted StandardScaler (mean=0, variance=1).
         if is_logistic:
             scaler = self.load_scaler()
             if scaler is not None and hasattr(scaler, "feature_names_in_"):
@@ -934,7 +1006,21 @@ class SoccerInferenceEngine:
         }
 
     def _extract_fixture_metadata(self, row: pd.DataFrame, match_index: int) -> Dict[str, Any]:
-        """Extract human-readable, unscaled metadata from a test match row."""
+        """Extract human-readable, unscaled metadata from a holdout test match fixture row.
+
+        Notes on Logistic Regression Feature Inversion:
+            Because Logistic Regression operates on standardized inputs (`X_test_logistic.csv`),
+            raw fixture features exist in z-score coordinates. For human inspection in the UI
+            dashboard (e.g. stage number, match odds), standardized attributes are dynamically
+            inverted back to real-world domain values via `unscale_single_feature` (x = z * sigma + mu).
+
+        Args:
+            row: Single-fixture DataFrame row from the holdout test set.
+            match_index: Positional integer index of the test fixture.
+
+        Returns:
+            Dict[str, Any]: Extracted metadata containing league name, stage, and betting market payouts.
+        """
         # Try retrieving rich metadata from test_metadata.csv
         test_meta = self.get_test_metadata()
         if test_meta is not None and match_index < len(test_meta):
