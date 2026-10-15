@@ -55,9 +55,12 @@ away_win_rate_last5,Away team – win rate over the last 5 matches
 away_win_rate_last10,Away team – win rate over the last 10 matches
 away_days_since_last_match,Away team – days of rest since last match (capped at 30)
 away_elo_before,Away team – Elo rating before the match
+points_per_match_difference,Home team minus away team – average league points per previous match
+points_last5_difference,Home team minus away team – average points over the last 5 matches
+goal_difference_per_match_difference,Home team minus away team – average goal difference per previous match
+win_rate_last5_difference,Home team minus away team – win rate over the last 5 matches
 win_rate_difference,Home team minus away team – share of previous matches won
 draw_rate_difference,Home team minus away team – share of previous matches drawn
-points_per_match_difference,Home team minus away team – average league points per previous match
 goals_for_difference,Home team minus away team – average goals scored per previous match
 goals_against_difference,Home team minus away team – average goals conceded per previous match
 venue_win_rate_difference,Home team's home record minus away team's away record – share of previous matches won
@@ -68,10 +71,8 @@ points_last3_difference,Home team minus away team – average points over the la
 goals_for_last3_difference,Home team minus away team – average goals for over the last 3 matches
 goals_against_last3_difference,Home team minus away team – average goals against over the last 3 matches
 win_rate_last3_difference,Home team minus away team – win rate over the last 3 matches
-points_last5_difference,Home team minus away team – average points over the last 5 matches
 goals_for_last5_difference,Home team minus away team – average goals for over the last 5 matches
 goals_against_last5_difference,Home team minus away team – average goals against over the last 5 matches
-win_rate_last5_difference,Home team minus away team – win rate over the last 5 matches
 points_last10_difference,Home team minus away team – average points over the last 10 matches
 goals_for_last10_difference,Home team minus away team – average goals for over the last 10 matches
 goals_against_last10_difference,Home team minus away team – average goals against over the last 10 matches
