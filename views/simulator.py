@@ -9,6 +9,7 @@ from __future__ import annotations
 from typing import Dict, Any
 import streamlit as st
 from src.inference import SoccerInferenceEngine
+from src.features import get_simulator_slider_specs
 from .charts import plot_probabilities
 
 
@@ -70,38 +71,16 @@ def render_simulator(engine: SoccerInferenceEngine, active_theme: str = "dark") 
             """,
             unsafe_allow_html=True,
         )
-        ppm_diff = st.slider(
-            "Points/Match Difference (Home - Away)",
-            min_value=-3.0,
-            max_value=3.0,
-            value=0.5,
-            step=0.1,
-            help="Full-season Points-Per-Match differential (+ favours Home, - favours Away).",
-        )
-        recent_pts_diff = st.slider(
-            "Recent 5-Match Points Difference",
-            min_value=-3.0,
-            max_value=3.0,
-            value=0.8,
-            step=0.1,
-            help="Rolling short-term points trajectory across last 5 competitive matches.",
-        )
-        goals_diff = st.slider(
-            "Goal Difference/Match (Home - Away)",
-            min_value=-3.0,
-            max_value=3.0,
-            value=0.4,
-            step=0.1,
-            help="Average goal differential per game between the two teams.",
-        )
-        win_rate_diff = st.slider(
-            "Recent Win Rate Difference",
-            min_value=-1.0,
-            max_value=1.0,
-            value=0.2,
-            step=0.05,
-            help="Difference in recent winning percentage (+0.2 = Home has 20% higher recent win rate).",
-        )
+        core_sliders = {}
+        for feature_key, spec in get_simulator_slider_specs().items():
+            core_sliders[feature_key] = st.slider(
+                spec["label"],
+                min_value=spec["min"],
+                max_value=spec["max"],
+                value=spec["default"],
+                step=spec["step"],
+                help=spec["help"],
+            )
 
     # Column 3: Market Consensus Odds
     with col3:
@@ -175,10 +154,7 @@ def render_simulator(engine: SoccerInferenceEngine, active_theme: str = "dark") 
         "B365H": b365_h,
         "B365D": b365_d,
         "B365A": b365_a,
-        "points_per_match_difference": ppm_diff,
-        "recent_points_difference": recent_pts_diff,
-        "goals_for_difference": goals_diff,
-        "win_rate_difference": win_rate_diff,
+        **core_sliders,
     }
 
     sim_res = engine.predict_simulation(sim_dict)
