@@ -746,11 +746,14 @@ class SoccerInferenceEngine:
         # the match outcome or prediction probabilities. Predictions rely strictly and exclusively
         # on pure team performance features (form, stats, Elo, and differentials).
 
-        # 4. User Sliders & Form Differentials (Pure Team Performance Metrics)
-        ppm_diff = float(input_dict.get("points_per_match_difference", 0.5))
-        recent_pts_diff = float(input_dict.get("recent_points_difference", 0.8))
-        goals_diff = float(input_dict.get("goals_for_difference", input_dict.get("goal_difference_per_match", 0.4)))
-        win_rate_diff = float(input_dict.get("win_rate_difference", input_dict.get("recent_win_rate_difference", 0.2)))
+        # 4. User Sliders & Form Differentials (Dynamically Extracted from Centralized Registry)
+        from .features import extract_simulator_inputs
+
+        core_inputs = extract_simulator_inputs(input_dict)
+        ppm_diff = core_inputs["points_per_match_difference"]
+        recent_pts_diff = core_inputs["recent_points_difference"]
+        goals_diff = core_inputs["goals_for_difference"]
+        win_rate_diff = core_inputs["win_rate_difference"]
 
         # League baseline metrics (scoring pace, draw rate, baseline Elo and goal difference)
         base_hg = float(base_series.get("home_goals_for_per_match", 1.30))
